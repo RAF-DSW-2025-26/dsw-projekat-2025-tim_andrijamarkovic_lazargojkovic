@@ -1,5 +1,7 @@
 package raf.graffito.dsw.gui.swing;
 
+import raf.graffito.dsw.controller.ActionManager;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -30,10 +32,9 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(null); // Centriranje prozora na ekranu
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Zatvaranje aplikacije pri zatvaranju prozora
         setTitle("Graffito"); // Naslov prozora
-
+        ActionManager actionManager = new ActionManager();
         MyMenuBar menu = new MyMenuBar(); // Kreiranje menija
         setJMenuBar(menu); // Postavljanje menija na prozor
-
         MyToolBar toolBar = new MyToolBar(); // Kreiranje toolbar-a
         add(toolBar, BorderLayout.NORTH); // Postavljanje toolbar-a na vrh prozora
     }
