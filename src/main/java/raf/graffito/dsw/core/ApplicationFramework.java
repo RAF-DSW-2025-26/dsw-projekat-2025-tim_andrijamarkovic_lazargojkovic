@@ -8,8 +8,17 @@ public class ApplicationFramework {
         initialize();
     }
 
+    public static ApplicationFramework instance;
+
+    public static ApplicationFramework getInstance(){
+        if(instance == null){
+            instance = new ApplicationFramework();
+        }
+        return instance;
+    }
+
     public void initialize(){
-        MainFrame mainFrame = new MainFrame();
+        MainFrame mainFrame = MainFrame.getInstance();
         mainFrame.setVisible(true);
     }
 }

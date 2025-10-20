@@ -10,6 +10,16 @@ public class MainFrame extends JFrame {
     public MainFrame() {
         initialize();
     }
+    public static MainFrame instance;
+    public static MainFrame getInstance(){
+
+        if(instance == null)
+        {
+            instance = new MainFrame();
+
+        }
+        return instance;
+    }
 
     private void initialize() {
         Toolkit kit = Toolkit.getDefaultToolkit(); // Toolkit omogućava interakciju sa platformom
