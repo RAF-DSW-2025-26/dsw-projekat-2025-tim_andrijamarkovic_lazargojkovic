@@ -6,4 +6,5 @@ import lombok.Getter;
 public class ActionManager
 {
     ExitAction exitAction = new ExitAction();
+    AboutUs aboutUs = new AboutUs();
 }
