@@ -32,23 +32,32 @@ public class AboutUs extends AbstractGraffAction{
     @Override
     public void actionPerformed(ActionEvent e) {
         JFrame frame = new JFrame("About us");
-        frame.setLayout(new GridLayout(3, 2));
-
+        frame.setLayout(new BorderLayout(10, 10));
         frame.setLocationRelativeTo(null);
-
+        JPanel headerPanel = new JPanel(new BorderLayout(10,10));
+        JLabel title = new JLabel("About Us", JLabel.CENTER);
+        title.setFont(new Font("SansSerif", Font.BOLD, 32));
+        headerPanel.add(title, BorderLayout.CENTER);
+        frame.add(headerPanel, BorderLayout.NORTH);
+        JPanel centerPanel = new JPanel(new GridLayout(1, 2));
+        JPanel lazarPanel = new JPanel(new BorderLayout());
         JLabel imgLazar = new JLabel();
+        imgLazar.setIcon(new ImageIcon(new ImageIcon("src/main/resources/images/lazar.png").getImage().getScaledInstance(200,300,Image.SCALE_SMOOTH)));
+        imgLazar.setHorizontalAlignment(JLabel.CENTER);
+        JLabel lblLazar = new JLabel("Lazar Gojković RN 52/2024", JLabel.CENTER);
+        lazarPanel.add(imgLazar, BorderLayout.CENTER);
+        lazarPanel.add(lblLazar, BorderLayout.NORTH);
+        JPanel andrijaPanel = new JPanel(new BorderLayout());
         JLabel imgAndrija = new JLabel();
-        imgLazar.setIcon(new ImageIcon(new ImageIcon("images/lazar.png").getImage().getScaledInstance(200,300,Image.SCALE_SMOOTH)));
-        imgAndrija.setIcon(new ImageIcon(new ImageIcon("images/andrija.png").getImage().getScaledInstance(200,300,Image.SCALE_SMOOTH)));
-
-        frame.add(imgLazar);
-        frame.add(imgAndrija);
-        frame.add(new JLabel("Lazar Gojkovic"));
-        frame.add(new JLabel("Andrija Markovic"));
-        frame.add(new JLabel("RN 52/2024"));
-        frame.add(new JLabel("SI 65/2025"));
-
-        frame.setSize(1200, 700);
+        imgAndrija.setIcon(new ImageIcon(new ImageIcon("src/main/resources/images/andrija.jpg").getImage().getScaledInstance(200,300,Image.SCALE_SMOOTH)));
+        imgAndrija.setHorizontalAlignment(JLabel.CENTER);
+        JLabel lblAndrija = new JLabel("Andrija Marković SI 65/2025", JLabel.CENTER);
+        andrijaPanel.add(imgAndrija, BorderLayout.CENTER);
+        andrijaPanel.add(lblAndrija, BorderLayout.NORTH);
+        centerPanel.add(lazarPanel);
+        centerPanel.add(andrijaPanel);
+        frame.add(centerPanel, BorderLayout.CENTER);
+        frame.setSize(800, 800);
         frame.setVisible(true);
     }
 }
