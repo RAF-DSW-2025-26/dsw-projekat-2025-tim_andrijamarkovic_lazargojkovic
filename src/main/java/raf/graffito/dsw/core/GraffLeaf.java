@@ -10,4 +10,14 @@ public abstract class GraffLeaf extends GraffNode {
     public void ispisi(String naziv) {
         super.ispisi(naziv);
     }
+
+    @Override
+    public GraffNode findByName(String name)
+    {
+        if (this.name.equals(name))
+        {
+            return this;
+        }
+        return null;
+    }
 }

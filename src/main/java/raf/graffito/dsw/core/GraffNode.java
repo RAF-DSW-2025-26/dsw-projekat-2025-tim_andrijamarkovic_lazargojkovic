@@ -25,9 +25,6 @@ public abstract class GraffNode {
     }
 
     public GraffNode findByName(String name) {
-        if(this.name.equals(name)){
-            return this;
-        }
-        return null;
+       return null;
     }
 }
