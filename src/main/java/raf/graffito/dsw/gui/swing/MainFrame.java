@@ -1,9 +1,18 @@
 package raf.graffito.dsw.gui.swing;
 
 import raf.graffito.dsw.controller.ActionManager;
+import raf.graffito.dsw.core.Logger;
+import raf.graffito.dsw.core.Type;
+import raf.graffito.dsw.model.ConsoleLogger;
+import raf.graffito.dsw.model.FileLogger;
+import raf.graffito.dsw.model.LoggerFactory;
+import raf.graffito.dsw.model.MessageGenerator;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDateTime;
+
+import static raf.graffito.dsw.core.Type.OBAVESTENJE;
 
 public class MainFrame extends JFrame {
 
@@ -13,10 +22,9 @@ public class MainFrame extends JFrame {
         initialize();
     }
     public static MainFrame instance;
-    public static MainFrame getInstance(){
+    public static MainFrame getInstance() {
 
-        if(instance == null)
-        {
+        if (instance == null) {
             instance = new MainFrame();
 
         }
