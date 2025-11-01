@@ -1,15 +1,15 @@
 package raf.graffito.dsw.model;
 
+import lombok.Getter;
 import raf.graffito.dsw.core.GraffLeaf;
 import raf.graffito.dsw.core.GraffNode;
 
 public class Slide extends GraffLeaf {
-    private String content;
 
-    public Slide(String name, String content) {
-        super(name);
-        this.content = content;
+    @Getter
+    private static int slideNumber = 1;
+    public Slide(String name, GraffNode parent) {
+        super(name,parent);
+        slideNumber++;
     }
-
-    public String getContent() { return content; }
 }

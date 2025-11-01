@@ -2,13 +2,8 @@ package raf.graffito.dsw.core;
 
 public abstract class GraffLeaf extends GraffNode {
 
-    public GraffLeaf(String name) {
-        super(name);
-    }
-
-    @Override
-    public void ispisi(String naziv) {
-        super.ispisi(naziv);
+    public GraffLeaf(String name, GraffNode parent) {
+        super(name,parent);
     }
 
     @Override

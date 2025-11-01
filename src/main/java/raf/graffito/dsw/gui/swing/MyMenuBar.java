@@ -14,6 +14,7 @@ public class MyMenuBar extends JMenuBar {
         JMenu fileMenu = new JMenu("File");
         fileMenu.setMnemonic(KeyEvent.VK_F);
         ActionManager actionManager = new ActionManager();
+        fileMenu.add(actionManager.getNewProjectAction());
         fileMenu.add(actionManager.getExitAction());
         fileMenu.add(actionManager.getAboutUs());
         add(fileMenu);

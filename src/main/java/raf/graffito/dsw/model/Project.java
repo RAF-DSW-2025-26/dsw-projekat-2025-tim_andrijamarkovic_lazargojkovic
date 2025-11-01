@@ -9,34 +9,18 @@ public class Project extends GraffNodeComposite {
     private String title;
     private String author;
     private int number;
+    @Getter
+    private static int projectNumber = 1;
 
-    public Project(String name,String title,String author) {
-        super(name);
+    public Project(String name,String title,String author,GraffNode parent) {
+        super(name,parent);
         this.author = author;
         this.title = title;
         this.number = 0;
+        projectNumber++;
     }
 
     public void incrementNumber() {
         this.number++;
-    }
-
-    @Override
-    public void dodaj(GraffNode node) {
-        super.dodaj(node);
-        if(node instanceof Slide) incrementNumber();
-    }
-
-    @Override
-    public void remove(GraffNode node) {
-        super.remove(node);
-    }
-
-    @Override
-    public void ispisi(String indent) {
-        System.out.println(indent + "Project: " + name + " (" + author + ")");
-        for (GraffNode child : children) {
-            child.ispisi(indent + "  ");
-        }
     }
 }

@@ -1,14 +1,20 @@
 package raf.graffito.dsw.core;
+import lombok.Getter;
 import raf.graffito.dsw.gui.swing.MainFrame;
+import raf.graffito.dsw.repository.GraffRepository;
+import raf.graffito.dsw.repository.GraffRepositoryImpl;
 
+@Getter
 public class ApplicationFramework {
     // Buduća polja za model celog projekta
+    protected GraffRepository graffRepository;
 
-    public ApplicationFramework(){
-        initialize();
+    public ApplicationFramework()
+    {
+        graffRepository = new GraffRepositoryImpl();
     }
 
-    public static ApplicationFramework instance;
+    private static ApplicationFramework instance;
 
     public static ApplicationFramework getInstance(){
         if(instance == null){

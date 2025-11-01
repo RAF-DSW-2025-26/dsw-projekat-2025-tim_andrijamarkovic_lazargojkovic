@@ -7,26 +7,13 @@ public abstract class GraffNodeComposite extends GraffNode{
 
     protected List<GraffNode> children = new ArrayList<>();
 
-    public GraffNodeComposite(String name) {
-        super(name);
+    public GraffNodeComposite(String name,GraffNode parent) {
+        super(name,parent);
     }
 
     @Override
     public void dodaj(GraffNode node) {
         super.dodaj(node);
-    }
-
-    @Override
-    public void remove(GraffNode node) {
-        super.remove(node);
-    }
-
-    @Override
-    public void ispisi(String naziv) {
-        System.out.println(naziv + getName());
-        for(GraffNode child: children){
-            child.ispisi(naziv + " ");
-        }
     }
 
     @Override

@@ -7,8 +7,11 @@ import raf.graffito.dsw.core.GraffNodeComposite;
 @Setter
 public class Workspace extends GraffNodeComposite {
 
+    @Getter
+    private static int workspaceNumber = 0;
+
     public Workspace(String name) {
-        super(name);
+        super(name,null);
     }
 
 }

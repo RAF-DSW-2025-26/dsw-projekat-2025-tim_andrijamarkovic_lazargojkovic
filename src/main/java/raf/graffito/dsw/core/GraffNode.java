@@ -8,20 +8,16 @@ import lombok.Setter;
 
 public abstract class GraffNode {
     protected String name;
+    protected GraffNode parent;
 
-    public GraffNode(String name) {
+    public GraffNode(String name, GraffNode parent)
+    {
         this.name = name;
+        this.parent = parent;
     }
 
     public void dodaj(GraffNode node) {
-        throw new UnsupportedOperationException("Nemoguce je dodati na cvor");
-    }
 
-    public void remove(GraffNode node) {
-        throw new UnsupportedOperationException("Nemoguce izbaciti iz cvora");
-    }
-
-    public void ispisi(String naziv) {
     }
 
     public GraffNode findByName(String name) {
