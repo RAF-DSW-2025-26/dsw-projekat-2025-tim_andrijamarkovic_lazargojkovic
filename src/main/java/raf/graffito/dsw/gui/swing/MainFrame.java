@@ -22,6 +22,8 @@ public class MainFrame extends JFrame {
 
     // Buduća polja za sve komponente view-a na glavnom prozoru
     private ActionManager actionManager;
+    private JMenuBar menu;
+    private JToolBar toolBar;
     private GraffTree graffTree;
 
     public MainFrame() {
@@ -47,9 +49,9 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Zatvaranje aplikacije pri zatvaranju prozora
         setTitle("Graffito"); // Naslov prozora
         actionManager = new ActionManager();
-        MyMenuBar menu = new MyMenuBar(); // Kreiranje menija
+        menu = new MyMenuBar(); // Kreiranje menija
         setJMenuBar(menu); // Postavljanje menija na prozor
-        MyToolBar toolBar = new MyToolBar(); // Kreiranje toolbar-a
+        toolBar = new MyToolBar(); // Kreiranje toolbar-a
         add(toolBar, BorderLayout.NORTH); // Postavljanje toolbar-a na vrh prozora
         graffTree = new GraffTreeImplementation();
         JTree workspace = graffTree.generateTree(ApplicationFramework.getInstance().getGraffRepository().getWorkspace());

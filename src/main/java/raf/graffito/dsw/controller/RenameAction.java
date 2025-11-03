@@ -1,0 +1,116 @@
+package raf.graffito.dsw.controller;
+
+import raf.graffito.dsw.core.Logger;
+import raf.graffito.dsw.core.Type;
+import raf.graffito.dsw.gui.swing.MainFrame;
+import raf.graffito.dsw.gui.swing.tree.model.GraffTreeItem;
+import raf.graffito.dsw.model.LoggerFactory;
+import raf.graffito.dsw.model.MessageGenerator;
+import raf.graffito.dsw.model.Project;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.net.URL;
+import java.time.LocalDateTime;
+
+public class RenameAction extends AbstractGraffAction
+{
+    public RenameAction() {
+        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));
+        putValue(SMALL_ICON, loadIcon("/images/rename.png"));
+        putValue(NAME, "Rename");
+        putValue(SHORT_DESCRIPTION, "Rename Node");
+    }
+    @Override
+    public Icon loadIcon(String path)
+    {
+        Icon icon = null;
+        URL ImageURL = getClass().getResource(path);
+        if (ImageURL != null) {
+            Image img = new ImageIcon(ImageURL).getImage();
+            Image newImg = img.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
+            icon = new ImageIcon(newImg);
+        } else {
+            System.err.println("File " + "images/renamey.png" + " not found");
+        }
+        return icon;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+        GraffTreeItem selected = MainFrame.getInstance().getGraffTree().getSelectedNode();
+        LoggerFactory loggerFactory = new LoggerFactory();
+        Logger cLogger = loggerFactory.createLogger("console");
+        Logger fLogger = loggerFactory.createLogger("file");
+        MessageGenerator messageGenerator = new MessageGenerator();
+        messageGenerator.addSubscriber(cLogger);
+        messageGenerator.addSubscriber(fLogger);
+
+        if (selected == null)
+        {
+            String message = messageGenerator.createMessage("Nijedan čvor nije selektovan!", Type.UPOZORENJE, LocalDateTime.now());
+            messageGenerator.notifySubscribers(message);
+            messageGenerator.removeSubscriber(cLogger);
+            messageGenerator.removeSubscriber(fLogger);
+            return;
+        }
+        if(selected.getGraffNode() instanceof Project)
+        {
+            JTextField nameField = new JTextField(selected.getGraffNode().getName());
+            JTextField titleField = new JTextField(((Project) selected.getGraffNode()).getTitle());
+            JTextField authorField = new JTextField(((Project) selected.getGraffNode()).getAuthor());
+            JPanel panel = new JPanel(new GridLayout(3,3,10,10));
+            panel.add(new JLabel("Novo ime:"));
+            panel.add(nameField);
+            panel.add(new JLabel("Novi naslov:"));
+            panel.add(titleField);
+            panel.add(new JLabel("Autor:"));
+            panel.add(authorField);
+            int result = JOptionPane.showConfirmDialog(
+                    MainFrame.getInstance(),
+                    panel,
+                    "Izmena projekta",
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.PLAIN_MESSAGE
+            );
+            if(result == JOptionPane.OK_OPTION)
+            {
+                String newName = nameField.getText().trim();
+                String newTitle = titleField.getText().trim();
+                String newAuthor = authorField.getText().trim();
+                if(newName.isEmpty() || newTitle.isEmpty() || newAuthor.isEmpty())
+                {
+                    String message = messageGenerator.createMessage("Polja ne smeju ostajati prazna", Type.OBAVESTENJE, LocalDateTime.now());
+                    messageGenerator.notifySubscribers(message);
+                }
+                else
+                {
+                    selected.getGraffNode().setName(newName);
+                    ((Project) selected.getGraffNode()).setTitle(newTitle);
+                    ((Project) selected.getGraffNode()).setAuthor(newAuthor);
+                }
+            }
+        }
+        else {
+            String currentName = selected.getGraffNode().getName();
+            String newName = JOptionPane.showInputDialog(
+                    MainFrame.getInstance(),
+                    "Unesite novo ime:",
+                    currentName
+            );
+            if (newName != null && !newName.trim().isEmpty()) {
+                selected.getGraffNode().setName(newName.trim());
+                String message = messageGenerator.createMessage("Uspešno promenjen naziv čvora", Type.OBAVESTENJE, LocalDateTime.now());
+                messageGenerator.notifySubscribers(message);
+            } else if (newName == null) {
+                String message = messageGenerator.createMessage("Nije unešeno novo ime", Type.UPOZORENJE, LocalDateTime.now());
+                messageGenerator.notifySubscribers(message);
+            }
+        }
+        messageGenerator.removeSubscriber(cLogger);
+        messageGenerator.removeSubscriber(fLogger);
+    }
+}

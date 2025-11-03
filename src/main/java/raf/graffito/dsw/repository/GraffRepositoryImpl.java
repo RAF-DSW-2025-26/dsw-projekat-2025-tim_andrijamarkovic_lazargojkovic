@@ -23,6 +23,5 @@ public class GraffRepositoryImpl implements GraffRepository
     @Override
     public void addChild(GraffNodeComposite parent, GraffNode child)
     {
-        //TODO
     }
 }

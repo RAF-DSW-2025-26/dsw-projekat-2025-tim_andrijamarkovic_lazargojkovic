@@ -9,4 +9,5 @@ public class ActionManager
     AboutUs aboutUs = new AboutUs();
     NewNodeAction newNodeAction = new NewNodeAction();
     RemovalAction removalAction = new RemovalAction();
+    RenameAction renameAction = new RenameAction();
 }

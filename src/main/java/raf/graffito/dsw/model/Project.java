@@ -5,6 +5,7 @@ import lombok.Setter;
 import raf.graffito.dsw.core.GraffNode;
 import raf.graffito.dsw.core.GraffNodeComposite;
 @Getter
+@Setter
 public class Project extends GraffNodeComposite {
     private String title;
     private String author;

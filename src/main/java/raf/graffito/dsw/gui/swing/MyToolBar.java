@@ -10,7 +10,8 @@ public class MyToolBar extends JToolBar {
         setFloatable(false);
        ActionManager actionManager = new ActionManager();
        add(actionManager.getNewNodeAction());
-        add(actionManager.getRemovalAction());
+       add(actionManager.getRemovalAction());
+       add(actionManager.getRenameAction());
        add(actionManager.getExitAction());
     }
 }

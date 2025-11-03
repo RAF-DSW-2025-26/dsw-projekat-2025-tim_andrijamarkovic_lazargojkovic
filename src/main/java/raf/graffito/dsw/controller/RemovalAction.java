@@ -1,7 +1,11 @@
 package raf.graffito.dsw.controller;
 
+import raf.graffito.dsw.core.Logger;
+import raf.graffito.dsw.core.Type;
 import raf.graffito.dsw.gui.swing.MainFrame;
 import raf.graffito.dsw.gui.swing.tree.model.GraffTreeItem;
+import raf.graffito.dsw.model.LoggerFactory;
+import raf.graffito.dsw.model.MessageGenerator;
 import raf.graffito.dsw.model.Workspace;
 
 import javax.swing.*;
@@ -9,6 +13,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class RemovalAction extends AbstractGraffAction {
@@ -46,15 +51,26 @@ public class RemovalAction extends AbstractGraffAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
         GraffTreeItem selected = MainFrame.getInstance().getGraffTree().getSelectedNode();
+        LoggerFactory loggerFactory = new LoggerFactory();
+        Logger cLogger = loggerFactory.createLogger("console");
+        Logger fLogger = loggerFactory.createLogger("file");
+        MessageGenerator messageGenerator = new MessageGenerator();
+        messageGenerator.addSubscriber(cLogger);
+        messageGenerator.addSubscriber(fLogger);
         if (selected == null) {
-            JOptionPane.showMessageDialog(null, "Nijedan čvor nije selektovan!", "Greška", JOptionPane.WARNING_MESSAGE);
+            String message = messageGenerator.createMessage("Nijedan čvor nije selektovan!", Type.UPOZORENJE, LocalDateTime.now());
+            messageGenerator.notifySubscribers(message);
+            messageGenerator.removeSubscriber(cLogger);
+            messageGenerator.removeSubscriber(fLogger);
             return;
         }
 
         if (selected.getGraffNode() instanceof Workspace) {
-            JOptionPane.showMessageDialog(null, "Glavni Workspace se ne može ukloniti!", "Zabranjena akcija", JOptionPane.ERROR_MESSAGE);
+            String message = messageGenerator.createMessage("Workspace ne sme biti obrisan!", Type.UPOZORENJE, LocalDateTime.now());
+            messageGenerator.notifySubscribers(message);
+            messageGenerator.removeSubscriber(cLogger);
+            messageGenerator.removeSubscriber(fLogger);
             return;
         }
         removeNodeRecursive(selected);

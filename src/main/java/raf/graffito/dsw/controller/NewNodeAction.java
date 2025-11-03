@@ -1,13 +1,18 @@
 package raf.graffito.dsw.controller;
 
+import raf.graffito.dsw.core.Logger;
+import raf.graffito.dsw.core.Type;
 import raf.graffito.dsw.gui.swing.MainFrame;
 import raf.graffito.dsw.gui.swing.tree.model.GraffTreeItem;
+import raf.graffito.dsw.model.LoggerFactory;
+import raf.graffito.dsw.model.MessageGenerator;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.net.URL;
+import java.time.LocalDateTime;
 
 public class NewNodeAction extends AbstractGraffAction {
 
@@ -35,16 +40,28 @@ public class NewNodeAction extends AbstractGraffAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         GraffTreeItem selected = MainFrame.getInstance().getGraffTree().getSelectedNode();
+        LoggerFactory loggerFactory = new LoggerFactory();
+        Logger cLogger = loggerFactory.createLogger("console");
+        Logger fLogger = loggerFactory.createLogger("file");
+        MessageGenerator messageGenerator = new MessageGenerator();
+        messageGenerator.addSubscriber(cLogger);
+        messageGenerator.addSubscriber(fLogger);
 
         if (selected == null) {
-            JOptionPane.showMessageDialog(MainFrame.getInstance(), "Nijedan čvor nije selektovan!", "Greška", JOptionPane.WARNING_MESSAGE);
+            String message = messageGenerator.createMessage("Nijedan čvor nije selektovan!", Type.UPOZORENJE, LocalDateTime.now());
+            messageGenerator.notifySubscribers(message);
+            messageGenerator.removeSubscriber(cLogger);
+            messageGenerator.removeSubscriber(fLogger);
             return;
         }
 
         String[] availableTypes = selected.getAllowedChildTypes(selected.getGraffNode());
 
         if (availableTypes.length == 0) {
-            JOptionPane.showMessageDialog(MainFrame.getInstance(), "Za izabrani čvor nije moguće dodati nove elemente.", "Info", JOptionPane.INFORMATION_MESSAGE);
+            String message = messageGenerator.createMessage("Ovaj čvor ne može da ima decu!", Type.OBAVESTENJE, LocalDateTime.now());
+            messageGenerator.notifySubscribers(message);
+            messageGenerator.removeSubscriber(cLogger);
+            messageGenerator.removeSubscriber(fLogger);
             return;
         }
 
@@ -61,8 +78,13 @@ public class NewNodeAction extends AbstractGraffAction {
 
         if (choice != null) {
             MainFrame.getInstance().getGraffTree().addChild(selected, choice);
+            messageGenerator.removeSubscriber(cLogger);
+            messageGenerator.removeSubscriber(fLogger);
         } else {
-                JOptionPane.showMessageDialog(MainFrame.getInstance(), "Neuspešno kreiranje elementa!", "Greška", JOptionPane.ERROR_MESSAGE);
+            String message = messageGenerator.createMessage("Neuspešno kreiranje elementa!", Type.GRESKA, LocalDateTime.now());
+            messageGenerator.notifySubscribers(message);
+            messageGenerator.removeSubscriber(cLogger);
+            messageGenerator.removeSubscriber(fLogger);
         }
     }
 }
