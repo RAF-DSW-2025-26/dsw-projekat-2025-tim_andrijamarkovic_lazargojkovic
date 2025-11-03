@@ -7,5 +7,6 @@ public class ActionManager
 {
     ExitAction exitAction = new ExitAction();
     AboutUs aboutUs = new AboutUs();
-    NewProjectAction newProjectAction = new NewProjectAction();
+    NewNodeAction newNodeAction = new NewNodeAction();
+    RemovalAction removalAction = new RemovalAction();
 }
