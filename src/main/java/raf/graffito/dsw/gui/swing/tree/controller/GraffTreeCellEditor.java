@@ -1,21 +1,24 @@
 package raf.graffito.dsw.gui.swing.tree.controller;
 
+import raf.graffito.dsw.decorator.ColorDecorator;
+import raf.graffito.dsw.gui.swing.MainFrame;
 import raf.graffito.dsw.gui.swing.tree.model.GraffTreeItem;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeCellEditor;
 import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.TreeCellEditor;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.EventObject;
 
 public class GraffTreeCellEditor extends DefaultTreeCellEditor implements ActionListener
 {
     private Object clickedOn = null;
     private JTextField edit = null;
+    private ArrayList<Color> usedColors = new ArrayList<>();
 
     public GraffTreeCellEditor(JTree tree, DefaultTreeCellRenderer renderer)
     {
@@ -34,21 +37,80 @@ public class GraffTreeCellEditor extends DefaultTreeCellEditor implements Action
     {
         if(e instanceof MouseEvent)
         {
-            if(((MouseEvent)e).getClickCount() == 3)
+            if(((MouseEvent)e).getClickCount() == 2)
             {
+                JTree tree = (JTree) e.getSource();
+                Object selected = tree.getLastSelectedPathComponent();
+
+                if (selected instanceof GraffTreeItem) {
+                    GraffTreeItem item = (GraffTreeItem) selected;
+
+                    if (item.getAllowedChildTypes(item.getGraffNode()).length==2) {
+                        showPresentationTabs(item);
+                    }
+                }
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public void showPresentationTabs(GraffTreeItem item)
+    {
+        Color color = chooseColor();
+        if(color==null){
+            return;
+        }
+
+        ColorDecorator decorated = new ColorDecorator(item.toString(),item.getGraffNode().getParent(),color);
+
+        JTabbedPane tabbedPane = MainFrame.getInstance().getTabbedPane();
+
+        tabbedPane.removeAll();
+
+        for (GraffTreeItem child : item.getChildren()) {
+            if (child.getAllowedChildTypes(child.getGraffNode()).length==1) {
+                JPanel panel = createPresentationPanel(child);
+                tabbedPane.addTab(child.toString(), panel);
+
+                int idx = tabbedPane.indexOfComponent(panel);
+                System.out.println(tabbedPane.indexOfComponent(panel));
+                tabbedPane.setBackgroundAt(idx, decorated.getColor());
+            }
+        }
+    }
+    private JPanel createPresentationPanel(GraffTreeItem presentationItem) {
+        JPanel panel = new JPanel(new BorderLayout());
+        return panel;
+    }
+
+    public void actionPerformed(ActionEvent e)
+    {
+    }
+
+    private boolean isColorUsed(Color color) {
+        for (Color c : usedColors) {
+            if (c.equals(color)) {
                 return true;
             }
         }
         return false;
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-        if(!(clickedOn instanceof GraffTreeItem))
-        {
-            return;
-        }
-        GraffTreeItem item = (GraffTreeItem)clickedOn;
-        item.setName(e.getActionCommand());
+    private Color chooseColor() {
+        Color color;
+        do {
+            color = JColorChooser.showDialog(MainFrame.getInstance(), "Izaberi boju za tab", Color.LIGHT_GRAY);
+            if (color == null) return null; // Cancel
+
+            if (isColorUsed(color)) {
+                JOptionPane.showMessageDialog(MainFrame.getInstance(),
+                        "Ta boja je već iskorišćena!",
+                        "Greška", JOptionPane.WARNING_MESSAGE);
+            } else {
+                usedColors.add(color); // zapamti izabranu boju
+                return color;
+            }
+        } while (true);
     }
 }

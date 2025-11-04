@@ -1,1 +1,1 @@
-[OBAVESTENJE][2025-11-03T19:42:58.008174200][Uspešno promenjen naziv čvora]
+[UPOZORENJE][2025-11-04T17:56:48.030315500][Nijedan čvor nije selektovan!]
