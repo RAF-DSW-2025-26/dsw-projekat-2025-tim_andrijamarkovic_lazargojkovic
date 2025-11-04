@@ -31,11 +31,10 @@ public class MessageGenerator implements IPublisher {
         this.content = content;
         this.type = type;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");
-        LocalDateTime now = LocalDateTime.now();
-        String date = now.format(formatter);
+        String date = timestamp.format(formatter);
         this.timestamp = LocalDateTime.parse(date, formatter);
 
-        return "["+type.toString()+"]["+timestamp.toString()+"]["+content+"]";
+        return "["+type.toString()+"]["+ date +"]["+content+"]";
     }
 
     @Override

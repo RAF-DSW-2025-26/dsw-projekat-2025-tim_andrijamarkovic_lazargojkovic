@@ -1,5 +1,6 @@
 package raf.graffito.dsw.controller;
 
+import raf.graffito.dsw.core.ApplicationFramework;
 import raf.graffito.dsw.core.Logger;
 import raf.graffito.dsw.core.Type;
 import raf.graffito.dsw.gui.swing.MainFrame;
@@ -42,19 +43,17 @@ public class RenameAction extends AbstractGraffAction
     public void actionPerformed(ActionEvent e)
     {
         GraffTreeItem selected = MainFrame.getInstance().getGraffTree().getSelectedNode();
-        LoggerFactory loggerFactory = new LoggerFactory();
-        Logger cLogger = loggerFactory.createLogger("console");
-        Logger fLogger = loggerFactory.createLogger("file");
-        MessageGenerator messageGenerator = new MessageGenerator();
-        messageGenerator.addSubscriber(cLogger);
-        messageGenerator.addSubscriber(fLogger);
+        Logger cLogger = ApplicationFramework.getInstance().getLoggerFactory().createLogger("console");
+        Logger fLogger = ApplicationFramework.getInstance().getLoggerFactory().createLogger("file");
+        ApplicationFramework.getInstance().getGenerator().addSubscriber(cLogger);
+        ApplicationFramework.getInstance().getGenerator().addSubscriber(fLogger);
 
         if (selected == null)
         {
-            String message = messageGenerator.createMessage("Nijedan čvor nije selektovan!", Type.UPOZORENJE, LocalDateTime.now());
-            messageGenerator.notifySubscribers(message);
-            messageGenerator.removeSubscriber(cLogger);
-            messageGenerator.removeSubscriber(fLogger);
+            String message = ApplicationFramework.getInstance().getGenerator().createMessage("Nijedan čvor nije selektovan!", Type.UPOZORENJE, LocalDateTime.now());
+            ApplicationFramework.getInstance().getGenerator().notifySubscribers(message);
+            ApplicationFramework.getInstance().getGenerator().removeSubscriber(cLogger);
+            ApplicationFramework.getInstance().getGenerator().removeSubscriber(fLogger);
             return;
         }
         if(selected.getGraffNode() instanceof Project)
@@ -83,8 +82,8 @@ public class RenameAction extends AbstractGraffAction
                 String newAuthor = authorField.getText().trim();
                 if(newName.isEmpty() || newTitle.isEmpty() || newAuthor.isEmpty())
                 {
-                    String message = messageGenerator.createMessage("Polja ne smeju ostajati prazna", Type.OBAVESTENJE, LocalDateTime.now());
-                    messageGenerator.notifySubscribers(message);
+                    String message = ApplicationFramework.getInstance().getGenerator().createMessage("Polja ne smeju ostajati prazna", Type.OBAVESTENJE, LocalDateTime.now());
+                    ApplicationFramework.getInstance().getGenerator().notifySubscribers(message);
                 }
                 else
                 {
@@ -103,14 +102,14 @@ public class RenameAction extends AbstractGraffAction
             );
             if (newName != null && !newName.trim().isEmpty()) {
                 selected.getGraffNode().setName(newName.trim());
-                String message = messageGenerator.createMessage("Uspešno promenjen naziv čvora", Type.OBAVESTENJE, LocalDateTime.now());
-                messageGenerator.notifySubscribers(message);
+                String message = ApplicationFramework.getInstance().getGenerator().createMessage("Uspešno promenjen naziv čvora", Type.OBAVESTENJE, LocalDateTime.now());
+                ApplicationFramework.getInstance().getGenerator().notifySubscribers(message);
             } else if (newName == null) {
-                String message = messageGenerator.createMessage("Nije unešeno novo ime", Type.UPOZORENJE, LocalDateTime.now());
-                messageGenerator.notifySubscribers(message);
+                String message = ApplicationFramework.getInstance().getGenerator().createMessage("Nije unešeno novo ime", Type.UPOZORENJE, LocalDateTime.now());
+                ApplicationFramework.getInstance().getGenerator().notifySubscribers(message);
             }
         }
-        messageGenerator.removeSubscriber(cLogger);
-        messageGenerator.removeSubscriber(fLogger);
+        ApplicationFramework.getInstance().getGenerator().removeSubscriber(cLogger);
+        ApplicationFramework.getInstance().getGenerator().removeSubscriber(fLogger);
     }
 }

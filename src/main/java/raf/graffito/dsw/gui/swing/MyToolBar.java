@@ -8,10 +8,9 @@ public class MyToolBar extends JToolBar {
     public MyToolBar() {
         super(HORIZONTAL);
         setFloatable(false);
-       ActionManager actionManager = new ActionManager();
-       add(actionManager.getNewNodeAction());
-       add(actionManager.getRemovalAction());
-       add(actionManager.getRenameAction());
-       add(actionManager.getExitAction());
+       add(MainFrame.getInstance().getActionManager().getNewNodeAction());
+       add(MainFrame.getInstance().getActionManager().getRemovalAction());
+       add(MainFrame.getInstance().getActionManager().getRenameAction());
+       add(MainFrame.getInstance().getActionManager().getExitAction());
     }
 }

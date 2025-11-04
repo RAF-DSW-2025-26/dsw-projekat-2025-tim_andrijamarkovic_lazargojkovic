@@ -28,6 +28,7 @@ public class MainFrame extends JFrame {
     private GraffTree graffTree;
 
     public MainFrame() {
+        instance = this;
         initialize();
     }
     public static MainFrame instance;

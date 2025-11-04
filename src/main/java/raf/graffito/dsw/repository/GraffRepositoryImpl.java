@@ -2,6 +2,9 @@ package raf.graffito.dsw.repository;
 
 import raf.graffito.dsw.core.GraffNode;
 import raf.graffito.dsw.core.GraffNodeComposite;
+import raf.graffito.dsw.model.Presentation;
+import raf.graffito.dsw.model.Project;
+import raf.graffito.dsw.model.Slide;
 import raf.graffito.dsw.model.Workspace;
 
 public class GraffRepositoryImpl implements GraffRepository
@@ -11,7 +14,7 @@ public class GraffRepositoryImpl implements GraffRepository
 
     public GraffRepositoryImpl()
     {
-        workspace = new Workspace("Workspace");
+        workspace = new Workspace("My Workspace");
     }
 
     @Override
@@ -23,5 +26,26 @@ public class GraffRepositoryImpl implements GraffRepository
     @Override
     public void addChild(GraffNodeComposite parent, GraffNode child)
     {
+    }
+
+    @Override
+    public Project projectFactory(GraffNode parent)
+    {
+        int nextProject = Project.getProjectNumber();
+        return new Project("Project" + nextProject, "", "", parent);
+    }
+
+    @Override
+    public Presentation presentationFactory(GraffNode parent)
+    {
+        int nextPresentation = Presentation.getPresentationNumber();
+        return new Presentation("Presentation" + nextPresentation, parent);
+    }
+
+    @Override
+    public Slide slideFactory(GraffNode parent)
+    {
+        int nextSlide = Slide.getSlideNumber();
+        return new Slide("Slide" + nextSlide, parent);
     }
 }

@@ -1,8 +1,12 @@
 package raf.graffito.dsw.gui.swing.tree.controller;
 
+import raf.graffito.dsw.core.ApplicationFramework;
+import raf.graffito.dsw.core.Logger;
+import raf.graffito.dsw.core.Type;
 import raf.graffito.dsw.decorator.ColorDecorator;
 import raf.graffito.dsw.gui.swing.MainFrame;
 import raf.graffito.dsw.gui.swing.tree.model.GraffTreeItem;
+import raf.graffito.dsw.model.LoggerFactory;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeCellEditor;
@@ -11,6 +15,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.EventObject;
 
@@ -74,7 +79,6 @@ public class GraffTreeCellEditor extends DefaultTreeCellEditor implements Action
                 tabbedPane.addTab(child.toString(), panel);
 
                 int idx = tabbedPane.indexOfComponent(panel);
-                System.out.println(tabbedPane.indexOfComponent(panel));
                 tabbedPane.setBackgroundAt(idx, decorated.getColor());
             }
         }
@@ -99,14 +103,19 @@ public class GraffTreeCellEditor extends DefaultTreeCellEditor implements Action
 
     private Color chooseColor() {
         Color color;
+        Logger cLogger = ApplicationFramework.getInstance().getLoggerFactory().createLogger("console");
+        Logger fLogger = ApplicationFramework.getInstance().getLoggerFactory().createLogger("file");
+        ApplicationFramework.getInstance().getGenerator().addSubscriber(cLogger);
+        ApplicationFramework.getInstance().getGenerator().addSubscriber(fLogger);
         do {
             color = JColorChooser.showDialog(MainFrame.getInstance(), "Izaberi boju za tab", Color.LIGHT_GRAY);
             if (color == null) return null; // Cancel
 
             if (isColorUsed(color)) {
-                JOptionPane.showMessageDialog(MainFrame.getInstance(),
-                        "Ta boja je već iskorišćena!",
-                        "Greška", JOptionPane.WARNING_MESSAGE);
+                String message = ApplicationFramework.getInstance().getGenerator().createMessage("Ta boja je već iskorišćena!", Type.OBAVESTENJE, LocalDateTime.now());
+                ApplicationFramework.getInstance().getGenerator().notifySubscribers(message);
+                ApplicationFramework.getInstance().getGenerator().removeSubscriber(cLogger);
+                ApplicationFramework.getInstance().getGenerator().removeSubscriber(fLogger);
             } else {
                 usedColors.add(color); // zapamti izabranu boju
                 return color;

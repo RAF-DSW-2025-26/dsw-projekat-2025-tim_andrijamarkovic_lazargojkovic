@@ -1,6 +1,8 @@
 package raf.graffito.dsw.core;
 import lombok.Getter;
 import raf.graffito.dsw.gui.swing.MainFrame;
+import raf.graffito.dsw.model.LoggerFactory;
+import raf.graffito.dsw.model.MessageGenerator;
 import raf.graffito.dsw.repository.GraffRepository;
 import raf.graffito.dsw.repository.GraffRepositoryImpl;
 
@@ -8,10 +10,14 @@ import raf.graffito.dsw.repository.GraffRepositoryImpl;
 public class ApplicationFramework {
     // Buduća polja za model celog projekta
     protected GraffRepository graffRepository;
+    protected MessageGenerator generator;
+    protected LoggerFactory loggerFactory;
 
     public ApplicationFramework()
     {
         graffRepository = new GraffRepositoryImpl();
+        generator = new MessageGenerator();
+        loggerFactory = new LoggerFactory();
     }
 
     private static ApplicationFramework instance;

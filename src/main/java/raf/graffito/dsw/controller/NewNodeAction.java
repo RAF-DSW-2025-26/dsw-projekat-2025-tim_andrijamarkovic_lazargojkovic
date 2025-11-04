@@ -1,5 +1,6 @@
 package raf.graffito.dsw.controller;
 
+import raf.graffito.dsw.core.ApplicationFramework;
 import raf.graffito.dsw.core.Logger;
 import raf.graffito.dsw.core.Type;
 import raf.graffito.dsw.gui.swing.MainFrame;
@@ -40,28 +41,25 @@ public class NewNodeAction extends AbstractGraffAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         GraffTreeItem selected = MainFrame.getInstance().getGraffTree().getSelectedNode();
-        LoggerFactory loggerFactory = new LoggerFactory();
-        Logger cLogger = loggerFactory.createLogger("console");
-        Logger fLogger = loggerFactory.createLogger("file");
-        MessageGenerator messageGenerator = new MessageGenerator();
-        messageGenerator.addSubscriber(cLogger);
-        messageGenerator.addSubscriber(fLogger);
-
+        Logger cLogger = ApplicationFramework.getInstance().getLoggerFactory().createLogger("console");
+        Logger fLogger = ApplicationFramework.getInstance().getLoggerFactory().createLogger("file");
+        ApplicationFramework.getInstance().getGenerator().addSubscriber(cLogger);
+        ApplicationFramework.getInstance().getGenerator().addSubscriber(fLogger);
         if (selected == null) {
-            String message = messageGenerator.createMessage("Nijedan čvor nije selektovan!", Type.UPOZORENJE, LocalDateTime.now());
-            messageGenerator.notifySubscribers(message);
-            messageGenerator.removeSubscriber(cLogger);
-            messageGenerator.removeSubscriber(fLogger);
+            String message = ApplicationFramework.getInstance().getGenerator().createMessage("Nijedan čvor nije selektovan!", Type.UPOZORENJE, LocalDateTime.now());
+            ApplicationFramework.getInstance().getGenerator().notifySubscribers(message);
+            ApplicationFramework.getInstance().getGenerator().removeSubscriber(cLogger);
+            ApplicationFramework.getInstance().getGenerator().removeSubscriber(fLogger);
             return;
         }
 
         String[] availableTypes = selected.getAllowedChildTypes(selected.getGraffNode());
 
         if (availableTypes.length == 0) {
-            String message = messageGenerator.createMessage("Ovaj čvor ne može da ima decu!", Type.OBAVESTENJE, LocalDateTime.now());
-            messageGenerator.notifySubscribers(message);
-            messageGenerator.removeSubscriber(cLogger);
-            messageGenerator.removeSubscriber(fLogger);
+            String message = ApplicationFramework.getInstance().getGenerator().createMessage("Ovaj čvor ne može da ima decu!", Type.OBAVESTENJE, LocalDateTime.now());
+            ApplicationFramework.getInstance().getGenerator().notifySubscribers(message);
+            ApplicationFramework.getInstance().getGenerator().removeSubscriber(cLogger);
+            ApplicationFramework.getInstance().getGenerator().removeSubscriber(fLogger);
             return;
         }
 
@@ -78,13 +76,13 @@ public class NewNodeAction extends AbstractGraffAction {
 
         if (choice != null) {
             MainFrame.getInstance().getGraffTree().addChild(selected, choice);
-            messageGenerator.removeSubscriber(cLogger);
-            messageGenerator.removeSubscriber(fLogger);
+            ApplicationFramework.getInstance().getGenerator().removeSubscriber(cLogger);
+            ApplicationFramework.getInstance().getGenerator().removeSubscriber(fLogger);
         } else {
-            String message = messageGenerator.createMessage("Neuspešno kreiranje elementa!", Type.GRESKA, LocalDateTime.now());
-            messageGenerator.notifySubscribers(message);
-            messageGenerator.removeSubscriber(cLogger);
-            messageGenerator.removeSubscriber(fLogger);
+            String message = ApplicationFramework.getInstance().getGenerator().createMessage("Neuspešno kreiranje elementa!", Type.GRESKA, LocalDateTime.now());
+            ApplicationFramework.getInstance().getGenerator().notifySubscribers(message);
+            ApplicationFramework.getInstance().getGenerator().removeSubscriber(cLogger);
+            ApplicationFramework.getInstance().getGenerator().removeSubscriber(fLogger);
         }
     }
 }

@@ -9,6 +9,7 @@ import raf.graffito.dsw.model.Presentation;
 import raf.graffito.dsw.model.Project;
 import raf.graffito.dsw.model.Slide;
 import raf.graffito.dsw.model.Workspace;
+import raf.graffito.dsw.repository.GraffRepositoryImpl;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeModel;
@@ -35,30 +36,24 @@ public class GraffTreeImplementation implements GraffTree
         if (parent instanceof Workspace) {
             switch (childType) {
                 case "project":
-                    int nextProject = Project.getProjectNumber();
-                    return new Project("Project" + nextProject, "", "", parent);
+                    return new GraffRepositoryImpl().projectFactory(parent);
                 case "presentation":
-                    int nextPresentation = Presentation.getPresentationNumber();
-                    return new Presentation("Presentation" + nextPresentation, parent);
+                    return new GraffRepositoryImpl().presentationFactory(parent);
                 case "slide":
-                    int nextSlide = Slide.getSlideNumber();
-                    return new Slide("Slide" + nextSlide, parent);
+                    return new GraffRepositoryImpl().slideFactory(parent);
             }
         }
         else if (parent instanceof Project) {
             switch (childType) {
                 case "presentation":
-                    int nextPresentation = Presentation.getPresentationNumber();
-                    return new Presentation("Presentation" + nextPresentation, parent);
+                    return new GraffRepositoryImpl().presentationFactory(parent);
                 case "slide":
-                    int nextSlide = Slide.getSlideNumber();
-                    return new Slide("Slide" + nextSlide, parent);
+                    return new GraffRepositoryImpl().slideFactory(parent);
             }
         }
         else if (parent instanceof Presentation) {
             if (childType.equals("slide")) {
-                int nextSlide = Slide.getSlideNumber();
-                return new Slide("Slide" + nextSlide, parent);
+                return new GraffRepositoryImpl().slideFactory(parent);
             }
         }
 

@@ -11,12 +11,11 @@ public class MyMenuBar extends JMenuBar {
     public MyMenuBar() {
         JMenu fileMenu = new JMenu("File");
         fileMenu.setMnemonic(KeyEvent.VK_F);
-        ActionManager actionManager = new ActionManager();
-        fileMenu.add(actionManager.getNewNodeAction());
-        fileMenu.add(actionManager.getRemovalAction());
-        fileMenu.add(actionManager.getRenameAction());
-        fileMenu.add(actionManager.getExitAction());
-        fileMenu.add(actionManager.getAboutUs());
+        fileMenu.add(MainFrame.getInstance().getActionManager().getNewNodeAction());
+        fileMenu.add(MainFrame.getInstance().getActionManager().getRemovalAction());
+        fileMenu.add(MainFrame.getInstance().getActionManager().getRenameAction());
+        fileMenu.add(MainFrame.getInstance().getActionManager().getExitAction());
+        fileMenu.add(MainFrame.getInstance().getActionManager().getAboutUs());
         add(fileMenu);
     }
 }
