@@ -7,10 +7,7 @@ import raf.graffito.dsw.core.Logger;
 import raf.graffito.dsw.core.Type;
 import raf.graffito.dsw.gui.swing.tree.GraffTree;
 import raf.graffito.dsw.gui.swing.tree.GraffTreeImplementation;
-import raf.graffito.dsw.model.ConsoleLogger;
-import raf.graffito.dsw.model.FileLogger;
-import raf.graffito.dsw.model.LoggerFactory;
-import raf.graffito.dsw.model.MessageGenerator;
+import raf.graffito.dsw.model.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,10 +19,12 @@ public class MainFrame extends JFrame {
 
     // Buduća polja za sve komponente view-a na glavnom prozoru
     private ActionManager actionManager;
-    private JTabbedPane tabbedPane;
+    private PresentationView tabbedPane;
     private JMenuBar menu;
     private JToolBar toolBar;
     private GraffTree graffTree;
+    private ProjectView projectView;
+
 
     public MainFrame() {
         instance = this;
@@ -70,10 +69,19 @@ public class MainFrame extends JFrame {
 
         JSplitPane split=new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,scroll,desktop);
         getContentPane().add(split,BorderLayout.CENTER);
-        split.setDividerLocation(250);
+        split.setDividerLocation(200);
         split.setOneTouchExpandable(true);
 
-        tabbedPane = new JTabbedPane();
-        split.setRightComponent(tabbedPane);
+        projectView = new ProjectView();
+        tabbedPane = new PresentationView();
+
+        JSplitPane split1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,scroll,desktop);
+        split1.setDividerLocation(500);
+        split1.setOneTouchExpandable(true);
+        split1.setLeftComponent(tabbedPane);
+        split1.setRightComponent(projectView);
+
+        split.setLeftComponent(scroll);
+        split.setRightComponent(split1);
     }
 }

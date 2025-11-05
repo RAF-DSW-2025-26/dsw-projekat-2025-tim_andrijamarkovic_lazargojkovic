@@ -23,7 +23,6 @@ public class GraffTreeCellEditor extends DefaultTreeCellEditor implements Action
 {
     private Object clickedOn = null;
     private JTextField edit = null;
-    private ArrayList<Color> usedColors = new ArrayList<>();
 
     public GraffTreeCellEditor(JTree tree, DefaultTreeCellRenderer renderer)
     {
@@ -51,75 +50,12 @@ public class GraffTreeCellEditor extends DefaultTreeCellEditor implements Action
                     GraffTreeItem item = (GraffTreeItem) selected;
 
                     if (item.getAllowedChildTypes(item.getGraffNode()).length==2) {
-                        showPresentationTabs(item);
+                        MainFrame.getInstance().getTabbedPane().showPresentationTabs(item);
                     }
                 }
                 return false;
             }
         }
         return false;
-    }
-
-    public void showPresentationTabs(GraffTreeItem item)
-    {
-        Color color = chooseColor();
-        if(color==null){
-            return;
-        }
-
-        ColorDecorator decorated = new ColorDecorator(item.toString(),item.getGraffNode().getParent(),color);
-
-        JTabbedPane tabbedPane = MainFrame.getInstance().getTabbedPane();
-
-        tabbedPane.removeAll();
-
-        for (GraffTreeItem child : item.getChildren()) {
-            if (child.getAllowedChildTypes(child.getGraffNode()).length==1) {
-                JPanel panel = createPresentationPanel(child);
-                tabbedPane.addTab(child.toString(), panel);
-
-                int idx = tabbedPane.indexOfComponent(panel);
-                tabbedPane.setBackgroundAt(idx, decorated.getColor());
-            }
-        }
-    }
-    private JPanel createPresentationPanel(GraffTreeItem presentationItem) {
-        JPanel panel = new JPanel(new BorderLayout());
-        return panel;
-    }
-
-    public void actionPerformed(ActionEvent e)
-    {
-    }
-
-    private boolean isColorUsed(Color color) {
-        for (Color c : usedColors) {
-            if (c.equals(color)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private Color chooseColor() {
-        Color color;
-        Logger cLogger = ApplicationFramework.getInstance().getLoggerFactory().createLogger("console");
-        Logger fLogger = ApplicationFramework.getInstance().getLoggerFactory().createLogger("file");
-        ApplicationFramework.getInstance().getGenerator().addSubscriber(cLogger);
-        ApplicationFramework.getInstance().getGenerator().addSubscriber(fLogger);
-        do {
-            color = JColorChooser.showDialog(MainFrame.getInstance(), "Izaberi boju za tab", Color.LIGHT_GRAY);
-            if (color == null) return null; // Cancel
-
-            if (isColorUsed(color)) {
-                String message = ApplicationFramework.getInstance().getGenerator().createMessage("Ta boja je već iskorišćena!", Type.OBAVESTENJE, LocalDateTime.now());
-                ApplicationFramework.getInstance().getGenerator().notifySubscribers(message);
-                ApplicationFramework.getInstance().getGenerator().removeSubscriber(cLogger);
-                ApplicationFramework.getInstance().getGenerator().removeSubscriber(fLogger);
-            } else {
-                usedColors.add(color); // zapamti izabranu boju
-                return color;
-            }
-        } while (true);
     }
 }
