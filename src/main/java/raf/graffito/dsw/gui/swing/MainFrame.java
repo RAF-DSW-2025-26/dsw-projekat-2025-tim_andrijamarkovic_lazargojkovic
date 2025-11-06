@@ -1,6 +1,7 @@
 package raf.graffito.dsw.gui.swing;
 
 import lombok.Getter;
+import lombok.Setter;
 import raf.graffito.dsw.controller.ActionManager;
 import raf.graffito.dsw.core.ApplicationFramework;
 import raf.graffito.dsw.core.Logger;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 
 import static raf.graffito.dsw.core.Type.OBAVESTENJE;
 @Getter
+@Setter
 public class MainFrame extends JFrame {
 
     // Buduća polja za sve komponente view-a na glavnom prozoru

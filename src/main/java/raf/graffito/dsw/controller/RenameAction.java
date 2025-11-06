@@ -7,6 +7,7 @@ import raf.graffito.dsw.gui.swing.MainFrame;
 import raf.graffito.dsw.gui.swing.tree.model.GraffTreeItem;
 import raf.graffito.dsw.model.LoggerFactory;
 import raf.graffito.dsw.model.MessageGenerator;
+import raf.graffito.dsw.model.Presentation;
 import raf.graffito.dsw.model.Project;
 
 import javax.swing.*;
@@ -90,6 +91,8 @@ public class RenameAction extends AbstractGraffAction
                     selected.getGraffNode().setName(newName);
                     ((Project) selected.getGraffNode()).setTitle(newTitle);
                     ((Project) selected.getGraffNode()).setAuthor(newAuthor);
+                    ((Project) selected.getGraffNode()).notifySubscribers("nameChanged");
+                    ((Project) selected.getGraffNode()).notifySubscribers("authorChanged");
                 }
             }
         }
@@ -104,6 +107,10 @@ public class RenameAction extends AbstractGraffAction
                 selected.getGraffNode().setName(newName.trim());
                 String message = ApplicationFramework.getInstance().getGenerator().createMessage("Uspešno promenjen naziv čvora", Type.OBAVESTENJE, LocalDateTime.now());
                 ApplicationFramework.getInstance().getGenerator().notifySubscribers(message);
+                if(selected.getGraffNode() instanceof Presentation)
+                {
+                    ((Presentation) selected.getGraffNode()).notifySubscribers("nameChangedPresentation");
+                }
             } else if (newName == null) {
                 String message = ApplicationFramework.getInstance().getGenerator().createMessage("Nije unešeno novo ime", Type.UPOZORENJE, LocalDateTime.now());
                 ApplicationFramework.getInstance().getGenerator().notifySubscribers(message);

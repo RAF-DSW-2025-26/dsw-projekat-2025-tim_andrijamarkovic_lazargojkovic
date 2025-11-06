@@ -7,6 +7,8 @@ import raf.graffito.dsw.gui.swing.MainFrame;
 import raf.graffito.dsw.gui.swing.tree.model.GraffTreeItem;
 import raf.graffito.dsw.model.LoggerFactory;
 import raf.graffito.dsw.model.MessageGenerator;
+import raf.graffito.dsw.model.Presentation;
+import raf.graffito.dsw.model.Project;
 
 import javax.swing.*;
 import java.awt.*;
@@ -78,6 +80,13 @@ public class NewNodeAction extends AbstractGraffAction {
             MainFrame.getInstance().getGraffTree().addChild(selected, choice);
             ApplicationFramework.getInstance().getGenerator().removeSubscriber(cLogger);
             ApplicationFramework.getInstance().getGenerator().removeSubscriber(fLogger);
+            if(selected.getGraffNode() instanceof Project)
+            {
+                if(choice.equals("presentation"))
+                {
+                    ((Project) selected.getGraffNode()).notifySubscribers("presentationAdded");
+                }
+            }
         } else {
             String message = ApplicationFramework.getInstance().getGenerator().createMessage("Neuspešno kreiranje elementa!", Type.GRESKA, LocalDateTime.now());
             ApplicationFramework.getInstance().getGenerator().notifySubscribers(message);

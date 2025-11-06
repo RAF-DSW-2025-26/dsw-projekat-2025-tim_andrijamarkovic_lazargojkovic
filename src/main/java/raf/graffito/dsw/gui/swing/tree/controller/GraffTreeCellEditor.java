@@ -7,6 +7,7 @@ import raf.graffito.dsw.decorator.ColorDecorator;
 import raf.graffito.dsw.gui.swing.MainFrame;
 import raf.graffito.dsw.gui.swing.tree.model.GraffTreeItem;
 import raf.graffito.dsw.model.LoggerFactory;
+import raf.graffito.dsw.model.Project;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeCellEditor;
@@ -49,8 +50,9 @@ public class GraffTreeCellEditor extends DefaultTreeCellEditor implements Action
                 if (selected instanceof GraffTreeItem) {
                     GraffTreeItem item = (GraffTreeItem) selected;
 
-                    if (item.getAllowedChildTypes(item.getGraffNode()).length==2) {
+                    if (item.getGraffNode() instanceof Project) {
                         MainFrame.getInstance().getTabbedPane().showPresentationTabs(item);
+                        MainFrame.getInstance().getProjectView().subscribe((Project) item.getGraffNode());
                     }
                 }
                 return false;
