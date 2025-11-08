@@ -58,4 +58,14 @@ public class GraffTreeItem extends DefaultMutableTreeNode
         }
         return children;
     }
+
+    public boolean existsDuplicateName(GraffTreeItem parent, String name) {
+        for (int i = 0; i < parent.getChildCount(); i++) {
+            GraffTreeItem child = (GraffTreeItem) parent.getChildAt(i);
+            if (child.getGraffNode().getName().equalsIgnoreCase(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

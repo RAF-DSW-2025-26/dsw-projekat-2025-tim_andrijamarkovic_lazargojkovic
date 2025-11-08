@@ -1,6 +1,8 @@
 package raf.graffito.dsw.controller;
 
+import com.sun.tools.javac.Main;
 import raf.graffito.dsw.core.ApplicationFramework;
+import raf.graffito.dsw.core.GraffNode;
 import raf.graffito.dsw.core.Logger;
 import raf.graffito.dsw.core.Type;
 import raf.graffito.dsw.gui.swing.MainFrame;
@@ -11,6 +13,7 @@ import raf.graffito.dsw.model.Presentation;
 import raf.graffito.dsw.model.Project;
 
 import javax.swing.*;
+import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -79,6 +82,11 @@ public class RenameAction extends AbstractGraffAction
             if(result == JOptionPane.OK_OPTION)
             {
                 String newName = nameField.getText().trim();
+                if(selected.existsDuplicateName((GraffTreeItem) selected.getParent(),newName)){
+                    String message = ApplicationFramework.getInstance().getGenerator().createMessage("Vec postoji cvor sa ovim imenom", Type.GRESKA, LocalDateTime.now());
+                    ApplicationFramework.getInstance().getGenerator().notifySubscribers(message);
+                    return;
+                }
                 String newTitle = titleField.getText().trim();
                 String newAuthor = authorField.getText().trim();
                 if(newName.isEmpty() || newTitle.isEmpty() || newAuthor.isEmpty())
@@ -105,6 +113,8 @@ public class RenameAction extends AbstractGraffAction
                     "Unesite novo ime:",
                     currentName
             );
+
+            if(!selected.existsDuplicateName((GraffTreeItem) selected.getParent(),newName)){
             if (newName != null && !newName.trim().isEmpty()) {
                 selected.getGraffNode().setName(newName.trim());
                 String message = ApplicationFramework.getInstance().getGenerator().createMessage("Uspešno promenjen naziv čvora", Type.OBAVESTENJE, LocalDateTime.now());
@@ -126,6 +136,12 @@ public class RenameAction extends AbstractGraffAction
             } else if (newName == null) {
                 String message = ApplicationFramework.getInstance().getGenerator().createMessage("Nije unešeno novo ime", Type.UPOZORENJE, LocalDateTime.now());
                 ApplicationFramework.getInstance().getGenerator().notifySubscribers(message);
+            }
+            }
+            else{
+                String message = ApplicationFramework.getInstance().getGenerator().createMessage("Vec postoji cvor sa ovim imenom", Type.GRESKA, LocalDateTime.now());
+                ApplicationFramework.getInstance().getGenerator().notifySubscribers(message);
+                return;
             }
         }
         ApplicationFramework.getInstance().getGenerator().removeSubscriber(cLogger);

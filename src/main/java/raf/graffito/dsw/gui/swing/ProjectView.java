@@ -2,8 +2,12 @@ package raf.graffito.dsw.gui.swing;
 
 import lombok.Getter;
 import lombok.Setter;
+import raf.graffito.dsw.core.GraffNode;
+import raf.graffito.dsw.core.GraffNodeComposite;
 import raf.graffito.dsw.core.ISubscriber;
 import raf.graffito.dsw.core.ISubscriberView;
+import raf.graffito.dsw.gui.swing.tree.model.GraffTreeItem;
+import raf.graffito.dsw.model.Presentation;
 import raf.graffito.dsw.model.Project;
 
 import javax.swing.*;
@@ -54,10 +58,24 @@ public class ProjectView extends JPanel implements ISubscriberView
                 break;
             case "presentationAdded":
                 JPanel panel = new JPanel(new BorderLayout());
-                MainFrame.getInstance().getTabbedPane().addTab(project.getChildren().getLast().getName(), panel);
+                MainFrame.getInstance().getTabbedPane().addTab(MainFrame.getInstance().getGraffTree().getSelectedNode().getChildren().getLast().toString(), panel);
+                Color color = MainFrame.getInstance().getTabbedPane().getUsedColors().get(MainFrame.getInstance().getGraffTree().getSelectedNode());
+                for(int i = 0; i < MainFrame.getInstance().getTabbedPane().getTabCount(); i++)
+                {
+                    MainFrame.getInstance().getTabbedPane().setBackgroundAt(i,color);
+                }
                 break;
             case "presentationRemoved":
-                MainFrame.getInstance().getTabbedPane().remove(MainFrame.getInstance().getTabbedPane().getSelectedIndex());
+                String currentName = MainFrame.getInstance().getGraffTree().getSelectedNode().toString();
+                for(int i = 0; i < MainFrame.getInstance().getTabbedPane().getTabCount(); i++)
+                {
+                    String tabTitle = MainFrame.getInstance().getTabbedPane().getTitleAt(i);
+                    if(tabTitle.equals(currentName))
+                    {
+                        MainFrame.getInstance().getTabbedPane().remove(i);
+                        break;
+                    }
+                }
                 break;
             case "projectRemoved":
                 MainFrame.getInstance().getTabbedPane().removeAll();
