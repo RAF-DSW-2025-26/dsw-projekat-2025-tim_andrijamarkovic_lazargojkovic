@@ -77,5 +77,9 @@ public class RemovalAction extends AbstractGraffAction {
             project.notifySubscribers("presentationRemoved");
         }
         removeNodeRecursive(selected);
+
+        if(selected.getGraffNode() instanceof Project){
+            MainFrame.getInstance().getTabbedPane().removeAll();
+        }
     }
 }

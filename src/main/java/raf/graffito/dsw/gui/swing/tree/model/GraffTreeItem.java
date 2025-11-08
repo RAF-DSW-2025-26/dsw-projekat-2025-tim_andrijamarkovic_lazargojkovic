@@ -25,12 +25,10 @@ public class GraffTreeItem extends DefaultMutableTreeNode
         this.graffNode = graffNode;
     }
 
-    @Override
-    public String toString()
+    public String getName()
     {
         return graffNode.getName();
     }
-
 
     public String[] getAllowedChildTypes(GraffNode parent) {
 

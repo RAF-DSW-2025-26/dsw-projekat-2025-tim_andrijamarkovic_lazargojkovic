@@ -3,8 +3,6 @@ import lombok.Getter;
 import raf.graffito.dsw.gui.swing.MainFrame;
 import raf.graffito.dsw.model.LoggerFactory;
 import raf.graffito.dsw.model.MessageGenerator;
-import raf.graffito.dsw.repository.GraffRepository;
-import raf.graffito.dsw.repository.GraffRepositoryImpl;
 
 @Getter
 public class ApplicationFramework {

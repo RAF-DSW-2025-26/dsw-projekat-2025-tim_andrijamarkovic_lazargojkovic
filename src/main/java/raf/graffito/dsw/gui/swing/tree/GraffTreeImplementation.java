@@ -7,14 +7,12 @@ import raf.graffito.dsw.gui.swing.tree.model.GraffTreeItem;
 import raf.graffito.dsw.gui.swing.tree.view.GraffTreeView;
 import raf.graffito.dsw.model.Presentation;
 import raf.graffito.dsw.model.Project;
-import raf.graffito.dsw.model.Slide;
 import raf.graffito.dsw.model.Workspace;
-import raf.graffito.dsw.repository.GraffRepositoryImpl;
+import raf.graffito.dsw.core.GraffRepositoryImpl;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeModel;
-import java.util.ArrayList;
-import java.util.List;
+
 @Getter
 public class GraffTreeImplementation implements GraffTree
 {

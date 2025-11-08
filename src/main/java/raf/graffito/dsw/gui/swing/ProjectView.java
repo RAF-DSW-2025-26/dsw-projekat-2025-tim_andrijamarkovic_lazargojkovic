@@ -2,7 +2,10 @@ package raf.graffito.dsw.gui.swing;
 
 import lombok.Getter;
 import lombok.Setter;
+import raf.graffito.dsw.core.GraffNode;
+import raf.graffito.dsw.core.GraffNodeComposite;
 import raf.graffito.dsw.core.ISubscriber;
+import raf.graffito.dsw.core.RepositoryListener;
 import raf.graffito.dsw.model.Project;
 
 import javax.swing.*;
@@ -10,7 +13,7 @@ import java.awt.*;
 
 @Getter
 @Setter
-public class ProjectView extends JPanel implements ISubscriber
+public class ProjectView extends JPanel implements RepositoryListener
 {
     private JScrollPane scroll;
     private JLabel presentationName;
@@ -28,19 +31,13 @@ public class ProjectView extends JPanel implements ISubscriber
         add(author);
     }
 
-    public void subscribe(Project project)
-    {
-        project.addSubscriber(this);
-        project.addSubscriber(MainFrame.getInstance().getTabbedPane());
-    }
-
-    @Override
+    /*@Override
     public void update(String message)
     {
         switch (message)
         {
             case "nameChanged":
-                projectName.setText("Ime Projekta: " + project.getName());
+                projectName.setText("Ime Projekta: " + MainFrame.getInstance().getGraffTree().getSelectedNode().getName());
                 break;
             case "authorChanged":
                 author.setText("Autor: " + project.getAuthor());
@@ -55,5 +52,15 @@ public class ProjectView extends JPanel implements ISubscriber
             case "presentationRemoved":
                 MainFrame.getInstance().getTabbedPane().removeTabAt(MainFrame.getInstance().getTabbedPane().getSelectedIndex());
         }
+    }*/
+
+    @Override
+    public void nodeAdded(GraffNodeComposite node) {
+
+    }
+
+    @Override
+    public void nodeRemoved(GraffNodeComposite node) {
+
     }
 }

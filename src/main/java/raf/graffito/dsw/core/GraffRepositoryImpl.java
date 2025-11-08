@@ -1,20 +1,30 @@
-package raf.graffito.dsw.repository;
+package raf.graffito.dsw.core;
 
-import raf.graffito.dsw.core.GraffNode;
-import raf.graffito.dsw.core.GraffNodeComposite;
 import raf.graffito.dsw.model.Presentation;
 import raf.graffito.dsw.model.Project;
 import raf.graffito.dsw.model.Slide;
 import raf.graffito.dsw.model.Workspace;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GraffRepositoryImpl implements GraffRepository
 {
 
     private Workspace workspace;
+    private List<RepositoryListener> listeners = new ArrayList<>();
 
     public GraffRepositoryImpl()
     {
         workspace = new Workspace("My Workspace");
+    }
+
+    public void addListener(RepositoryListener listener) {
+        listeners.add(listener);
+    }
+
+    public void removeListener(RepositoryListener listener) {
+        listeners.remove(listener);
     }
 
     @Override

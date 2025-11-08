@@ -1,7 +1,5 @@
-package raf.graffito.dsw.repository;
+package raf.graffito.dsw.core;
 
-import raf.graffito.dsw.core.GraffNode;
-import raf.graffito.dsw.core.GraffNodeComposite;
 import raf.graffito.dsw.model.Presentation;
 import raf.graffito.dsw.model.Project;
 import raf.graffito.dsw.model.Slide;

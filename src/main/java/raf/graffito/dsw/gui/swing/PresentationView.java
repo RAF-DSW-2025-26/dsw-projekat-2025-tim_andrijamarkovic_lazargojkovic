@@ -1,12 +1,10 @@
 package raf.graffito.dsw.gui.swing;
 
 import lombok.Getter;
-import raf.graffito.dsw.core.ApplicationFramework;
-import raf.graffito.dsw.core.ISubscriber;
-import raf.graffito.dsw.core.Logger;
-import raf.graffito.dsw.core.Type;
+import raf.graffito.dsw.core.*;
 import raf.graffito.dsw.decorator.ColorDecorator;
 import raf.graffito.dsw.gui.swing.tree.model.GraffTreeItem;
+import raf.graffito.dsw.model.Presentation;
 import raf.graffito.dsw.model.Project;
 
 import javax.swing.*;
@@ -16,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 @Getter
-public class PresentationView extends JTabbedPane implements ISubscriber {
+public class PresentationView extends JTabbedPane implements RepositoryListener {
 
     private HashMap<GraffTreeItem, Color> usedColors = new HashMap<>();
 
@@ -81,16 +79,11 @@ public class PresentationView extends JTabbedPane implements ISubscriber {
             }
         } while (true);
     }
+    @Override
+    public void nodeAdded(GraffNodeComposite node) {
+    }
 
     @Override
-    public void update(String message)
-    {
-        ProjectView projectView = MainFrame.getInstance().getProjectView();
-        switch (message)
-        {
-            case "nameChangedPresentation":
-                projectView.update("nameChangedPresentation");
-                break;
-        }
+    public void nodeRemoved(GraffNodeComposite node) {
     }
 }
