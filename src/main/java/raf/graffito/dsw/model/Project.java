@@ -2,23 +2,20 @@ package raf.graffito.dsw.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import raf.graffito.dsw.core.GraffNode;
-import raf.graffito.dsw.core.GraffNodeComposite;
-import raf.graffito.dsw.core.IPublisher;
-import raf.graffito.dsw.core.ISubscriber;
+import raf.graffito.dsw.core.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
-public class Project extends GraffNodeComposite implements IPublisher {
+public class Project extends GraffNodeComposite implements IPublisherView {
     private String title;
     private String author;
     private int number;
     @Getter
     private static int projectNumber = 1;
-    private List<ISubscriber> subscribers = new ArrayList<>();
+    private List<ISubscriberView> subscribers = new ArrayList<>();
 
     public Project(String name,String title,String author,GraffNode parent) {
         super(name,parent);
@@ -33,13 +30,13 @@ public class Project extends GraffNodeComposite implements IPublisher {
     }
 
     @Override
-    public void addSubscriber(ISubscriber subscriber)
+    public void addSubscriber(ISubscriberView subscriber)
     {
         subscribers.add(subscriber);
     }
 
     @Override
-    public void removeSubscriber(ISubscriber subscriber)
+    public void removeSubscriber(ISubscriberView subscriber)
     {
         subscribers.remove(subscriber);
     }
@@ -47,9 +44,9 @@ public class Project extends GraffNodeComposite implements IPublisher {
     @Override
     public void notifySubscribers(String message)
     {
-        for(ISubscriber subscriber : subscribers)
+        for(ISubscriberView subscriber : subscribers)
         {
-            subscriber.update(message);
+            subscriber.update(message, this);
         }
     }
 

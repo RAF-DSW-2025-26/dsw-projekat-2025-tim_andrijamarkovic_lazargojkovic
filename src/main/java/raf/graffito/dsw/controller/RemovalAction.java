@@ -4,6 +4,7 @@ import raf.graffito.dsw.core.ApplicationFramework;
 import raf.graffito.dsw.core.Logger;
 import raf.graffito.dsw.core.Type;
 import raf.graffito.dsw.gui.swing.MainFrame;
+import raf.graffito.dsw.gui.swing.PresentationView;
 import raf.graffito.dsw.gui.swing.ProjectView;
 import raf.graffito.dsw.gui.swing.tree.model.GraffTreeItem;
 import raf.graffito.dsw.model.*;
@@ -70,6 +71,11 @@ public class RemovalAction extends AbstractGraffAction {
             ApplicationFramework.getInstance().getGenerator().removeSubscriber(cLogger);
             ApplicationFramework.getInstance().getGenerator().removeSubscriber(fLogger);
             return;
+        }
+        if(selected.getGraffNode() instanceof Project)
+        {
+            Project project = (Project) selected.getGraffNode();
+            project.notifySubscribers("projectRemoved");
         }
         if(selected.getGraffNode() instanceof Presentation)
         {

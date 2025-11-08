@@ -35,7 +35,7 @@ public class RenameAction extends AbstractGraffAction
             Image newImg = img.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
             icon = new ImageIcon(newImg);
         } else {
-            System.err.println("File " + "images/renamey.png" + " not found");
+            System.err.println("File " + "images/rename.png" + " not found");
         }
         return icon;
     }
@@ -89,6 +89,8 @@ public class RenameAction extends AbstractGraffAction
                 else
                 {
                     selected.getGraffNode().setName(newName);
+                    String message = ApplicationFramework.getInstance().getGenerator().createMessage("Uspešno promenjen naziv čvora", Type.OBAVESTENJE, LocalDateTime.now());
+                    ApplicationFramework.getInstance().getGenerator().notifySubscribers(message);
                     ((Project) selected.getGraffNode()).setTitle(newTitle);
                     ((Project) selected.getGraffNode()).setAuthor(newAuthor);
                     ((Project) selected.getGraffNode()).notifySubscribers("nameChanged");
@@ -109,6 +111,16 @@ public class RenameAction extends AbstractGraffAction
                 ApplicationFramework.getInstance().getGenerator().notifySubscribers(message);
                 if(selected.getGraffNode() instanceof Presentation)
                 {
+                    ((Presentation) selected.getGraffNode()).addSubscriber(MainFrame.getInstance().getTabbedPane());
+                    for(int i = 0; i < MainFrame.getInstance().getTabbedPane().getTabCount(); i++)
+                    {
+                        String tabTitle = MainFrame.getInstance().getTabbedPane().getTitleAt(i);
+                        if(tabTitle.equals(currentName))
+                        {
+                            MainFrame.getInstance().getTabbedPane().setTitleAt(i, newName);
+                            break;
+                        }
+                    }
                     ((Presentation) selected.getGraffNode()).notifySubscribers("nameChangedPresentation");
                 }
             } else if (newName == null) {

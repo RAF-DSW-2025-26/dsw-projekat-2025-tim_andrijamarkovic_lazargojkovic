@@ -1,10 +1,7 @@
 package raf.graffito.dsw.gui.swing;
 
 import lombok.Getter;
-import raf.graffito.dsw.core.ApplicationFramework;
-import raf.graffito.dsw.core.ISubscriber;
-import raf.graffito.dsw.core.Logger;
-import raf.graffito.dsw.core.Type;
+import raf.graffito.dsw.core.*;
 import raf.graffito.dsw.decorator.ColorDecorator;
 import raf.graffito.dsw.gui.swing.tree.model.GraffTreeItem;
 import raf.graffito.dsw.model.Project;
@@ -16,9 +13,22 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 @Getter
-public class PresentationView extends JTabbedPane implements ISubscriber {
+public class PresentationView extends JTabbedPane implements ISubscriberView {
 
     private HashMap<GraffTreeItem, Color> usedColors = new HashMap<>();
+
+    public PresentationView()
+    {
+        addChangeListener(e ->
+        {
+            int selectedIndex = getSelectedIndex();
+            if(selectedIndex != -1)
+            {
+                String title = getTitleAt(selectedIndex);
+                onTabChanged(title);
+            }
+        });
+    }
 
     public void showPresentationTabs(GraffTreeItem item)
     {
@@ -32,6 +42,7 @@ public class PresentationView extends JTabbedPane implements ISubscriber {
 
         ColorDecorator decorated = new ColorDecorator(item.toString(),item.getGraffNode().getParent(),color);
 
+        ProjectView projectView = MainFrame.getInstance().getProjectView();
         PresentationView tabbedPane = MainFrame.getInstance().getTabbedPane();
 
         tabbedPane.removeAll();
@@ -45,6 +56,10 @@ public class PresentationView extends JTabbedPane implements ISubscriber {
                 tabbedPane.setBackgroundAt(idx, decorated.getColor());
             }
         }
+
+        projectView.update("nameChanged", (Project) item.getGraffNode());
+        projectView.update("authorChanged", (Project) item.getGraffNode());
+        projectView.update("nameChangedPresentation", (Project) item.getGraffNode());
     }
     private JPanel createPresentationPanel(GraffTreeItem presentationItem) {
         JPanel panel = new JPanel(new BorderLayout());
@@ -82,14 +97,22 @@ public class PresentationView extends JTabbedPane implements ISubscriber {
         } while (true);
     }
 
+    private void onTabChanged(String title)
+    {
+        System.out.println("Tab changed: " + title);
+        ProjectView projectView = MainFrame.getInstance().getProjectView();
+        projectView.getPresentationName().setText("Ime Prezentacije: " + title);
+    }
+
     @Override
-    public void update(String message)
+    public void update(String message, Project project)
     {
         ProjectView projectView = MainFrame.getInstance().getProjectView();
         switch (message)
         {
             case "nameChangedPresentation":
-                projectView.update("nameChangedPresentation");
+                System.out.println("Promenjeno ime prezentaciji - PresentationView");
+                projectView.update("nameChangedPresentation", project);
                 break;
         }
     }

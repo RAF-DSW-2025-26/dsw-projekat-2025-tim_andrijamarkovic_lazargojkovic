@@ -3,6 +3,7 @@ package raf.graffito.dsw.gui.swing;
 import lombok.Getter;
 import lombok.Setter;
 import raf.graffito.dsw.core.ISubscriber;
+import raf.graffito.dsw.core.ISubscriberView;
 import raf.graffito.dsw.model.Project;
 
 import javax.swing.*;
@@ -10,22 +11,25 @@ import java.awt.*;
 
 @Getter
 @Setter
-public class ProjectView extends JPanel implements ISubscriber
+public class ProjectView extends JPanel implements ISubscriberView
 {
     private JScrollPane scroll;
     private JLabel presentationName;
     private JLabel projectName;
     private JLabel author;
-    private Project project;
 
-    public ProjectView() {
-        setLayout(new GridLayout(3,1,10,10));
-        presentationName = new JLabel();
-        projectName = new JLabel();
-        author = new JLabel();
-        add(presentationName);
-        add(projectName);
-        add(author);
+    public ProjectView()
+    {
+        setLayout(new BorderLayout(10,0));
+        presentationName = new JLabel("Ime Prezentacije: ");
+        projectName = new JLabel("Ime Projekta: ");
+        author = new JLabel("Autor: ");
+        JPanel panelTop = new JPanel();
+        panelTop.setLayout(new BorderLayout());
+        panelTop.add(presentationName, BorderLayout.NORTH);
+        panelTop.add(projectName, BorderLayout.CENTER);
+        panelTop.add(author, BorderLayout.SOUTH);
+        add(panelTop, BorderLayout.NORTH);
     }
 
     public void subscribe(Project project)
@@ -35,7 +39,7 @@ public class ProjectView extends JPanel implements ISubscriber
     }
 
     @Override
-    public void update(String message)
+    public void update(String message, Project project)
     {
         switch (message)
         {
@@ -53,7 +57,14 @@ public class ProjectView extends JPanel implements ISubscriber
                 MainFrame.getInstance().getTabbedPane().addTab(project.getChildren().getLast().getName(), panel);
                 break;
             case "presentationRemoved":
-                MainFrame.getInstance().getTabbedPane().removeTabAt(MainFrame.getInstance().getTabbedPane().getSelectedIndex());
+                MainFrame.getInstance().getTabbedPane().remove(MainFrame.getInstance().getTabbedPane().getSelectedIndex());
+                break;
+            case "projectRemoved":
+                MainFrame.getInstance().getTabbedPane().removeAll();
+                presentationName.setText("Ime Prezentacije: ");
+                projectName.setText("Ime Projekta: ");
+                author.setText("Autor: ");
+                break;
         }
     }
 }
