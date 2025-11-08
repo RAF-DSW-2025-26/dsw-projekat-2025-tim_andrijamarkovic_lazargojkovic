@@ -3,7 +3,7 @@ package raf.graffito.dsw.model;
 import raf.graffito.dsw.core.Logger;
 
 import java.io.IOException;
-
+//Klasa koja koristi Simple Factory Method za kreiranje loggera
 public class LoggerFactory {
     public Logger createLogger(String type) {
         Logger logger = null;

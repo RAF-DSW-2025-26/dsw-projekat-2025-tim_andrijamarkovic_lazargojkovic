@@ -16,6 +16,7 @@ import javax.swing.tree.DefaultTreeModel;
 import java.util.ArrayList;
 import java.util.List;
 @Getter
+//Klasa koja sadrzi konkretne metode definisane u interfejsu GraffTree
 public class GraffTreeImplementation implements GraffTree
 {
     private GraffTreeView treeView;
@@ -29,7 +30,7 @@ public class GraffTreeImplementation implements GraffTree
         treeView = new GraffTreeView(treeModel);
         return treeView;
     }
-
+    //Metoda koja kreira dete izabranom cvoru koristeci Factory Method
     public GraffNode createChild(GraffNode parent, String childType) {
         childType = childType.toLowerCase();
 
@@ -60,7 +61,7 @@ public class GraffTreeImplementation implements GraffTree
         return null;
     }
 
-
+    //Metoda koja dodaje dete izabranom cvoru i u azurira JTree da prikazuje i njega
     @Override
     public void addChild(GraffTreeItem parent,String childType)
     {
@@ -75,14 +76,11 @@ public class GraffTreeImplementation implements GraffTree
         SwingUtilities.updateComponentTreeUI(treeView);
     }
 
-
-
     @Override
     public void removeNode(GraffTreeItem item) {
         DefaultTreeModel model = (DefaultTreeModel) getTreeModel();
         model.removeNodeFromParent(item);
     }
-
 
     @Override
     public GraffTreeItem getSelectedNode()

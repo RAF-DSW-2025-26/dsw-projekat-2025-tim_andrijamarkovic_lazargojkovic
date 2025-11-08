@@ -1,7 +1,7 @@
 package raf.graffito.dsw.model;
 
 import raf.graffito.dsw.core.Logger;
-
+//Logger koji ispisuje poruke u konzolu
 public class ConsoleLogger extends Logger
 {
     @Override

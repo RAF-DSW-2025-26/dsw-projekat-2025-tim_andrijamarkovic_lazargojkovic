@@ -16,6 +16,7 @@ import java.util.List;
 
 @Getter
 @Setter
+//Klasa koja definise bazican tip svakog cvora koji se prikazuje u JTree
 public class GraffTreeItem extends DefaultMutableTreeNode
 {
     private GraffNode graffNode;
@@ -31,7 +32,7 @@ public class GraffTreeItem extends DefaultMutableTreeNode
         return graffNode.getName();
     }
 
-
+    //Metoda koja vraca niz tipova cvorova koji mogu biti deca izabranom cvoru
     public String[] getAllowedChildTypes(GraffNode parent) {
 
         if (parent instanceof Workspace) {
@@ -50,7 +51,7 @@ public class GraffTreeItem extends DefaultMutableTreeNode
     {
         this.graffNode.setName(name);
     }
-
+    //Vraca listu dece izabranog cvora
     public List<GraffTreeItem> getChildren() {
         List<GraffTreeItem> children = new ArrayList<>();
         for (int i = 0; i < getChildCount(); i++) {
@@ -58,7 +59,7 @@ public class GraffTreeItem extends DefaultMutableTreeNode
         }
         return children;
     }
-
+    //Metoda koja proverava da li u izabranom cvoru postoje duplikati po imenu
     public boolean existsDuplicateName(GraffTreeItem parent, String name) {
         for (int i = 0; i < parent.getChildCount(); i++) {
             GraffTreeItem child = (GraffTreeItem) parent.getChildAt(i);

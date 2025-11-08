@@ -5,7 +5,7 @@ import raf.graffito.dsw.gui.swing.tree.model.GraffTreeItem;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
-
+//Klasa koja prati selektovan cvor u JTree
 public class GraffTreeSelectionListener implements TreeSelectionListener
 {
     @Override

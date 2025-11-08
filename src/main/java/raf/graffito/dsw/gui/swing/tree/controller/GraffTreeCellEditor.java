@@ -19,7 +19,7 @@ import java.awt.event.MouseEvent;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.EventObject;
-
+//Ova klasa sluzi da se za otvoreni projekat pokrene logika otvaranja TabbedPane-a
 public class GraffTreeCellEditor extends DefaultTreeCellEditor implements ActionListener
 {
     private Object clickedOn = null;
@@ -37,7 +37,7 @@ public class GraffTreeCellEditor extends DefaultTreeCellEditor implements Action
         edit.addActionListener(this);
         return edit;
     }
-
+    //Metoda koja na dupli klik otvara selector boje i prikazuje TabbedPane
     public boolean isCellEditable(EventObject e)
     {
         if(e instanceof MouseEvent)

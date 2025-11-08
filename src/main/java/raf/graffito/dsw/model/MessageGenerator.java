@@ -15,6 +15,7 @@ import java.util.List;
 
 @Getter
 @Setter
+//Observer klasa koja kreira poruke i salje ih loggerima za ispis
 public class MessageGenerator implements IPublisher {
 
     private List<ISubscriber> subscribers = new ArrayList<>();
@@ -26,11 +27,11 @@ public class MessageGenerator implements IPublisher {
     public MessageGenerator()
     {
     }
-
+    //Kreiranje poruke koja ce se ispisati
     public String createMessage(String content, Type type, LocalDateTime timestamp){
         this.content = content;
         this.type = type;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");//Formatiranje timestamp-a koji se ispisuje u poruci
         String date = timestamp.format(formatter);
         this.timestamp = LocalDateTime.parse(date, formatter);
 
@@ -55,6 +56,7 @@ public class MessageGenerator implements IPublisher {
         for(ISubscriber subscriber : subscribers){
             subscriber.update(message);
         }
+        //Za svaki tip poruke otvara dijalog koji prikazuje poruku
         switch(type){
             case UPOZORENJE:
                 JOptionPane.showMessageDialog(MainFrame.getInstance(), message,type.toString(), JOptionPane.WARNING_MESSAGE);

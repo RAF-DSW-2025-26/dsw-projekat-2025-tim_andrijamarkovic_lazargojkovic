@@ -6,7 +6,7 @@ import raf.graffito.dsw.model.Presentation;
 import raf.graffito.dsw.model.Project;
 import raf.graffito.dsw.model.Slide;
 import raf.graffito.dsw.model.Workspace;
-
+//Klasa koja implementira metode iz GraffRepository koje koriste Factory Sablon za kreiranje novih cvorova
 public class GraffRepositoryImpl implements GraffRepository
 {
 
@@ -21,11 +21,6 @@ public class GraffRepositoryImpl implements GraffRepository
     public Workspace getWorkspace()
     {
         return workspace;
-    }
-
-    @Override
-    public void addChild(GraffNodeComposite parent, GraffNode child)
-    {
     }
 
     @Override

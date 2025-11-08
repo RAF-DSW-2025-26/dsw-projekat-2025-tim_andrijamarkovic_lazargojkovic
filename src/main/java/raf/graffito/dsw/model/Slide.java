@@ -7,7 +7,7 @@ import raf.graffito.dsw.core.GraffNode;
 public class Slide extends GraffLeaf {
 
     @Getter
-    private static int slideNumber = 1;
+    private static int slideNumber = 1; //Integer koji prati broj kreiranih slajdova
     public Slide(String name, GraffNode parent) {
         super(name,parent);
         slideNumber++;

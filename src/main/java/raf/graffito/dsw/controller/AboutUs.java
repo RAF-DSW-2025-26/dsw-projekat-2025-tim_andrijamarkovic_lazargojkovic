@@ -31,6 +31,7 @@ public class AboutUs extends AbstractGraffAction{
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        //Kreiranje novog prozora i svih komponenti tog prozora
         JFrame frame = new JFrame("About us");
         frame.setLayout(new BorderLayout(10, 10));
         frame.setLocationRelativeTo(null);

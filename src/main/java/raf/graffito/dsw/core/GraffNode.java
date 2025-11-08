@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-
+//Baza Composite sablona
 public abstract class GraffNode {
     protected String name;
     protected GraffNode parent;

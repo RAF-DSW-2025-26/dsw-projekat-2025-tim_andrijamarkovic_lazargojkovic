@@ -60,11 +60,13 @@ public class MainFrame extends JFrame {
         toolBar = new MyToolBar(); // Kreiranje toolbar-a
         add(toolBar, BorderLayout.NORTH); // Postavljanje toolbar-a na vrh prozora
 
+        //Kreiranje JTree-a
         graffTree = new GraffTreeImplementation();
         JTree workspace = graffTree.generateTree(ApplicationFramework.getInstance().getGraffRepository().getWorkspace());
         workspace.setDragEnabled(true);
         workspace.setDropMode(DropMode.ON_OR_INSERT);
 
+        //Kreiranje panela koji sadrzi u sebi prikaz JTree-a, TabbedPane-a i RightPanel-a
         JPanel desktop = new JPanel();
         JScrollPane scroll=new JScrollPane(workspace);
         scroll.setMinimumSize(new Dimension(200,150));

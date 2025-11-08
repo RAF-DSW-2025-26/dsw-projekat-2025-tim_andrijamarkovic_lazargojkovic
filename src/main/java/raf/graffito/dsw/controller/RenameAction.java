@@ -19,7 +19,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.net.URL;
 import java.time.LocalDateTime;
-
+//Akcija koja menja ime izabranih cvorova sa proverom duplikata
 public class RenameAction extends AbstractGraffAction
 {
     public RenameAction() {
@@ -72,6 +72,7 @@ public class RenameAction extends AbstractGraffAction
             panel.add(titleField);
             panel.add(new JLabel("Autor:"));
             panel.add(authorField);
+            //Dijalog za menjanje parametra izabranog projekta
             int result = JOptionPane.showConfirmDialog(
                     MainFrame.getInstance(),
                     panel,
@@ -108,6 +109,7 @@ public class RenameAction extends AbstractGraffAction
         }
         else {
             String currentName = selected.getGraffNode().getName();
+            //Dijalog za menjanje imena prezentacije
             String newName = JOptionPane.showInputDialog(
                     MainFrame.getInstance(),
                     "Unesite novo ime:",

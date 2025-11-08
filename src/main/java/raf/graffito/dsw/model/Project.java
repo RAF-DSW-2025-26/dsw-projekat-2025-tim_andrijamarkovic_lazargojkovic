@@ -14,7 +14,7 @@ public class Project extends GraffNodeComposite implements IPublisherView {
     private String author;
     private int number;
     @Getter
-    private static int projectNumber = 1;
+    private static int projectNumber = 1; //Integer koji prati broj kreiranih projekata
     private List<ISubscriberView> subscribers = new ArrayList<>();
 
     public Project(String name,String title,String author,GraffNode parent) {

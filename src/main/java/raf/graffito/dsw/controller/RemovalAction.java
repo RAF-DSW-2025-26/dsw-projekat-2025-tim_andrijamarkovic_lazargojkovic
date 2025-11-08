@@ -16,15 +16,15 @@ import java.awt.event.KeyEvent;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-
+//Akcija koja brise izabrane cvorove
 public class RemovalAction extends AbstractGraffAction {
     public RemovalAction() {
-        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK)); // Ovo je prečica za izlaz
-        putValue(SMALL_ICON, loadIcon("/images/remove.png")); // Postavljanje ikonice
+        putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK)); //
+        putValue(SMALL_ICON, loadIcon("/images/remove.png"));
         putValue(NAME, "Remove"); // Ime akcije
-        putValue(SHORT_DESCRIPTION, "Remove Node"); // Tooltip
+        putValue(SHORT_DESCRIPTION, "Remove Node");
     }
-
+    //Metoda koja rekurzivno brise decu izabranog cvora
     private void removeNodeRecursive(GraffTreeItem item) {
         ArrayList<GraffTreeItem> children = new ArrayList<GraffTreeItem>();
         children.addAll(item.getChildren());
@@ -39,9 +39,9 @@ public class RemovalAction extends AbstractGraffAction {
     @Override
     public Icon loadIcon(String path) {
         Icon icon = null;
-        URL ImageURL = getClass().getResource(path); // URL služi za pronalaženje resursa unutar JAR fajla ili klase
+        URL ImageURL = getClass().getResource(path);
         if (ImageURL != null) {
-            Image img = new ImageIcon(ImageURL).getImage(); // Napravimo Image iz ImageIcon
+            Image img = new ImageIcon(ImageURL).getImage();
             Image newImg = img.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
             icon = new ImageIcon(newImg);
         } else {
@@ -64,7 +64,7 @@ public class RemovalAction extends AbstractGraffAction {
             ApplicationFramework.getInstance().getGenerator().removeSubscriber(fLogger);
             return;
         }
-
+        //Provera tipa cvora
         if (selected.getGraffNode() instanceof Workspace) {
             String message = ApplicationFramework.getInstance().getGenerator().createMessage("Workspace ne sme biti obrisan!", Type.UPOZORENJE, LocalDateTime.now());
             ApplicationFramework.getInstance().getGenerator().notifySubscribers(message);

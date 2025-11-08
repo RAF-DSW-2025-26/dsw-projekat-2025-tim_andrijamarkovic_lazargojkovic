@@ -16,7 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.net.URL;
 import java.time.LocalDateTime;
-
+//Akcija koja kreira i dodaje novi cvor u stablo
 public class NewNodeAction extends AbstractGraffAction {
 
     public NewNodeAction() {
@@ -65,7 +65,7 @@ public class NewNodeAction extends AbstractGraffAction {
             return;
         }
 
-        // dijalog za izbor tipa deteta
+        // Dijalog za biranje tipa deteta
         String choice = (String) JOptionPane.showInputDialog(
                 MainFrame.getInstance(),
                 "Izaberi tip novog elementa:",

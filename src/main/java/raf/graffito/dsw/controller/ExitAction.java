@@ -14,7 +14,6 @@ public class ExitAction extends AbstractGraffAction {
         putValue(SHORT_DESCRIPTION, "Exit"); // Tooltip
     }
 
-    // Metoda za učitavanje ikonice iz resursa
     @Override
     public Icon loadIcon(String path) {
         Icon icon = null;

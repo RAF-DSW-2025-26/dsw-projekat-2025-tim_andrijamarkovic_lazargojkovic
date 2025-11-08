@@ -4,7 +4,7 @@ import raf.graffito.dsw.core.Logger;
 
 import java.io.FileWriter;
 import java.io.IOException;
-
+//Logger koji ispisuje poruke u fajl log.txt
 public class FileLogger extends Logger
 {
     @Override

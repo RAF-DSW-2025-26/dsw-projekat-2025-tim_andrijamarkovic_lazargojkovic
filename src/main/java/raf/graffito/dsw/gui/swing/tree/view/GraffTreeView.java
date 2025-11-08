@@ -5,7 +5,7 @@ import raf.graffito.dsw.gui.swing.tree.controller.GraffTreeSelectionListener;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeModel;
-
+//Klasa koja kreira JTree i dodaje mu funkcionalnosti iz nasih klasa
 public class GraffTreeView extends JTree
 {
     public GraffTreeView(DefaultTreeModel model)

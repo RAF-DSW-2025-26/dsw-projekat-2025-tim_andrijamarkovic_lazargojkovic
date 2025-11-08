@@ -15,13 +15,14 @@ import java.awt.*;
 
 @Getter
 @Setter
+//Pogled nad celim projektom i azuriranje desnog panela u skladu sa promenama
 public class ProjectView extends JPanel implements ISubscriberView
 {
     private JScrollPane scroll;
     private JLabel presentationName;
     private JLabel projectName;
     private JLabel author;
-
+    //Instanciranje desnog panela
     public ProjectView()
     {
         setLayout(new BorderLayout(10,0));
@@ -45,6 +46,7 @@ public class ProjectView extends JPanel implements ISubscriberView
     @Override
     public void update(String message, Project project)
     {
+        //Primanje specificnih poruka i azuriranje desnog panela na osnovu primljene poruke
         switch (message)
         {
             case "nameChanged":
@@ -57,6 +59,7 @@ public class ProjectView extends JPanel implements ISubscriberView
                 presentationName.setText("Ime Prezentacije: " + MainFrame.getInstance().getTabbedPane().getTitleAt(MainFrame.getInstance().getTabbedPane().getSelectedIndex()));
                 break;
             case "presentationAdded":
+                //Pravljenje novog taba u TabbedPane-u kada se u projektu napravi nova prezentacija
                 JPanel panel = new JPanel(new BorderLayout());
                 MainFrame.getInstance().getTabbedPane().addTab(MainFrame.getInstance().getGraffTree().getSelectedNode().getChildren().getLast().toString(), panel);
                 Color color = MainFrame.getInstance().getTabbedPane().getUsedColors().get(MainFrame.getInstance().getGraffTree().getSelectedNode());
@@ -66,6 +69,7 @@ public class ProjectView extends JPanel implements ISubscriberView
                 }
                 break;
             case "presentationRemoved":
+                //Brisanje taba u TabbedPane-u kada se u projektu izbrise izabrana prezentacija
                 String currentName = MainFrame.getInstance().getGraffTree().getSelectedNode().toString();
                 for(int i = 0; i < MainFrame.getInstance().getTabbedPane().getTabCount(); i++)
                 {
@@ -78,6 +82,7 @@ public class ProjectView extends JPanel implements ISubscriberView
                 }
                 break;
             case "projectRemoved":
+                //Brisanje svih tabova iz TabbedPane-a i vracanje desnog panela na prvobitno stanje
                 MainFrame.getInstance().getTabbedPane().removeAll();
                 presentationName.setText("Ime Prezentacije: ");
                 projectName.setText("Ime Projekta: ");
