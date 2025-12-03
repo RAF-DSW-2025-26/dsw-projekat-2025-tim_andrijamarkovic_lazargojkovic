@@ -4,6 +4,7 @@ import lombok.Getter;
 import raf.graffito.dsw.core.*;
 import raf.graffito.dsw.decorator.ColorDecorator;
 import raf.graffito.dsw.gui.swing.tree.model.GraffTreeItem;
+import raf.graffito.dsw.model.Presentation;
 import raf.graffito.dsw.model.Project;
 import raf.graffito.dsw.model.Slide;
 
@@ -21,6 +22,8 @@ import java.util.List;
 public class PresentationView extends JTabbedPane implements ISubscriberView {
 
     private HashMap<GraffTreeItem, Color> usedColors = new HashMap<>();//HashMapa koja sadrzi projekte i boje asocirane sa njima
+    private Map<Slide,SlideView> slideViews = new HashMap<>();
+    private JPanel panel;
 
     public PresentationView()
     {
@@ -56,22 +59,50 @@ public class PresentationView extends JTabbedPane implements ISubscriberView {
         //Dodeljuje odabranu boju svim tabovima projekta
         for (GraffTreeItem child : item.getChildren()) {
             if (child.getAllowedChildTypes(child.getGraffNode()).length==1) {
-                JPanel panel = createPresentationPanel(child);
+                panel = createPresentationPanel(child);
                 tabbedPane.addTab(child.toString(), panel);
-
                 int idx = tabbedPane.indexOfComponent(panel);
                 tabbedPane.setBackgroundAt(idx, decorated.getColor());
+                createSlideViews(child);
             }
         }
-
         projectView.update("nameChanged", (Project) item.getGraffNode());
         projectView.update("authorChanged", (Project) item.getGraffNode());
         projectView.update("nameChangedPresentation", (Project) item.getGraffNode());
     }
 
     private JPanel createPresentationPanel(GraffTreeItem presentationItem) {
-        JPanel panel = new SlideView();
+        JPanel panel = new JPanel();
         return panel;
+    }
+    //Funkcija koja za svaki slide kreira njemu SlideView-ove
+    private void createSlideViews(GraffTreeItem presentationItem)
+    {
+        for(GraffTreeItem child : presentationItem.getChildren())
+        {
+            if(child.getGraffNode() instanceof Slide)
+            {
+                SlideView slideView = slideViews.get((Slide)child.getGraffNode());
+                if(slideView==null) //Ukoliko neki Slide već ima svoj View, preskače se
+                {
+                    slideView = new SlideView();
+                    slideViews.put(((Slide)child.getGraffNode()),slideView);
+                    System.out.println("Kreiran View za: " + child.getGraffNode().getName());
+                }
+            }
+        }
+    }
+
+    private SlideView findFirstView(GraffTreeItem presentationItem)
+    {
+        for(GraffTreeItem child : presentationItem.getChildren())
+        {
+            if(child.getGraffNode() instanceof Slide)
+            {
+                return slideViews.get((Slide)child.getGraffNode());
+            }
+        }
+        return null;
     }
 
     private boolean isColorUsed(Color color) {

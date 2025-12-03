@@ -10,17 +10,21 @@ import java.awt.*;
 @Setter
 
 public class SlidePicture extends GraffSlideElement {
-    public SlidePicture(String name, GraffNode parent, Dimension dimension, Point location, double rotationAngle) {
-        super(name, parent, dimension, location, rotationAngle);
-    }
 
-    @Override
-    public void dodaj(GraffNode node) {
-        super.dodaj(node);
+    private Image image;
+
+    public SlidePicture(Image image, String name, GraffNode parent, Dimension dimension, Point location, double rotationAngle) {
+        super(name, parent, dimension, location, rotationAngle);
+        this.image=image;
     }
 
     @Override
     public GraffNode findByName(String name) {
         return super.findByName(name);
+    }
+
+    @Override
+    public GraffSlideElement clone() {
+        return new SlidePicture(image, getName(), getParent(), getDimension(), getLocation(), getRotationAngle());
     }
 }

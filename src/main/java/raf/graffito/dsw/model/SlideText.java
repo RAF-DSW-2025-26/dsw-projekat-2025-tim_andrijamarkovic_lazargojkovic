@@ -9,17 +9,21 @@ import java.awt.*;
 @Getter
 @Setter
 public class SlideText extends GraffSlideElement {
-    public SlideText(String name, GraffNode parent, Dimension dimension, Point location, double rotationAngle) {
-        super(name, parent, dimension, location, rotationAngle);
-    }
 
-    @Override
-    public void dodaj(GraffNode node) {
-        super.dodaj(node);
+    private String text;
+
+    public SlideText(String text, String name, GraffNode parent, Dimension dimension, Point location, double rotationAngle) {
+        super(name, parent, dimension, location, rotationAngle);
+        this.text = text;
     }
 
     @Override
     public GraffNode findByName(String name) {
         return super.findByName(name);
+    }
+
+    @Override
+    public GraffSlideElement clone() {
+        return new SlideText(text, getName(), getParent(), getDimension(), getLocation(), getRotationAngle());
     }
 }

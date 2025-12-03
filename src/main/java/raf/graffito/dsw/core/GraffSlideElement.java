@@ -7,7 +7,7 @@ import java.awt.*;
 
 @Getter
 @Setter
-public abstract class GraffSlideElement extends GraffNode {
+public abstract class GraffSlideElement extends GraffLeaf{
 
     private Dimension dimension;
     private Point location;
@@ -21,12 +21,9 @@ public abstract class GraffSlideElement extends GraffNode {
     }
 
     @Override
-    public void dodaj(GraffNode node) {
-        super.dodaj(node);
-    }
-
-    @Override
     public GraffNode findByName(String name) {
         return super.findByName(name);
     }
+
+
 }

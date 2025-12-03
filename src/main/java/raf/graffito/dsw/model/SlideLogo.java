@@ -15,12 +15,12 @@ public class SlideLogo extends GraffSlideElement {
     }
 
     @Override
-    public void dodaj(GraffNode node) {
-        super.dodaj(node);
+    public GraffNode findByName(String name) {
+        return super.findByName(name);
     }
 
     @Override
-    public GraffNode findByName(String name) {
-        return super.findByName(name);
+    public GraffSlideElement clone() {
+        return new SlideLogo(getName(), getParent(), getDimension(), getLocation(), getRotationAngle());
     }
 }
