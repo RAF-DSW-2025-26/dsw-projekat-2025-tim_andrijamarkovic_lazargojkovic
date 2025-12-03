@@ -1,1 +1,1 @@
-[UPOZORENJE][2025.11.08 21:02][Workspace ne sme biti obrisan!]
+[GRESKA][2025.12.03 19:40][Neuspešno kreiranje elementa!]

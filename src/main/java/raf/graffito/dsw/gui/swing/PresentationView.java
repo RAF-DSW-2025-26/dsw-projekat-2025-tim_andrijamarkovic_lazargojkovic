@@ -5,13 +5,17 @@ import raf.graffito.dsw.core.*;
 import raf.graffito.dsw.decorator.ColorDecorator;
 import raf.graffito.dsw.gui.swing.tree.model.GraffTreeItem;
 import raf.graffito.dsw.model.Project;
+import raf.graffito.dsw.model.Slide;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.*;
 import java.awt.event.ActionEvent;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
 @Getter
 //Pogled na individualne prezentacije unutar TabbedPane-a i azuriranje TabbedPane-a u skladu sa promenama nad prezentacijama
 public class PresentationView extends JTabbedPane implements ISubscriberView {
@@ -66,7 +70,7 @@ public class PresentationView extends JTabbedPane implements ISubscriberView {
     }
 
     private JPanel createPresentationPanel(GraffTreeItem presentationItem) {
-        JPanel panel = new JPanel(new BorderLayout());
+        JPanel panel = new SlideView();
         return panel;
     }
 

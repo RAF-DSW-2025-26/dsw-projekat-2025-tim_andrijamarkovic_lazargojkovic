@@ -12,6 +12,8 @@ import raf.graffito.dsw.model.Project;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -29,12 +31,16 @@ public class ProjectView extends JPanel implements ISubscriberView
         presentationName = new JLabel("Ime Prezentacije: ");
         projectName = new JLabel("Ime Projekta: ");
         author = new JLabel("Autor: ");
+        ThumbView thumbView = new ThumbView();
+        SlideActionView slideActionView = new SlideActionView();
         JPanel panelTop = new JPanel();
         panelTop.setLayout(new BorderLayout());
         panelTop.add(presentationName, BorderLayout.NORTH);
         panelTop.add(projectName, BorderLayout.CENTER);
         panelTop.add(author, BorderLayout.SOUTH);
         add(panelTop, BorderLayout.NORTH);
+        add(thumbView, BorderLayout.CENTER);
+        add(slideActionView, BorderLayout.SOUTH);
     }
 
     public void subscribe(Project project)
