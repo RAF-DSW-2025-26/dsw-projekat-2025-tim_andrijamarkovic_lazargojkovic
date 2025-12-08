@@ -24,17 +24,23 @@ public class SlideView extends JPanel implements ISubscriberView {
     public SlideView() {
         setMinimumSize(new Dimension(400, 400));
         setSize(400,400);
-        slideLabel = new JLabel();
-        slideLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        slideLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        setLayout(new BorderLayout());
+        slideLabel = new JLabel("Slide", SwingConstants.CENTER);
         slideLabel.setFont(new Font(Font.SANS_SERIF,Font.BOLD,20));
-        add(slideLabel);
+        add(slideLabel, BorderLayout.CENTER);
         setBackground(Color.WHITE);
     }
 
     public void setSlide(Slide slide) {
         this.slide = slide;
-        slideLabel.setText("Ovo je slide " + slide.getName());
+        if(slide != null) {
+            slideLabel.setText("Ovo je slide " + slide.getName());
+        }
+        else
+        {
+            slideLabel.setText("Slide");
+        }
+        revalidate();
         repaint();
     }
 /*
@@ -61,18 +67,6 @@ public class SlideView extends JPanel implements ISubscriberView {
         }
     }
 */
-protected void paintComponent(Graphics g) {
-    super.paintComponent(g);
-
-    // Oboji pozadinu
-    g.setColor(Color.WHITE);
-    g.fillRect(0, 0, getWidth(), getHeight());
-
-    // Crtaj ime slajda
-    g.setColor(Color.BLACK);
-    g.setFont(new Font("Arial", Font.BOLD, 24));
-    g.drawString(slide.getName(), 20, 40);
-}
     @Override
     public void update(String message, Project project) {
 

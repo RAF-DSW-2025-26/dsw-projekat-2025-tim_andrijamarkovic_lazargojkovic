@@ -24,12 +24,11 @@ public class PresentationView extends JTabbedPane implements ISubscriberView {
     private HashMap<GraffTreeItem, Color> usedColors = new HashMap<>();//HashMapa koja sadrzi projekte i boje asocirane sa njima
     private Map<Slide,SlideView> slideViews = new HashMap<>();
     private SlideView activeSlideView;
-    private JPanel panel;
+    private Map<Presentation, JPanel> presentationPanels = new HashMap<>();
 
     public PresentationView()
     {
         //Metoda koja prati promene tabova
-        setLayout(new BorderLayout());
         addChangeListener(e ->
         {
             int selectedIndex = getSelectedIndex();
@@ -61,7 +60,7 @@ public class PresentationView extends JTabbedPane implements ISubscriberView {
         //Dodeljuje odabranu boju svim tabovima projekta
         for (GraffTreeItem child : item.getChildren()) {
             if (child.getAllowedChildTypes(child.getGraffNode()).length==1) {
-                panel = createPresentationPanel(child);
+                JPanel panel = createPresentationPanel(child);
                 tabbedPane.addTab(child.toString(), panel);
                 int idx = tabbedPane.indexOfComponent(panel);
                 tabbedPane.setBackgroundAt(idx, decorated.getColor());
@@ -75,6 +74,9 @@ public class PresentationView extends JTabbedPane implements ISubscriberView {
 
     private JPanel createPresentationPanel(GraffTreeItem presentationItem) {
         JPanel panel = new JPanel();
+        Presentation p = (Presentation) presentationItem.getGraffNode();
+        presentationPanels.put(p, panel);
+        panel.setLayout(new BorderLayout());
         return panel;
     }
     //Funkcija koja za svaki slide kreira njemu SlideView-ove
@@ -133,10 +135,12 @@ public class PresentationView extends JTabbedPane implements ISubscriberView {
     }
 
     public void showSlide(Slide slide) {
+        Presentation presentation = (Presentation) slide.getParent();
+        JPanel panel = presentationPanels.get(presentation);
         // ukloni prethodni prikaz
-        if (activeSlideView != null) {
-            remove(activeSlideView);
-        }
+        if(panel==null) return;
+
+        panel.removeAll();
 
         // uzmi view iz mape
         SlideView view = slideViews.get(slide);
@@ -147,13 +151,12 @@ public class PresentationView extends JTabbedPane implements ISubscriberView {
             slideViews.put(slide, view);
         }
         view.setPreferredSize(new Dimension(800,600));
-        revalidate();
+        panel.revalidate();
         // prikaži
         panel.add(view);
-        activeSlideView = view;
 
-        revalidate();
-        repaint();
+        panel.revalidate();
+        panel.repaint();
     }
 
     @Override

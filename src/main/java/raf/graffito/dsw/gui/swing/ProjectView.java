@@ -94,7 +94,7 @@ public class ProjectView extends JPanel implements ISubscriberView
                 author.setText("Autor: ");
                 break;
             case "slideChanged":
-                MainFrame.getInstance().getTabbedPane().getPanel().removeAll();
+                //MainFrame.getInstance().getTabbedPane().getPanel().removeAll();
                 //MainFrame.getInstance().getSplitPane().setL
         }
     }
