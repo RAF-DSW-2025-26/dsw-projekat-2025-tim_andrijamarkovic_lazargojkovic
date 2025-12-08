@@ -24,6 +24,7 @@ public class ProjectView extends JPanel implements ISubscriberView
     private JLabel presentationName;
     private JLabel projectName;
     private JLabel author;
+
     //Instanciranje desnog panela
     public ProjectView()
     {
@@ -31,7 +32,6 @@ public class ProjectView extends JPanel implements ISubscriberView
         presentationName = new JLabel("Ime Prezentacije: ");
         projectName = new JLabel("Ime Projekta: ");
         author = new JLabel("Autor: ");
-        ThumbView thumbView = new ThumbView();
         SlideActionView slideActionView = new SlideActionView();
         JPanel panelTop = new JPanel();
         panelTop.setLayout(new BorderLayout());
@@ -39,7 +39,6 @@ public class ProjectView extends JPanel implements ISubscriberView
         panelTop.add(projectName, BorderLayout.CENTER);
         panelTop.add(author, BorderLayout.SOUTH);
         add(panelTop, BorderLayout.NORTH);
-        add(thumbView, BorderLayout.CENTER);
         add(slideActionView, BorderLayout.SOUTH);
     }
 
@@ -94,6 +93,9 @@ public class ProjectView extends JPanel implements ISubscriberView
                 projectName.setText("Ime Projekta: ");
                 author.setText("Autor: ");
                 break;
+            case "slideChanged":
+                MainFrame.getInstance().getTabbedPane().getPanel().removeAll();
+                //MainFrame.getInstance().getSplitPane().setL
         }
     }
 }

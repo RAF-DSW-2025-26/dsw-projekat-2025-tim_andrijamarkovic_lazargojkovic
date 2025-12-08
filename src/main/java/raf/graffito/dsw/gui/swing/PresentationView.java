@@ -23,11 +23,13 @@ public class PresentationView extends JTabbedPane implements ISubscriberView {
 
     private HashMap<GraffTreeItem, Color> usedColors = new HashMap<>();//HashMapa koja sadrzi projekte i boje asocirane sa njima
     private Map<Slide,SlideView> slideViews = new HashMap<>();
+    private SlideView activeSlideView;
     private JPanel panel;
 
     public PresentationView()
     {
         //Metoda koja prati promene tabova
+        setLayout(new BorderLayout());
         addChangeListener(e ->
         {
             int selectedIndex = getSelectedIndex();
@@ -93,18 +95,6 @@ public class PresentationView extends JTabbedPane implements ISubscriberView {
         }
     }
 
-    private SlideView findFirstView(GraffTreeItem presentationItem)
-    {
-        for(GraffTreeItem child : presentationItem.getChildren())
-        {
-            if(child.getGraffNode() instanceof Slide)
-            {
-                return slideViews.get((Slide)child.getGraffNode());
-            }
-        }
-        return null;
-    }
-
     private boolean isColorUsed(Color color) {
         for (Color c : usedColors.values()) {
             if (c.equals(color)) {
@@ -140,6 +130,30 @@ public class PresentationView extends JTabbedPane implements ISubscriberView {
     {
         ProjectView projectView = MainFrame.getInstance().getProjectView();
         projectView.getPresentationName().setText("Ime Prezentacije: " + title);
+    }
+
+    public void showSlide(Slide slide) {
+        // ukloni prethodni prikaz
+        if (activeSlideView != null) {
+            remove(activeSlideView);
+        }
+
+        // uzmi view iz mape
+        SlideView view = slideViews.get(slide);
+        if (view == null) {
+            // ako nije postojao → kreiraj ga
+            view = new SlideView();
+            view.setSlide(slide);
+            slideViews.put(slide, view);
+        }
+        view.setPreferredSize(new Dimension(800,600));
+        revalidate();
+        // prikaži
+        panel.add(view);
+        activeSlideView = view;
+
+        revalidate();
+        repaint();
     }
 
     @Override

@@ -26,6 +26,8 @@ public class MainFrame extends JFrame {
     private JToolBar toolBar;
     private GraffTree graffTree;
     private ProjectView projectView;
+    private SlideView slideView;
+    private JSplitPane splitPane;
 
 
     public MainFrame() {
@@ -78,14 +80,17 @@ public class MainFrame extends JFrame {
 
         projectView = new ProjectView();
         tabbedPane = new PresentationView();
+        slideView = new SlideView();
 
-        JSplitPane split1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,scroll,desktop);
-        split1.setDividerLocation(500);
-        split1.setOneTouchExpandable(true);
-        split1.setLeftComponent(tabbedPane);
-        split1.setRightComponent(projectView);
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,scroll,desktop);
+        splitPane.setDividerLocation(500);
+        splitPane.setOneTouchExpandable(true);
+        splitPane.setLeftComponent(tabbedPane);
+        splitPane.setRightComponent(projectView);
+
+        splitPane.getLeftComponent().setMinimumSize(new Dimension(500,500));
 
         split.setLeftComponent(scroll);
-        split.setRightComponent(split1);
+        split.setRightComponent(splitPane);
     }
 }
