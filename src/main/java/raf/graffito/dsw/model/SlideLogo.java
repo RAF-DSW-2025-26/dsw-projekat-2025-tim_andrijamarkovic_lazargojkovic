@@ -11,8 +11,8 @@ import java.awt.*;
 
 public class SlideLogo extends GraffSlideElement implements Cloneable {
 
-    public SlideLogo(String name, GraffNode parent, int x, int y, int width, int height, double rotationAngle) {
-        super(name, parent, x, y, width, height, rotationAngle);
+    public SlideLogo(String name, GraffNode parent, int x, int y, int width, int height, double rotationAngle, double rotateRatio) {
+        super(name, parent, x, y, width, height, rotationAngle,rotateRatio);
     }
 
     @Override
@@ -27,6 +27,6 @@ public class SlideLogo extends GraffSlideElement implements Cloneable {
 
     @Override
     public GraffSlideElement clone() {
-        return new SlideLogo(getName(), getParent(), getX(), getY(), getWidth(), getHeight(), getRotationAngle());
+        return new SlideLogo(getName(), getParent(), getX(), getY(), getWidth(), getHeight(), getRotationAngle(), getRotateRatio());
     }
 }

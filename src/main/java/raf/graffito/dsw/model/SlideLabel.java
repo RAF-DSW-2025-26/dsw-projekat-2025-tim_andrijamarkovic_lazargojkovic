@@ -13,8 +13,8 @@ public class SlideLabel extends GraffSlideElement implements Cloneable {
 
     private String text;
 
-    public SlideLabel(String name, GraffNode parent, int x, int y, int width, int height, double rotationAngle, String text) {
-        super(name, parent, x, y, width, height, rotationAngle);
+    public SlideLabel(String name, GraffNode parent, int x, int y, int width, int height, double rotationAngle, double rotateRatio, String text) {
+        super(name, parent, x, y, width, height, rotationAngle,rotateRatio);
         this.text = text;
     }
 
@@ -31,6 +31,6 @@ public class SlideLabel extends GraffSlideElement implements Cloneable {
 
     @Override
     public GraffSlideElement clone() {
-        return new SlideLabel(getName(), getParent(), getX(), getY(), getWidth(), getHeight(), getRotationAngle(), getText());
+        return new SlideLabel(getName(), getParent(), getX(), getY(), getWidth(), getHeight(), getRotationAngle(), getRotateRatio(), text);
     }
 }

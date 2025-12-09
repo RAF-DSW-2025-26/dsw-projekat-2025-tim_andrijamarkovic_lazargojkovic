@@ -14,14 +14,16 @@ public abstract class GraffSlideElement extends GraffLeaf{
     private int width;
     private int height;
     private double rotationAngle;
+    private double rotateRatio;
 
-    public GraffSlideElement(String name, GraffNode parent, int x,int y, int width, int height, double rotationAngle) {
+    public GraffSlideElement(String name, GraffNode parent, int x,int y, int width, int height, double rotationAngle, double rotateRatio) {
         super(name, parent);
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.rotationAngle = rotationAngle;
+        this.rotateRatio = rotateRatio;
     }
 
     public abstract void draw(Graphics2D g);

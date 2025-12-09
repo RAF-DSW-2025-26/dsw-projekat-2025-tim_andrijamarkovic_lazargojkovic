@@ -14,8 +14,8 @@ public class SlidePicture extends GraffSlideElement implements Cloneable {
 
     private Image image;
 
-    public SlidePicture(String name, GraffNode parent, int x, int y, int width, int height, double rotationAngle, Image image) {
-        super(name, parent, x, y, width, height, rotationAngle);
+    public SlidePicture(String name, GraffNode parent, int x, int y, int width, int height, double rotationAngle, double rotateRatio, Image image) {
+        super(name, parent, x, y, width, height, rotationAngle,rotateRatio);
         this.image = image;
     }
 
@@ -31,6 +31,6 @@ public class SlidePicture extends GraffSlideElement implements Cloneable {
 
     @Override
     public GraffSlideElement clone() {
-        return new SlidePicture(getName(), getParent(), getX(), getY(), getWidth(), getHeight(), getRotationAngle(), getImage());
+        return new SlidePicture(getName(), getParent(), getX(), getY(), getWidth(), getHeight(), getRotationAngle(), getRotationAngle(), getImage());
     }
 }
