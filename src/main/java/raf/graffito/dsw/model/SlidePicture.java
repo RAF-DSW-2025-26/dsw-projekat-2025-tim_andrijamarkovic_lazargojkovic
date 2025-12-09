@@ -2,6 +2,7 @@ package raf.graffito.dsw.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import raf.graffito.dsw.core.Cloneable;
 import raf.graffito.dsw.core.GraffNode;
 import raf.graffito.dsw.core.GraffSlideElement;
 
@@ -9,13 +10,18 @@ import java.awt.*;
 @Getter
 @Setter
 
-public class SlidePicture extends GraffSlideElement {
+public class SlidePicture extends GraffSlideElement implements Cloneable {
 
     private Image image;
 
-    public SlidePicture(Image image, String name, GraffNode parent, Dimension dimension, Point location, double rotationAngle) {
-        super(name, parent, dimension, location, rotationAngle);
-        this.image=image;
+    public SlidePicture(String name, GraffNode parent, int x, int y, int width, int height, double rotationAngle, Image image) {
+        super(name, parent, x, y, width, height, rotationAngle);
+        this.image = image;
+    }
+
+    @Override
+    public void draw(Graphics2D g) {
+        g.drawImage(image,getX(),getY(),getWidth(),getHeight(),null);
     }
 
     @Override
@@ -25,6 +31,6 @@ public class SlidePicture extends GraffSlideElement {
 
     @Override
     public GraffSlideElement clone() {
-        return new SlidePicture(image, getName(), getParent(), getDimension(), getLocation(), getRotationAngle());
+        return new SlidePicture(getName(), getParent(), getX(), getY(), getWidth(), getHeight(), getRotationAngle(), getImage());
     }
 }

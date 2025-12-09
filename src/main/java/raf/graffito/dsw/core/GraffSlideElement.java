@@ -9,21 +9,25 @@ import java.awt.*;
 @Setter
 public abstract class GraffSlideElement extends GraffLeaf{
 
-    private Dimension dimension;
-    private Point location;
+    private int x;
+    private int y;
+    private int width;
+    private int height;
     private double rotationAngle;
 
-    public GraffSlideElement(String name, GraffNode parent, Dimension dimension, Point location, double rotationAngle) {
+    public GraffSlideElement(String name, GraffNode parent, int x,int y, int width, int height, double rotationAngle) {
         super(name, parent);
-        this.dimension = dimension;
-        this.location = location;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
         this.rotationAngle = rotationAngle;
     }
+
+    public abstract void draw(Graphics2D g);
 
     @Override
     public GraffNode findByName(String name) {
         return super.findByName(name);
     }
-
-
 }

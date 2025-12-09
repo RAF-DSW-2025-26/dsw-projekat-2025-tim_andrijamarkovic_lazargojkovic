@@ -9,9 +9,15 @@ import java.awt.*;
 @Getter
 @Setter
 
-public class SlideLogo extends GraffSlideElement {
-    public SlideLogo(String name, GraffNode parent, Dimension dimension, Point location, double rotationAngle) {
-        super(name, parent, dimension, location, rotationAngle);
+public class SlideLogo extends GraffSlideElement implements Cloneable {
+
+    public SlideLogo(String name, GraffNode parent, int x, int y, int width, int height, double rotationAngle) {
+        super(name, parent, x, y, width, height, rotationAngle);
+    }
+
+    @Override
+    public void draw(Graphics2D g) {
+        SlideLogoPainter.paint(this, g);
     }
 
     @Override
@@ -21,6 +27,6 @@ public class SlideLogo extends GraffSlideElement {
 
     @Override
     public GraffSlideElement clone() {
-        return new SlideLogo(getName(), getParent(), getDimension(), getLocation(), getRotationAngle());
+        return new SlideLogo(getName(), getParent(), getX(), getY(), getWidth(), getHeight(), getRotationAngle());
     }
 }
