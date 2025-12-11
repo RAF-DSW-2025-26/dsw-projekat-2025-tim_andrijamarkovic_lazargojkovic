@@ -10,4 +10,8 @@ public class ActionManager
     NewNodeAction newNodeAction = new NewNodeAction();
     RemovalAction removalAction = new RemovalAction();
     RenameAction renameAction = new RenameAction();
+    AddTextAction addTextAction = new AddTextAction();
+    AddLogoAction addLogoAction = new AddLogoAction();
+    SelectAction selectAction = new SelectAction();
+    MoveAction moveAction = new MoveAction();
 }

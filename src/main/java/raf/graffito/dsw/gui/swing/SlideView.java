@@ -5,6 +5,7 @@ import lombok.Setter;
 import raf.graffito.dsw.core.GraffNode;
 import raf.graffito.dsw.core.GraffSlideElement;
 import raf.graffito.dsw.core.ISubscriberView;
+import raf.graffito.dsw.core.ResizeDirection;
 import raf.graffito.dsw.gui.swing.tree.model.GraffTreeItem;
 import raf.graffito.dsw.model.*;
 import raf.graffito.dsw.state.StateManager;
@@ -21,9 +22,10 @@ import java.util.List;
 public class SlideView extends JPanel implements ISubscriberView, MouseListener, MouseMotionListener, MouseWheelListener {
 
     private Slide slide;
-    private StateManager stateManager;
-    private List<GraffSlideElement> selected = new ArrayList<>();
+    private GraffSlideElement selectedElement;
+    private List<GraffSlideElement> selectedList = new ArrayList<>();
     private Rectangle selectionRectangle;
+    private static final int EDGE = 6;
 
     public SlideView() {
         setMinimumSize(new Dimension(400, 400));
@@ -41,33 +43,92 @@ public class SlideView extends JPanel implements ISubscriberView, MouseListener,
     }
 
     @Override
+    protected void paintComponent(Graphics g)
+    {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        slide = getSlideForView(this);
+        for(GraffNode element : slide.getChildren())
+        {
+            if(element instanceof GraffSlideElement)
+            {
+                ((GraffSlideElement) element).draw(g2d);
+            }
+            if(selectedElement != null)
+            {
+                Stroke old = g2d.getStroke(); // Stroke crta outlines objekta, ovo čuva stari stroke (da ne bi ostali elementi bili iscrtanni)
+                g2d.setStroke(new BasicStroke(2));
+                g2d.setColor(Color.BLACK);
+                g2d.drawRect(selectedElement.getX(), selectedElement.getY(), selectedElement.getWidth(), selectedElement.getHeight()); //crtanmje pravougaonika oko elementa
+                g2d.setStroke(old);
+            }
+        }
+    }
+
+    private Slide getSlideForView(SlideView slideView)
+    {
+        for(Map.Entry<Slide,SlideView> entry : MainFrame.getInstance().getTabbedPane().getSlideViews().entrySet())
+        {
+            if(entry.getValue() == slideView)
+            {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
+    public ResizeDirection findResizeDirection(GraffSlideElement slideElement, int mx, int my)
+    {
+        int x = slideElement.getX();
+        int y = slideElement.getY();
+        int w = slideElement.getWidth();
+        int h = slideElement.getHeight();
+
+        boolean top = Math.abs(my-y) <= EDGE;
+        boolean bottom = Math.abs(my-(y+h)) <= EDGE;
+        boolean left = Math.abs(mx-x) <= EDGE;
+        boolean right = Math.abs(mx-(x+w)) <= EDGE;
+        //Na osnovu detektovane pozicije miša odredjuje u kom smeru će da se menja veličina
+        if(top) return ResizeDirection.NORTH;
+        if(bottom) return ResizeDirection.SOUTH;
+        if(left) return ResizeDirection.WEST;
+        if(right) return ResizeDirection.EAST;
+        if(top && left) return ResizeDirection.NORTH_WEST;
+        if(top && right) return ResizeDirection.NORTH_EAST;
+        if(bottom && left) return ResizeDirection.SOUTH_WEST;
+        if(bottom && right) return ResizeDirection.SOUTH_EAST;
+
+        return ResizeDirection.NONE;
+    }
+
+    @Override
     public void mouseClicked(MouseEvent e) {
-        stateManager.getCurrentState().mouseClicked(e);
+        MainFrame.getInstance().getStateManager().getCurrentState().mouseClicked(e);
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        stateManager.getCurrentState().mousePressed(e);
+        MainFrame.getInstance().getStateManager().getCurrentState().mousePressed(e);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        stateManager.getCurrentState().mouseReleased(e);
+        MainFrame.getInstance().getStateManager().getCurrentState().mouseReleased(e);
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        stateManager.getCurrentState().mouseDragged(e);
+        MainFrame.getInstance().getStateManager().getCurrentState().mouseDragged(e);
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        stateManager.getCurrentState().mouseMoved(e);
+        MainFrame.getInstance().getStateManager().getCurrentState().mouseMoved(e);
     }
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
-        stateManager.getCurrentState().mouseWheelMoved(e);
+        MainFrame.getInstance().getStateManager().getCurrentState().mouseWheelMoved(e);
     }
 
     @Override

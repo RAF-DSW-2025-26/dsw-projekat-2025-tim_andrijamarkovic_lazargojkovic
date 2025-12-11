@@ -9,6 +9,7 @@ import raf.graffito.dsw.core.Type;
 import raf.graffito.dsw.gui.swing.tree.GraffTree;
 import raf.graffito.dsw.gui.swing.tree.GraffTreeImplementation;
 import raf.graffito.dsw.model.*;
+import raf.graffito.dsw.state.StateManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,6 +29,7 @@ public class MainFrame extends JFrame {
     private ProjectView projectView;
     private SlideView slideView;
     private JSplitPane splitPane;
+    private StateManager stateManager;
 
 
     public MainFrame() {
@@ -81,6 +83,7 @@ public class MainFrame extends JFrame {
         projectView = new ProjectView();
         tabbedPane = new PresentationView();
         slideView = new SlideView();
+        stateManager = new StateManager();
 
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,scroll,desktop);
         splitPane.setDividerLocation(500);

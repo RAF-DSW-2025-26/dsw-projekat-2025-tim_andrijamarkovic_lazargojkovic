@@ -9,7 +9,6 @@ import raf.graffito.dsw.core.GraffSlideElement;
 import java.awt.*;
 @Getter
 @Setter
-
 public class SlidePicture extends GraffSlideElement implements Cloneable {
 
     private Image image;

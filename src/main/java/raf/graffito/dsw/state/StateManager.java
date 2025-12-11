@@ -6,7 +6,9 @@ import raf.graffito.dsw.state.concrete.*;
 public class StateManager
 {
     private State currentState;
-    private AddState addState;
+    private AddImageState addImageState;
+    private AddLogoState addLogoState;
+    private AddTextState addTextState;
     private SelectState selectState;
     private MoveState moveState;
     private ResizeState resizeState;
@@ -14,7 +16,9 @@ public class StateManager
 
     public StateManager()
     {
-        addState = new AddState();
+        addImageState = new AddImageState();
+        addLogoState = new AddLogoState();
+        addTextState = new AddTextState();
         selectState = new SelectState();
         moveState = new MoveState();
         resizeState = new ResizeState();
@@ -22,27 +26,37 @@ public class StateManager
         currentState = selectState;
     }
 
-    public void setAddState(AddState addState)
+    public void setAddImageState()
     {
-        currentState = addState;
+        currentState = addImageState;
     }
 
-    public void setSelectState(SelectState selectState)
+    public void setAddLogoState()
+    {
+        currentState = addLogoState;
+    }
+
+    public void setAddTextState()
+    {
+        currentState = addTextState;
+    }
+
+    public void setSelectState()
     {
         currentState = selectState;
     }
 
-    public void setMoveState(MoveState moveState)
+    public void setMoveState()
     {
         currentState = moveState;
     }
 
-    public void setResizeState(ResizeState resizeState)
+    public void setResizeState()
     {
         currentState = resizeState;
     }
 
-    public void setZoomState(ZoomState zoomState)
+    public void setZoomState()
     {
         currentState = zoomState;
     }

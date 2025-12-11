@@ -13,8 +13,8 @@ public abstract class GraffSlideElement extends GraffLeaf{
     private int y;
     private int width;
     private int height;
-    private double rotationAngle;
-    private double rotateRatio;
+    private double rotationAngle; //trenutno se ne koristi
+    private double rotateRatio; // trenutno se ne koristi
 
     public GraffSlideElement(String name, GraffNode parent, int x,int y, int width, int height, double rotationAngle, double rotateRatio) {
         super(name, parent);

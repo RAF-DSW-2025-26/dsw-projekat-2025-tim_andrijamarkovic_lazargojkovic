@@ -8,7 +8,6 @@ import raf.graffito.dsw.core.GraffSlideElement;
 import java.awt.*;
 @Getter
 @Setter
-
 public class SlideLogo extends GraffSlideElement implements Cloneable {
 
     public SlideLogo(String name, GraffNode parent, int x, int y, int width, int height, double rotationAngle, double rotateRatio) {

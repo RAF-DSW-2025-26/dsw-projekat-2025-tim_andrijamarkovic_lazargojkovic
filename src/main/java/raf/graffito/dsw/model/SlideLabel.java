@@ -20,7 +20,12 @@ public class SlideLabel extends GraffSlideElement implements Cloneable {
 
     @Override
     public void draw(Graphics2D g) {
-        g.drawString(text,getX(),getY());
+        FontMetrics fm = g.getFontMetrics();
+        int textWidth = fm.stringWidth(text);
+        int textHeight = fm.getHeight();
+        setWidth(textWidth);
+        setHeight(textHeight);
+        g.drawString(text,getX(),getY()+fm.getAscent());
     }
 
     @Override
