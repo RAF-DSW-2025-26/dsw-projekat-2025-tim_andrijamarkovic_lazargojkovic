@@ -9,15 +9,15 @@ import raf.graffito.dsw.model.Slide;
 import raf.graffito.dsw.state.State;
 import raf.graffito.dsw.state.StateManager;
 
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.util.List;
 
 public class SelectState implements State
 {
-    private Slide slide = MainFrame.getInstance().getSlideView().getSlide();
-    private SlideView slideView = MainFrame.getInstance().getSlideView();
-    private StateManager stateManager = MainFrame.getInstance().getStateManager();
+    private Slide slide;
+    private SlideView slideView;
     private GraffSlideElement selectedElement = null;
 
     @Override
@@ -25,22 +25,21 @@ public class SelectState implements State
     {
         slide = (Slide) MainFrame.getInstance().getGraffTree().getSelectedNode().getGraffNode();
         slideView = MainFrame.getInstance().getTabbedPane().getSlideViews().get(slide);
-        int x = e.getX();
-        int y = e.getY();
+        Point p = slideView.inverseTransform(e);
+        int x = p.x;
+        int y = p.y;
         GraffSlideElement prevElement = selectedElement;
         selectedElement = findElementAt(x, y);
         if(selectedElement == prevElement)
         {
-            stateManager = MainFrame.getInstance().getStateManager();
-            stateManager.setMoveState();
+            MainFrame.getInstance().getStateManager().setMoveState();
         }
         slideView.setSelectedElement(selectedElement); //čuvanje trenutno selektovanog elementa
         ResizeDirection dir = slideView.findResizeDirection(selectedElement,e.getX(),e.getY());
         if(dir != null)
         {
-            stateManager = MainFrame.getInstance().getStateManager();
-            stateManager.getResizeState().startResize(selectedElement,dir,e.getX(),e.getY());
-            stateManager.setResizeState();
+            MainFrame.getInstance().getStateManager().getResizeState().startResize(selectedElement,dir,e.getX(),e.getY());
+            MainFrame.getInstance().getStateManager().setResizeState();
         }
         slideView.repaint();
     }
@@ -77,5 +76,5 @@ public class SelectState implements State
 
     @Override public void mouseClicked(MouseEvent e) {}
     @Override public void mouseMoved(MouseEvent e) {}
-    @Override public void mouseWheelMoved(MouseWheelEvent e) {}
+    @Override public void mouseWheelMoved(MouseWheelEvent e) {MainFrame.getInstance().getStateManager().setZoomState();}
 }

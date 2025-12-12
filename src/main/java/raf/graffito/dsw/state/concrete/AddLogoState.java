@@ -7,25 +7,26 @@ import raf.graffito.dsw.model.SlideLogo;
 import raf.graffito.dsw.state.State;
 import raf.graffito.dsw.state.StateManager;
 
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
 public class AddLogoState implements State
 {
 
-    private Slide slide = MainFrame.getInstance().getSlideView().getSlide();
-    private SlideView slideView = MainFrame.getInstance().getSlideView();
+    private Slide slide;
+    private SlideView slideView;
 
     @Override
     public void mouseClicked(MouseEvent e)
     {
         slide = (Slide) MainFrame.getInstance().getGraffTree().getSelectedNode().getGraffNode();
         slideView = MainFrame.getInstance().getTabbedPane().getSlideViews().get(slide);
-        StateManager stateManager = MainFrame.getInstance().getStateManager();
-        SlideLogo logo = new SlideLogo("Logo" + slide.getChildren().size(),slide,e.getX(),e.getY(),100,100,0,0);
+        Point p = slideView.inverseTransform(e);
+        SlideLogo logo = new SlideLogo("Logo" + slide.getChildren().size(),slide,p.x,p.y,100,100,0,0);
         slide.getChildren().add(logo);
         slideView.repaint();
-        stateManager.setSelectState();
+        MainFrame.getInstance().getStateManager().setSelectState();
     }
 
     @Override public void mousePressed(MouseEvent e) {}

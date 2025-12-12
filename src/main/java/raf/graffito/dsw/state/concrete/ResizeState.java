@@ -8,14 +8,14 @@ import raf.graffito.dsw.model.Slide;
 import raf.graffito.dsw.state.State;
 import raf.graffito.dsw.state.StateManager;
 
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
 public class ResizeState implements State
 {
-    private Slide slide = MainFrame.getInstance().getSlideView().getSlide();
-    private SlideView slideView = MainFrame.getInstance().getSlideView();
-    private StateManager stateManager = MainFrame.getInstance().getStateManager();
+    private Slide slide;
+    private SlideView slideView;
     private GraffSlideElement selectedElement;
     private ResizeDirection selectedDirection;
 
@@ -39,9 +39,10 @@ public class ResizeState implements State
     {
         slide = (Slide) MainFrame.getInstance().getGraffTree().getSelectedNode().getGraffNode();
         slideView = MainFrame.getInstance().getTabbedPane().getSlideViews().get(slide);
+        Point p = slideView.inverseTransform(e);
         if(selectedElement == null) return;
-        int dx = e.getX() - startX;
-        int dy = e.getY() - startY;
+        int dx = p.x - startX;
+        int dy = p.y - startY;
         int newX = startElemX;
         int newY = startElemY;
         int newW = startW;
@@ -88,8 +89,7 @@ public class ResizeState implements State
     {
         selectedElement = null;
         selectedDirection = ResizeDirection.NONE;
-        stateManager = MainFrame.getInstance().getStateManager();
-        stateManager.setSelectState();
+        MainFrame.getInstance().getStateManager().setSelectState();
     }
 
     @Override public void mousePressed(MouseEvent e) {}

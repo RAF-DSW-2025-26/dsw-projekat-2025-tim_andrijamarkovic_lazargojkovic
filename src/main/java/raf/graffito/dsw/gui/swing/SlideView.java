@@ -2,10 +2,7 @@ package raf.graffito.dsw.gui.swing;
 
 import lombok.Getter;
 import lombok.Setter;
-import raf.graffito.dsw.core.GraffNode;
-import raf.graffito.dsw.core.GraffSlideElement;
-import raf.graffito.dsw.core.ISubscriberView;
-import raf.graffito.dsw.core.ResizeDirection;
+import raf.graffito.dsw.core.*;
 import raf.graffito.dsw.gui.swing.tree.model.GraffTreeItem;
 import raf.graffito.dsw.model.*;
 import raf.graffito.dsw.state.StateManager;
@@ -13,6 +10,10 @@ import raf.graffito.dsw.state.StateManager;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Point2D;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,12 @@ public class SlideView extends JPanel implements ISubscriberView, MouseListener,
     private GraffSlideElement selectedElement;
     private List<GraffSlideElement> selectedList = new ArrayList<>();
     private Rectangle selectionRectangle;
+    private double zoom = 1.0;
+    private AffineTransform transform = new AffineTransform();
+
     private static final int EDGE = 6;
+    private final double MIN_ZOOM = 0.2;
+    private final double MAX_ZOOM = 3.0;
 
     public SlideView() {
         setMinimumSize(new Dimension(400, 400));
@@ -48,6 +54,9 @@ public class SlideView extends JPanel implements ISubscriberView, MouseListener,
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         slide = getSlideForView(this);
+        transform = new AffineTransform();
+        transform.scale(zoom, zoom);
+        g2d.transform(transform);
         for(GraffNode element : slide.getChildren())
         {
             if(element instanceof GraffSlideElement)
@@ -99,6 +108,39 @@ public class SlideView extends JPanel implements ISubscriberView, MouseListener,
         if(bottom && right) return ResizeDirection.SOUTH_EAST;
 
         return ResizeDirection.NONE;
+    }
+
+    public Point inverseTransform(MouseEvent e)
+    {
+        try
+        {
+            AffineTransform inverse = transform.createInverse();
+            Point2D point = inverse.transform(new Point2D.Double(e.getX(), e.getY()), null);
+            return new Point((int) point.getX(), (int) point.getY());
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public void deleteSelectedElement()
+    {
+        Logger cLogger = ApplicationFramework.getInstance().getLoggerFactory().createLogger("console");
+        Logger fLogger = ApplicationFramework.getInstance().getLoggerFactory().createLogger("file");
+        ApplicationFramework.getInstance().getGenerator().addSubscriber(cLogger);
+        ApplicationFramework.getInstance().getGenerator().addSubscriber(fLogger);
+        if(selectedElement != null)
+        {
+            this.getSlideForView(this).removeElement(selectedElement);
+            selectedElement = null;
+            repaint();
+        }
+        else
+        {
+            String message = ApplicationFramework.getInstance().getGenerator().createMessage("Nijedan element nije selektovan!", Type.OBAVESTENJE, LocalDateTime.now());
+            ApplicationFramework.getInstance().getGenerator().notifySubscribers(message);
+            ApplicationFramework.getInstance().getGenerator().removeSubscriber(cLogger);
+            ApplicationFramework.getInstance().getGenerator().removeSubscriber(fLogger);
+        }
     }
 
     @Override

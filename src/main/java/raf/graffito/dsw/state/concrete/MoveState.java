@@ -7,16 +7,16 @@ import raf.graffito.dsw.model.Slide;
 import raf.graffito.dsw.state.State;
 import raf.graffito.dsw.state.StateManager;
 
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
 public class MoveState implements State
 
 {
-    private Slide slide = MainFrame.getInstance().getSlideView().getSlide();
-    private SlideView slideView = MainFrame.getInstance().getSlideView();
-    private StateManager stateManager = MainFrame.getInstance().getStateManager();
-    private GraffSlideElement selectedElement = slideView.getSelectedElement();
+    private Slide slide;
+    private SlideView slideView;
+    private GraffSlideElement selectedElement = MainFrame.getInstance().getSlideView().getSelectedElement();
     private int offsetX, offsetY;
 
     @Override
@@ -32,19 +32,19 @@ public class MoveState implements State
     {
         slide = (Slide) MainFrame.getInstance().getGraffTree().getSelectedNode().getGraffNode();
         slideView = MainFrame.getInstance().getTabbedPane().getSlideViews().get(slide);
+        Point p = slideView.inverseTransform(e);
         selectedElement = slideView.getSelectedElement();
         if(selectedElement == null) return;
-        selectedElement.setX(e.getX() - offsetX);
-        selectedElement.setY(e.getY() - offsetY);
+        selectedElement.setX(p.x - offsetX);
+        selectedElement.setY(p.y - offsetY);
         slideView.repaint();
     }
 
     @Override
     public void mouseReleased(MouseEvent e)
     {
-        stateManager = MainFrame.getInstance().getStateManager();
         selectedElement = null;
-        stateManager.setSelectState();
+        MainFrame.getInstance().getStateManager().setSelectState();
     }
 
     @Override public void mouseClicked(MouseEvent e) {}

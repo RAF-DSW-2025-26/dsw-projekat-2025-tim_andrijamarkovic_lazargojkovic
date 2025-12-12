@@ -14,4 +14,5 @@ public class ActionManager
     AddLogoAction addLogoAction = new AddLogoAction();
     SelectAction selectAction = new SelectAction();
     MoveAction moveAction = new MoveAction();
+    DeleteAction deleteAction = new DeleteAction();
 }

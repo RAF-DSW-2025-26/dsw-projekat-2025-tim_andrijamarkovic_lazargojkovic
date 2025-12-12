@@ -12,21 +12,22 @@ import raf.graffito.dsw.state.State;
 import raf.graffito.dsw.state.StateManager;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.time.LocalDateTime;
 
 public class AddTextState implements State
 {
-    private Slide slide = MainFrame.getInstance().getSlideView().getSlide();
-    private SlideView slideView = MainFrame.getInstance().getSlideView();
+    private Slide slide;
+    private SlideView slideView;
 
     @Override
     public void mouseClicked(MouseEvent e)
     {
         slide = (Slide) MainFrame.getInstance().getGraffTree().getSelectedNode().getGraffNode();
         slideView = MainFrame.getInstance().getTabbedPane().getSlideViews().get(slide);
-        StateManager stateManager = MainFrame.getInstance().getStateManager();
+        Point p = slideView.inverseTransform(e);
         Logger cLogger = ApplicationFramework.getInstance().getLoggerFactory().createLogger("console");
         Logger fLogger = ApplicationFramework.getInstance().getLoggerFactory().createLogger("file");
         ApplicationFramework.getInstance().getGenerator().addSubscriber(cLogger);
@@ -34,10 +35,10 @@ public class AddTextState implements State
         String text = JOptionPane.showInputDialog(slideView, "Unesite tekst:");
         if(text != null)
         {
-            SlideLabel label = new SlideLabel("Label" + slide.getChildren().size(), slide, e.getX(), e.getY(), 150, 40, 0,0, text);
+            SlideLabel label = new SlideLabel("Label" + slide.getChildren().size(), slide, p.x, p.y, 150, 40, 0,0, text);
             slide.getChildren().add(label);
             slideView.repaint();
-            stateManager.setSelectState();
+            MainFrame.getInstance().getStateManager().setSelectState();
         }
         else
         {
