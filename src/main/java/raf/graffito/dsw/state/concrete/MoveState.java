@@ -35,6 +35,7 @@ public class MoveState implements State
         Point p = slideView.inverseTransform(e);
         selectedElement = slideView.getSelectedElement();
         if(selectedElement == null) return;
+        //postavljanje nove pozicije elementa na osnovu pomeranja miša
         selectedElement.setX(p.x - offsetX);
         selectedElement.setY(p.y - offsetY);
         slideView.repaint();

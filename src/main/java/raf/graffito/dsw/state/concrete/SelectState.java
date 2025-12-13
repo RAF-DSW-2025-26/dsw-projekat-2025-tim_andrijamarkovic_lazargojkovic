@@ -19,7 +19,10 @@ public class SelectState implements State
     private Slide slide;
     private SlideView slideView;
     private GraffSlideElement selectedElement = null;
+    private Point startPoint;
+    private boolean dragging = false;
 
+    //na klik miša na element(e) na slideview, taj element(i) se selektuje/u
     @Override
     public void mousePressed(MouseEvent e)
     {
@@ -28,29 +31,77 @@ public class SelectState implements State
         Point p = slideView.inverseTransform(e);
         int x = p.x;
         int y = p.y;
-        GraffSlideElement prevElement = selectedElement;
-        selectedElement = findElementAt(x, y);
-        if(selectedElement == prevElement)
+        GraffSlideElement prevElement = selectedElement; //pamćenje prethodno selektovanog elementa
+        GraffSlideElement clickedElement = findElementAt(x, y);
+        if(clickedElement != null)
         {
-            MainFrame.getInstance().getStateManager().setMoveState();
+            //postavljanje kliknutog elementa kao selektovanog
+            selectedElement = clickedElement;
+            slideView.getSelectedList().clear();
+            slideView.setSelectedElement(clickedElement);
+            ResizeDirection dir = slideView.findResizeDirection(clickedElement,e.getX(),e.getY()); //provera da li je klik na ivicu elementa
+            if(dir != null)
+            {
+                //ukoliko jeste, prelazak u resize state
+                MainFrame.getInstance().getStateManager().getResizeState().startResize(clickedElement,dir,e.getX(),e.getY());
+                MainFrame.getInstance().getStateManager().setResizeState();
+                slideView.repaint();
+                return;
+            }
+            if(clickedElement == prevElement)
+            {
+                //ukoliko je ponovo kliknut već selektovan element, prelazi se u move state
+                MainFrame.getInstance().getStateManager().setMoveState();
+            }
+            slideView.repaint();
+            return;
         }
-        slideView.setSelectedElement(selectedElement); //čuvanje trenutno selektovanog elementa
-        ResizeDirection dir = slideView.findResizeDirection(selectedElement,e.getX(),e.getY());
-        if(dir != null)
+        //ukoliko ništa nije kliknuto, briše se selekcija
+        selectedElement = null;
+        slideView.setSelectedElement(null);
+        slideView.getSelectedList().clear();
+        //selektovanje pravougaonika za biranje više elemenata (trenutno ne radi)
+        slideView.startSelectionRectangle(e.getPoint());
+        slideView.repaint();
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e)
+    {
+        if(!dragging) return;
+        dragging = false;
+        Rectangle selRect = slideView.getSelectionRectangle();
+        slideView.setSelectionRectangle(null);
+        if(selRect == null) return;
+        slideView.setSelectedElement(null);
+        slideView.getSelectedList().clear();
+        for(GraffNode el : slide.getChildren())
         {
-            MainFrame.getInstance().getStateManager().getResizeState().startResize(selectedElement,dir,e.getX(),e.getY());
-            MainFrame.getInstance().getStateManager().setResizeState();
+            if(el instanceof GraffSlideElement)
+            {
+                Rectangle elRect = new Rectangle((int) (((GraffSlideElement) el).getX()* slideView.getZoom()),
+                        (int) (((GraffSlideElement) el).getY()* slideView.getZoom()),
+                        (int) (((GraffSlideElement) el).getWidth()* slideView.getZoom()),
+                        (int) (((GraffSlideElement) el).getHeight()* slideView.getZoom()));
+                if(selRect.intersects(elRect))
+                {
+                    slideView.getSelectedList().add((GraffSlideElement) el);
+                }
+            }
         }
         slideView.repaint();
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseDragged(MouseEvent e) {
+    public void mouseDragged(MouseEvent e)
+    {
+        if(!dragging) return;
+        int x = Math.min(e.getX(), startPoint.x);
+        int y = Math.min(e.getY(), startPoint.y);
+        int w = Math.abs(startPoint.x - e.getX());
+        int h = Math.abs(startPoint.y - e.getY());
+        slideView.setSelectionRectangle(new Rectangle(x, y, w, h));
+        slideView.repaint();
 
     }
 

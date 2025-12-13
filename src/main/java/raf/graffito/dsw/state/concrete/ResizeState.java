@@ -23,6 +23,7 @@ public class ResizeState implements State
     private int startW, startH;
     private int startElemX, startElemY;
 
+    //počinje resize tako što zapamti sve podatke elementa kojem se menja veličina
     public void startResize(GraffSlideElement slideElement, ResizeDirection resizeDirection, int mx, int my)
     {
         this.selectedElement = slideElement;
@@ -34,6 +35,7 @@ public class ResizeState implements State
         startElemX = slideElement.getX();
         startElemY = slideElement.getY();
     }
+
     @Override
     public void mouseDragged(MouseEvent e)
     {
@@ -41,42 +43,53 @@ public class ResizeState implements State
         slideView = MainFrame.getInstance().getTabbedPane().getSlideViews().get(slide);
         Point p = slideView.inverseTransform(e);
         if(selectedElement == null) return;
+        //razlika trenutne pozicije miša u odnosu na početne
         int dx = p.x - startX;
         int dy = p.y - startY;
+        //nove vrednosti elementa, trenutno stavljene na početne
         int newX = startElemX;
         int newY = startElemY;
         int newW = startW;
         int newH = startH;
+        //promena dimenzija u zavisnosti od smera
         switch(selectedDirection)
         {
             case SOUTH:
                 newH = Math.max(10, startH+dy);
+                break;
             case NORTH:
                 newY = startElemY + dy;
                 newH = Math.max(10, startH-dy);
+                break;
             case WEST:
                 newX = startElemX + dx;
                 newW = Math.max(10, startW-dx);
+                break;
             case EAST:
                 newW = Math.max(10, startW+dx);
+                break;
             case NORTH_EAST:
                 newY = startElemY + dy;
                 newH = Math.max(10, startH-dy);
                 newW = Math.max(10, startW+dx);
+                break;
             case SOUTH_EAST:
                 newH = Math.max(10, startH+dy);
                 newW = Math.max(10, startW+dx);
+                break;
             case NORTH_WEST:
                 newY = startElemY + dy;
                 newH = Math.max(10, startH-dy);
                 newX = startElemX + dx;
                 newW = Math.max(10, startW-dx);
+                break;
             case SOUTH_WEST:
                 newX = startElemX + dx;
                 newW = Math.max(10, startW-dx);
                 newH = Math.max(10, startH+dy);
+                break;
         }
-
+        //postavljanje novih dimenzija
         selectedElement.setX(newX);
         selectedElement.setY(newY);
         selectedElement.setWidth(newW);

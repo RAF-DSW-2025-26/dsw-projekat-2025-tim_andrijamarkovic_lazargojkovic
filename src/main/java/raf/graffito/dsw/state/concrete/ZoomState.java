@@ -12,40 +12,23 @@ public class ZoomState implements State
 {
     private Slide slide;
     private SlideView slideView;
+
+    //na svaki pomeraj kotura miša se ceo view skalira i zoomuje
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         slide = (Slide) MainFrame.getInstance().getGraffTree().getSelectedNode().getGraffNode();
         slideView = MainFrame.getInstance().getTabbedPane().getSlideViews().get(slide);
 
-        double newZoom = slideView.getZoom() + (-e.getWheelRotation() * 0.1);
+        double newZoom = slideView.getZoom() + (-e.getWheelRotation() * 0.1); //izračunavanje nivoa zoom-a na osnovu broja pomeraja kotura
         newZoom = Math.max(slideView.getMIN_ZOOM(), Math.min(slideView.getMAX_ZOOM(), newZoom));
         slideView.setZoom(newZoom);
         slideView.revalidate();
         slideView.repaint();
     }
 
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseDragged(MouseEvent e) {
-
-    }
+    @Override public void mousePressed(MouseEvent e) {}
+    @Override public void mouseReleased(MouseEvent e) {}
+    @Override public void mouseClicked(MouseEvent e) {}
+    @Override public void mouseMoved(MouseEvent e) {}
+    @Override public void mouseDragged(MouseEvent e) {}
 }

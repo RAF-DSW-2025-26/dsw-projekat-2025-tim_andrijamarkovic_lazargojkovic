@@ -25,6 +25,7 @@ public class SlideView extends JPanel implements ISubscriberView, MouseListener,
     private Slide slide;
     private GraffSlideElement selectedElement;
     private List<GraffSlideElement> selectedList = new ArrayList<>();
+    private Point selectionStart;
     private Rectangle selectionRectangle;
     private double zoom = 1.0;
     private AffineTransform transform = new AffineTransform();
@@ -72,6 +73,16 @@ public class SlideView extends JPanel implements ISubscriberView, MouseListener,
                 g2d.setStroke(old);
             }
         }
+        g2d.dispose();
+        if(selectionRectangle != null)
+        {
+            Graphics2D g2ds = (Graphics2D) g;
+            g2ds.setColor(new Color(0,120,215,80));
+            g2ds.fill(selectionRectangle);
+            g2ds.setColor(Color.BLUE);
+            g2ds.draw(selectionRectangle);
+            g2ds.dispose();
+        }
     }
 
     private Slide getSlideForView(SlideView slideView)
@@ -92,7 +103,7 @@ public class SlideView extends JPanel implements ISubscriberView, MouseListener,
         int y = slideElement.getY();
         int w = slideElement.getWidth();
         int h = slideElement.getHeight();
-
+        // odredjivanje da li je miš u blizini ivice (6 piksela)
         boolean top = Math.abs(my-y) <= EDGE;
         boolean bottom = Math.abs(my-(y+h)) <= EDGE;
         boolean left = Math.abs(mx-x) <= EDGE;
@@ -107,7 +118,7 @@ public class SlideView extends JPanel implements ISubscriberView, MouseListener,
         if(bottom && left) return ResizeDirection.SOUTH_WEST;
         if(bottom && right) return ResizeDirection.SOUTH_EAST;
 
-        return ResizeDirection.NONE;
+        return ResizeDirection.NONE; //ukoliko nije nijedan, vraća da miš nije u blizini ivica elementa
     }
 
     public Point inverseTransform(MouseEvent e)
@@ -141,6 +152,19 @@ public class SlideView extends JPanel implements ISubscriberView, MouseListener,
             ApplicationFramework.getInstance().getGenerator().removeSubscriber(cLogger);
             ApplicationFramework.getInstance().getGenerator().removeSubscriber(fLogger);
         }
+    }
+
+    public void rotateSelected(int direction)
+    {
+        if(selectedElement==null) return;
+        selectedElement.setRotationAngle(selectedElement.getRotationAngle() + Math.toRadians(selectedElement.getRotateRatio()*direction)); // stavlja ugao za rotaciju u radijanima
+        repaint();
+    }
+
+    public void startSelectionRectangle(Point p)
+    {
+        selectionStart = p;
+        selectionRectangle = new Rectangle(p);
     }
 
     @Override

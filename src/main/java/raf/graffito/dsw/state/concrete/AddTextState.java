@@ -22,6 +22,7 @@ public class AddTextState implements State
     private Slide slide;
     private SlideView slideView;
 
+    //na klik miša dok je u state-u kreira novi tekstualni element
     @Override
     public void mouseClicked(MouseEvent e)
     {
@@ -35,7 +36,7 @@ public class AddTextState implements State
         String text = JOptionPane.showInputDialog(slideView, "Unesite tekst:");
         if(text != null)
         {
-            SlideLabel label = new SlideLabel("Label" + slide.getChildren().size(), slide, p.x, p.y, 150, 40, 0,0, text);
+            SlideLabel label = new SlideLabel("Label" + slide.getChildren().size(), slide, p.x, p.y, 150, 40, 0, text);
             slide.getChildren().add(label);
             slideView.repaint();
             MainFrame.getInstance().getStateManager().setSelectState();

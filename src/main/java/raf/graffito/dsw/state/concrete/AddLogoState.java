@@ -17,13 +17,14 @@ public class AddLogoState implements State
     private Slide slide;
     private SlideView slideView;
 
+    //na klik miša dok je u state-u kreira novi logo element
     @Override
     public void mouseClicked(MouseEvent e)
     {
         slide = (Slide) MainFrame.getInstance().getGraffTree().getSelectedNode().getGraffNode();
         slideView = MainFrame.getInstance().getTabbedPane().getSlideViews().get(slide);
-        Point p = slideView.inverseTransform(e);
-        SlideLogo logo = new SlideLogo("Logo" + slide.getChildren().size(),slide,p.x,p.y,100,100,0,0);
+        Point p = slideView.inverseTransform(e); // transformiše trenutne koordinate miša u koordinate prikaza u trenutnom stanju (zbog zooma)
+        SlideLogo logo = new SlideLogo("Logo" + slide.getChildren().size(),slide,p.x,p.y,100,100,0);
         slide.getChildren().add(logo);
         slideView.repaint();
         MainFrame.getInstance().getStateManager().setSelectState();

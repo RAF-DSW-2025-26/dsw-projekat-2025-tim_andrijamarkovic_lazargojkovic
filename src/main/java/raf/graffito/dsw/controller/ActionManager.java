@@ -15,4 +15,6 @@ public class ActionManager
     SelectAction selectAction = new SelectAction();
     MoveAction moveAction = new MoveAction();
     DeleteAction deleteAction = new DeleteAction();
+    RotateLeftAction rotateLeftAction = new RotateLeftAction();
+    RotateRightAction rotateRightAction = new RotateRightAction();
 }
