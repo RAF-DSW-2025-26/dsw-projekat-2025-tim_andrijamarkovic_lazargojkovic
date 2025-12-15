@@ -24,6 +24,7 @@ public class ProjectView extends JPanel implements ISubscriberView
     private JLabel presentationName;
     private JLabel projectName;
     private JLabel author;
+    private SlideActionView slideActionView;
 
     //Instanciranje desnog panela
     public ProjectView()
@@ -32,7 +33,8 @@ public class ProjectView extends JPanel implements ISubscriberView
         presentationName = new JLabel("Ime Prezentacije: ");
         projectName = new JLabel("Ime Projekta: ");
         author = new JLabel("Autor: ");
-        SlideActionView slideActionView = new SlideActionView();
+        slideActionView = new SlideActionView();
+        slideActionView.setVisible(false);
         JPanel panelTop = new JPanel();
         panelTop.setLayout(new BorderLayout());
         panelTop.add(presentationName, BorderLayout.NORTH);

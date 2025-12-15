@@ -64,6 +64,7 @@ public class GraffTreeCellEditor extends DefaultTreeCellEditor implements Action
                     }
                     else if (item.getGraffNode() instanceof Slide) {
                         openSlide((Slide) item.getGraffNode());
+                        MainFrame.getInstance().getProjectView().getSlideActionView().setVisible(true);
                     }
                 }
                 return false;
