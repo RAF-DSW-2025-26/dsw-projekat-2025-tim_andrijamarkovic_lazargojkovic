@@ -1,5 +1,7 @@
 package raf.graffito.dsw.state.concrete;
 
+import raf.graffito.dsw.commands.Command;
+import raf.graffito.dsw.commands.concrete.AddElementCommand;
 import raf.graffito.dsw.core.ApplicationFramework;
 import raf.graffito.dsw.core.Logger;
 import raf.graffito.dsw.core.Type;
@@ -37,7 +39,8 @@ public class AddTextState implements State
         if(text != null)
         {
             SlideLabel label = new SlideLabel("Label" + slide.getChildren().size(), slide, p.x, p.y, 150, 40, 0, text);
-            slide.getChildren().add(label);
+            Command cmd = new AddElementCommand(slide,label);
+            MainFrame.getInstance().getCommandManager().executeCommand(cmd);
             slideView.repaint();
             MainFrame.getInstance().getStateManager().setSelectState();
         }

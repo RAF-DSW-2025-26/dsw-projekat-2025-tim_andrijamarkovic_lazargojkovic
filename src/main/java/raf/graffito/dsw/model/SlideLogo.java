@@ -10,7 +10,7 @@ import java.awt.geom.AffineTransform;
 
 @Getter
 @Setter
-public class SlideLogo extends GraffSlideElement implements Cloneable {
+public class SlideLogo extends GraffSlideElement {
 
     public SlideLogo(String name, GraffNode parent, int x, int y, int width, int height, double rotationAngle) {
         super(name, parent, x, y, width, height, rotationAngle);
@@ -36,7 +36,7 @@ public class SlideLogo extends GraffSlideElement implements Cloneable {
     }
 
     @Override
-    public GraffSlideElement clone() {
+    public GraffSlideElement graffClone() {
         return new SlideLogo(getName(), getParent(), getX(), getY(), getWidth(), getHeight(), getRotationAngle());
     }
 }

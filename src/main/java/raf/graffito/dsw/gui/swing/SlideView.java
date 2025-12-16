@@ -2,6 +2,9 @@ package raf.graffito.dsw.gui.swing;
 
 import lombok.Getter;
 import lombok.Setter;
+import raf.graffito.dsw.commands.Command;
+import raf.graffito.dsw.commands.concrete.DeleteElementCommand;
+import raf.graffito.dsw.commands.concrete.RotateCommand;
 import raf.graffito.dsw.core.*;
 import raf.graffito.dsw.gui.swing.tree.model.GraffTreeItem;
 import raf.graffito.dsw.model.*;
@@ -42,6 +45,44 @@ public class SlideView extends JPanel implements ISubscriberView, MouseListener,
         addMouseMotionListener(this);
         addMouseWheelListener(this);
         setBackground(Color.WHITE);
+        getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ctrl C"),"copy");
+        getActionMap().put("copy", new AbstractAction()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                copySelected();
+            }
+        });
+        getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ctrl V"),"paste");
+        getActionMap().put("paste", new AbstractAction()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                paste();
+            }
+        });
+        getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ctrl Z"),"undo");
+        getActionMap().put("undo", new AbstractAction()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                MainFrame.getInstance().getCommandManager().undo();
+                repaint();
+            }
+        });
+        getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ctrl Y"),"redo");
+        getActionMap().put("redo", new AbstractAction()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                MainFrame.getInstance().getCommandManager().redo();
+                repaint();
+            }
+        });
     }
 
     @Override
@@ -141,7 +182,8 @@ public class SlideView extends JPanel implements ISubscriberView, MouseListener,
         ApplicationFramework.getInstance().getGenerator().addSubscriber(fLogger);
         if(selectedElement != null)
         {
-            this.getSlideForView(this).removeElement(selectedElement);
+            Command cmd = new DeleteElementCommand(getSlideForView(this), selectedElement);
+            MainFrame.getInstance().getCommandManager().executeCommand(cmd);
             selectedElement = null;
             repaint();
         }
@@ -157,7 +199,10 @@ public class SlideView extends JPanel implements ISubscriberView, MouseListener,
     public void rotateSelected(int direction)
     {
         if(selectedElement==null) return;
-        selectedElement.setRotationAngle(selectedElement.getRotationAngle() + Math.toRadians(selectedElement.getRotateRatio()*direction)); // stavlja ugao za rotaciju u radijanima
+        double oldAngle = selectedElement.getRotationAngle();
+        double newAngle = (oldAngle + Math.toRadians(selectedElement.getRotateRatio()*direction));
+        Command cmd = new RotateCommand(selectedElement,oldAngle,newAngle);
+        MainFrame.getInstance().getCommandManager().executeCommand(cmd);
         repaint();
     }
 
@@ -165,6 +210,22 @@ public class SlideView extends JPanel implements ISubscriberView, MouseListener,
     {
         selectionStart = p;
         selectionRectangle = new Rectangle(p);
+    }
+
+    public void copySelected()
+    {
+        if(selectedElement==null) return;
+        SlideClipboard.copy(selectedElement);
+    }
+
+    public void paste()
+    {
+        if(selectedElement==null) return;
+        GraffSlideElement newElement = SlideClipboard.paste(getSlideForView(this));
+        if(newElement==null) return;
+        getSlideForView(this).getChildren().add(newElement);
+        selectedElement = null;
+        repaint();
     }
 
     @Override

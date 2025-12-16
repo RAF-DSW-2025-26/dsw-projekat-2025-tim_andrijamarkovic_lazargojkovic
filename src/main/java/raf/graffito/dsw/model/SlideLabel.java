@@ -2,7 +2,6 @@ package raf.graffito.dsw.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import raf.graffito.dsw.core.Cloneable;
 import raf.graffito.dsw.core.GraffNode;
 import raf.graffito.dsw.core.GraffSlideElement;
 
@@ -11,7 +10,7 @@ import java.awt.geom.AffineTransform;
 
 @Getter
 @Setter
-public class SlideLabel extends GraffSlideElement implements Cloneable {
+public class SlideLabel extends GraffSlideElement {
 
     private String text;
 
@@ -46,7 +45,7 @@ public class SlideLabel extends GraffSlideElement implements Cloneable {
 
 
     @Override
-    public GraffSlideElement clone() {
+    public GraffSlideElement graffClone() {
         return new SlideLabel(getName(), getParent(), getX(), getY(), getWidth(), getHeight(), getRotationAngle(), text);
     }
 }

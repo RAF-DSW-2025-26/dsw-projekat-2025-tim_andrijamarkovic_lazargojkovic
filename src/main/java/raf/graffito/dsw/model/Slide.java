@@ -19,9 +19,9 @@ public class Slide extends GraffNodeComposite implements IPublisherView {
         slideNumber++;
     }
 
-    public void removeElement(GraffSlideElement element) {
-        this.getChildren().remove(element);
-    }
+    public void addElement(GraffSlideElement element) {this.getChildren().add(element);}
+
+    public void removeElement(GraffSlideElement element) {this.getChildren().remove(element);}
 
     @Override
     public void addSubscriber(ISubscriberView subscriber) {

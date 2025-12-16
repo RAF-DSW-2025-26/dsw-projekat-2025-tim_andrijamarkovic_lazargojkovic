@@ -1,5 +1,7 @@
 package raf.graffito.dsw.state.concrete;
 
+import raf.graffito.dsw.commands.Command;
+import raf.graffito.dsw.commands.concrete.AddElementCommand;
 import raf.graffito.dsw.gui.swing.MainFrame;
 import raf.graffito.dsw.gui.swing.SlideView;
 import raf.graffito.dsw.model.Slide;
@@ -25,7 +27,8 @@ public class AddLogoState implements State
         slideView = MainFrame.getInstance().getTabbedPane().getSlideViews().get(slide);
         Point p = slideView.inverseTransform(e); // transformiše trenutne koordinate miša u koordinate prikaza u trenutnom stanju (zbog zooma)
         SlideLogo logo = new SlideLogo("Logo" + slide.getChildren().size(),slide,p.x,p.y,100,100,0);
-        slide.getChildren().add(logo);
+        Command cmd = new AddElementCommand(slide,logo);
+        MainFrame.getInstance().getCommandManager().executeCommand(cmd);
         slideView.repaint();
         MainFrame.getInstance().getStateManager().setSelectState();
     }

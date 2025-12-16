@@ -4,11 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 
 @Getter
 @Setter
-public abstract class GraffSlideElement extends GraffLeaf{
+public abstract class GraffSlideElement extends GraffLeaf implements GraffClone {
 
     private int x;
     private int y;
@@ -32,4 +31,6 @@ public abstract class GraffSlideElement extends GraffLeaf{
     public GraffNode findByName(String name) {
         return super.findByName(name);
     }
+
+
 }

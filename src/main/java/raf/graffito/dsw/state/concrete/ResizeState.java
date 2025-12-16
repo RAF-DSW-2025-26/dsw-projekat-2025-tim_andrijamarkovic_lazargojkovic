@@ -1,5 +1,7 @@
 package raf.graffito.dsw.state.concrete;
 
+import raf.graffito.dsw.commands.Command;
+import raf.graffito.dsw.commands.concrete.ResizeCommand;
 import raf.graffito.dsw.core.GraffSlideElement;
 import raf.graffito.dsw.core.ResizeDirection;
 import raf.graffito.dsw.gui.swing.MainFrame;
@@ -23,6 +25,9 @@ public class ResizeState implements State
     private int startW, startH;
     private int startElemX, startElemY;
 
+    private Rectangle oldBounds;
+    private Rectangle newBounds;
+
     //počinje resize tako što zapamti sve podatke elementa kojem se menja veličina
     public void startResize(GraffSlideElement slideElement, ResizeDirection resizeDirection, int mx, int my)
     {
@@ -34,6 +39,7 @@ public class ResizeState implements State
         startH = slideElement.getHeight();
         startElemX = slideElement.getX();
         startElemY = slideElement.getY();
+        oldBounds = new Rectangle(selectedElement.getX(), selectedElement.getY(), selectedElement.getWidth(), selectedElement.getHeight());
     }
 
     @Override
@@ -100,6 +106,9 @@ public class ResizeState implements State
     @Override
     public void mouseReleased(MouseEvent e)
     {
+        newBounds = new Rectangle(selectedElement.getX(), selectedElement.getY(), selectedElement.getWidth(), selectedElement.getHeight());
+        Command cmd = new ResizeCommand(selectedElement, oldBounds, newBounds);
+        MainFrame.getInstance().getCommandManager().executeCommand(cmd);
         selectedElement = null;
         selectedDirection = ResizeDirection.NONE;
         MainFrame.getInstance().getStateManager().setSelectState();

@@ -2,6 +2,7 @@ package raf.graffito.dsw.gui.swing;
 
 import lombok.Getter;
 import lombok.Setter;
+import raf.graffito.dsw.commands.CommandManager;
 import raf.graffito.dsw.controller.ActionManager;
 import raf.graffito.dsw.core.ApplicationFramework;
 import raf.graffito.dsw.core.Logger;
@@ -30,6 +31,7 @@ public class MainFrame extends JFrame {
     private SlideView slideView;
     private JSplitPane splitPane;
     private StateManager stateManager;
+    private CommandManager commandManager;
 
 
     public MainFrame() {
@@ -84,6 +86,7 @@ public class MainFrame extends JFrame {
         tabbedPane = new PresentationView();
         slideView = new SlideView();
         stateManager = new StateManager();
+        commandManager = new CommandManager();
 
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,scroll,desktop);
         splitPane.setDividerLocation(500);
