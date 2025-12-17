@@ -17,4 +17,7 @@ public class ActionManager
     DeleteAction deleteAction = new DeleteAction();
     RotateLeftAction rotateLeftAction = new RotateLeftAction();
     RotateRightAction rotateRightAction = new RotateRightAction();
+    OpenAction openAction = new OpenAction();
+    SaveAsAction saveAsAction = new SaveAsAction();
+    SaveAction saveAction = new SaveAction();
 }
