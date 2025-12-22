@@ -5,6 +5,7 @@ import lombok.Setter;
 import raf.graffito.dsw.commands.CommandManager;
 import raf.graffito.dsw.controller.ActionManager;
 import raf.graffito.dsw.core.ApplicationFramework;
+import raf.graffito.dsw.core.ImageRepository;
 import raf.graffito.dsw.core.Logger;
 import raf.graffito.dsw.core.Type;
 import raf.graffito.dsw.gui.swing.tree.GraffTree;
@@ -32,6 +33,7 @@ public class MainFrame extends JFrame {
     private JSplitPane splitPane;
     private StateManager stateManager;
     private CommandManager commandManager;
+    private ImageRepository imageRepository;
 
 
     public MainFrame() {
@@ -82,6 +84,7 @@ public class MainFrame extends JFrame {
         split.setDividerLocation(200);
         split.setOneTouchExpandable(true);
 
+        imageRepository  = new ImageRepository();
         projectView = new ProjectView();
         tabbedPane = new PresentationView();
         slideView = new SlideView();

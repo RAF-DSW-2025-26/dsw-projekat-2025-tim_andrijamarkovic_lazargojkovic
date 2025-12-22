@@ -20,4 +20,5 @@ public class ActionManager
     OpenAction openAction = new OpenAction();
     SaveAsAction saveAsAction = new SaveAsAction();
     SaveAction saveAction = new SaveAction();
+    AddImageAction addImageAction = new AddImageAction();
 }

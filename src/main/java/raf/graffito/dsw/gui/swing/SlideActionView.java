@@ -10,5 +10,6 @@ public class SlideActionView extends JPanel {
         add(new JButton(MainFrame.getInstance().getActionManager().getAddLogoAction()));
         add(new JButton(MainFrame.getInstance().getActionManager().getMoveAction()));
         add(new JButton(MainFrame.getInstance().getActionManager().getSelectAction()));
+        add(new JButton(MainFrame.getInstance().getActionManager().getAddImageAction()));
     }
 }

@@ -1,11 +1,18 @@
 package raf.graffito.dsw.state.concrete;
 
+import lombok.Setter;
+import raf.graffito.dsw.commands.Command;
+import raf.graffito.dsw.commands.concrete.AddElementCommand;
 import raf.graffito.dsw.gui.swing.MainFrame;
 import raf.graffito.dsw.gui.swing.SlideView;
+import raf.graffito.dsw.model.ImageResource;
 import raf.graffito.dsw.model.Slide;
+import raf.graffito.dsw.model.SlideLogo;
+import raf.graffito.dsw.model.SlidePicture;
 import raf.graffito.dsw.state.State;
 import raf.graffito.dsw.state.StateManager;
 
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
@@ -13,13 +20,21 @@ public class AddImageState implements State
 {
     private Slide slide = MainFrame.getInstance().getSlideView().getSlide();
     private SlideView slideView = MainFrame.getInstance().getSlideView();
-    private StateManager stateManager = MainFrame.getInstance().getStateManager();
+    @Setter
+    private ImageResource selectedImage;
+
 
     @Override
     public void mouseClicked(MouseEvent e)
     {
         slide = (Slide) MainFrame.getInstance().getGraffTree().getSelectedNode().getGraffNode();
         slideView = MainFrame.getInstance().getTabbedPane().getSlideViews().get(slide);
+        Point p = slideView.inverseTransform(e);
+        SlidePicture picture = new SlidePicture("Picture" + slide.getChildren().size(),slide,p.x,p.y,200,150,0, selectedImage.getImage());
+        Command cmd = new AddElementCommand(slide,picture);
+        MainFrame.getInstance().getCommandManager().executeCommand(cmd);
+        slideView.repaint();
+        MainFrame.getInstance().getStateManager().setSelectState();
     }
 
     @Override public void mousePressed(MouseEvent e) {}

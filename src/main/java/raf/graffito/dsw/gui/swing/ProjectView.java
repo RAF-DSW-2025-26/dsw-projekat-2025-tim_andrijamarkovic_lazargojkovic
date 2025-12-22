@@ -41,6 +41,7 @@ public class ProjectView extends JPanel implements ISubscriberView
         panelTop.add(projectName, BorderLayout.CENTER);
         panelTop.add(author, BorderLayout.SOUTH);
         add(panelTop, BorderLayout.NORTH);
+        add(new ImageListView(), BorderLayout.CENTER);
         add(slideActionView, BorderLayout.SOUTH);
     }
 
