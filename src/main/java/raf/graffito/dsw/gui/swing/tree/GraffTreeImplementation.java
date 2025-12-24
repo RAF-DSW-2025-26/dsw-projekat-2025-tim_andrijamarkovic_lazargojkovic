@@ -3,6 +3,7 @@ package raf.graffito.dsw.gui.swing.tree;
 import lombok.Getter;
 import raf.graffito.dsw.core.GraffNode;
 import raf.graffito.dsw.core.GraffNodeComposite;
+import raf.graffito.dsw.gui.swing.MainFrame;
 import raf.graffito.dsw.gui.swing.tree.model.GraffTreeItem;
 import raf.graffito.dsw.gui.swing.tree.view.GraffTreeView;
 import raf.graffito.dsw.model.Presentation;
@@ -71,9 +72,13 @@ public class GraffTreeImplementation implements GraffTree
         }
         GraffNode child = createChild(parent.getGraffNode(),childType);
         parent.add(new GraffTreeItem(child));
-        ((GraffNodeComposite) parent.getGraffNode()).dodaj(child);
+        GraffNodeComposite parentNode = (GraffNodeComposite) parent.getGraffNode();
+        parentNode.getChildren().add(child);
+        child.setParent(parentNode);
         treeView.expandPath(treeView.getSelectionPath());
         SwingUtilities.updateComponentTreeUI(treeView);
+        Project project = getProjectFromNode(parent.getGraffNode());
+        project.setChanged(true);
     }
 
     @Override
@@ -86,5 +91,12 @@ public class GraffTreeImplementation implements GraffTree
     public GraffTreeItem getSelectedNode()
     {
         return (GraffTreeItem) treeView.getLastSelectedPathComponent();
+    }
+
+    private Project getProjectFromNode(GraffNode node) {
+        while (node != null && !(node instanceof Project)) {
+            node = node.getParent();
+        }
+        return (Project) node;
     }
 }

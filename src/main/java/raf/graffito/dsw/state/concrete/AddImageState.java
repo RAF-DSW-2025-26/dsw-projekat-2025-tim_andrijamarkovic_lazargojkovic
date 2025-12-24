@@ -5,10 +5,7 @@ import raf.graffito.dsw.commands.Command;
 import raf.graffito.dsw.commands.concrete.AddElementCommand;
 import raf.graffito.dsw.gui.swing.MainFrame;
 import raf.graffito.dsw.gui.swing.SlideView;
-import raf.graffito.dsw.model.ImageResource;
-import raf.graffito.dsw.model.Slide;
-import raf.graffito.dsw.model.SlideLogo;
-import raf.graffito.dsw.model.SlidePicture;
+import raf.graffito.dsw.model.*;
 import raf.graffito.dsw.state.State;
 import raf.graffito.dsw.state.StateManager;
 
@@ -35,6 +32,13 @@ public class AddImageState implements State
         MainFrame.getInstance().getCommandManager().executeCommand(cmd);
         slideView.repaint();
         MainFrame.getInstance().getStateManager().setSelectState();
+        if(slide.getParent() instanceof Project){
+            Project project = (Project)slide.getParent();
+            project.setChanged(true);
+        }else if(slide.getParent() instanceof Presentation){
+            Project project  = (Project)slide.getParent().getParent();
+            project.setChanged(true);
+        }
     }
 
     @Override public void mousePressed(MouseEvent e) {}

@@ -2,6 +2,8 @@ package raf.graffito.dsw.controller;
 
 import raf.graffito.dsw.gui.swing.MainFrame;
 import raf.graffito.dsw.gui.swing.SlideView;
+import raf.graffito.dsw.model.Presentation;
+import raf.graffito.dsw.model.Project;
 import raf.graffito.dsw.model.Slide;
 
 import javax.swing.*;
@@ -41,5 +43,12 @@ public class DeleteAction extends AbstractGraffAction
         Slide slide = (Slide) MainFrame.getInstance().getGraffTree().getSelectedNode().getGraffNode();
         SlideView slideView = MainFrame.getInstance().getTabbedPane().getSlideViews().get(slide);
         slideView.deleteSelectedElement();
+        if(slide.getParent() instanceof Project){
+            Project p = (Project)slide.getParent();
+            p.setChanged(true);
+        }else if(slide.getParent() instanceof Presentation){
+            Project p  = (Project)slide.getParent().getParent();
+            p.setChanged(true);
+        }
     }
 }

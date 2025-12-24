@@ -11,6 +11,7 @@ import raf.graffito.dsw.core.Type;
 import raf.graffito.dsw.gui.swing.tree.GraffTree;
 import raf.graffito.dsw.gui.swing.tree.GraffTreeImplementation;
 import raf.graffito.dsw.model.*;
+import raf.graffito.dsw.serialization.Serializer;
 import raf.graffito.dsw.state.StateManager;
 
 import javax.swing.*;
@@ -34,6 +35,7 @@ public class MainFrame extends JFrame {
     private StateManager stateManager;
     private CommandManager commandManager;
     private ImageRepository imageRepository;
+    private Serializer serializer;
 
 
     public MainFrame() {
@@ -61,6 +63,7 @@ public class MainFrame extends JFrame {
         setTitle("Graffito"); // Naslov prozora
 
         actionManager = new ActionManager();
+        serializer = new Serializer();
 
         menu = new MyMenuBar(); // Kreiranje menija
         setJMenuBar(menu); // Postavljanje menija na prozor

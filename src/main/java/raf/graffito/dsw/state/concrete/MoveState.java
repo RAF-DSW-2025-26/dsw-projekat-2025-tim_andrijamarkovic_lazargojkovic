@@ -5,6 +5,8 @@ import raf.graffito.dsw.commands.concrete.MoveCommand;
 import raf.graffito.dsw.core.GraffSlideElement;
 import raf.graffito.dsw.gui.swing.MainFrame;
 import raf.graffito.dsw.gui.swing.SlideView;
+import raf.graffito.dsw.model.Presentation;
+import raf.graffito.dsw.model.Project;
 import raf.graffito.dsw.model.Slide;
 import raf.graffito.dsw.state.State;
 import raf.graffito.dsw.state.StateManager;
@@ -53,6 +55,13 @@ public class MoveState implements State
         MainFrame.getInstance().getCommandManager().executeCommand(cmd);
         selectedElement = null;
         MainFrame.getInstance().getStateManager().setSelectState();
+        if(slide.getParent() instanceof Project){
+            Project project = (Project)slide.getParent();
+            project.setChanged(true);
+        }else if(slide.getParent() instanceof Presentation){
+            Project project  = (Project)slide.getParent().getParent();
+            project.setChanged(true);
+        }
     }
 
     @Override public void mouseClicked(MouseEvent e) {}

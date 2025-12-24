@@ -1,5 +1,6 @@
 package raf.graffito.dsw.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import raf.graffito.dsw.core.*;
@@ -10,14 +11,23 @@ import java.util.List;
 @Getter
 @Setter
 public class Presentation extends GraffNodeComposite implements IPublisherView {
+    @JsonIgnore
     private List<ISubscriberView> subscribers = new ArrayList<>();
 
     @Getter
+    @JsonIgnore
     private static int presentationNumber = 1; //Integer koji prati broj kreiranih prezentacija
+
+    public Presentation(){
+        super(null,null);
+    }
+
     public Presentation(String name,GraffNode parent) {
         super(name, parent);
         presentationNumber++;
     }
+
+
 
     @Override
     public void addSubscriber(ISubscriberView subscriber)

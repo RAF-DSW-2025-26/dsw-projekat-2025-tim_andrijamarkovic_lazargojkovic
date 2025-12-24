@@ -86,6 +86,8 @@ public class NewNodeAction extends AbstractGraffAction {
                 {
                     ((Project) selected.getGraffNode()).notifySubscribers("presentationAdded");
                 }
+                Project project = (Project) selected.getGraffNode();
+                project.setChanged(true);
             }
         } else {
             String message = ApplicationFramework.getInstance().getGenerator().createMessage("Neuspešno kreiranje elementa!", Type.GRESKA, LocalDateTime.now());

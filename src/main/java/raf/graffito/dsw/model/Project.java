@@ -1,9 +1,11 @@
 package raf.graffito.dsw.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import raf.graffito.dsw.core.*;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,10 +14,29 @@ import java.util.List;
 public class Project extends GraffNodeComposite implements IPublisherView {
     private String title;
     private String author;
+
+    @JsonIgnore
     private int number;
+
     @Getter
-    private static int projectNumber = 1; //Integer koji prati broj kreiranih projekata
+    @JsonIgnore
+    private static int projectNumber = 1;
+
+    @JsonIgnore
     private List<ISubscriberView> subscribers = new ArrayList<>();
+
+    @JsonIgnore
+    @Setter
+    @Getter
+    private boolean changed = false;
+
+    @JsonIgnore
+    private File filePath;
+
+    public Project(){
+        super(null,null);
+    }
+
 
     public Project(String name,String title,String author,GraffNode parent) {
         super(name,parent);
@@ -24,7 +45,6 @@ public class Project extends GraffNodeComposite implements IPublisherView {
         this.number = 0;
         projectNumber++;
     }
-
     public void incrementNumber() {
         this.number++;
     }

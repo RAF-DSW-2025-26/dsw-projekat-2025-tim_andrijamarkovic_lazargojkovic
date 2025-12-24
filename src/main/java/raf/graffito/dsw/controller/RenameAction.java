@@ -62,6 +62,7 @@ public class RenameAction extends AbstractGraffAction
         }
         if(selected.getGraffNode() instanceof Project)
         {
+            Project  project = (Project)selected.getGraffNode();
             JTextField nameField = new JTextField(selected.getGraffNode().getName());
             JTextField titleField = new JTextField(((Project) selected.getGraffNode()).getTitle());
             JTextField authorField = new JTextField(((Project) selected.getGraffNode()).getAuthor());
@@ -104,6 +105,7 @@ public class RenameAction extends AbstractGraffAction
                     ((Project) selected.getGraffNode()).setAuthor(newAuthor);
                     ((Project) selected.getGraffNode()).notifySubscribers("nameChanged");
                     ((Project) selected.getGraffNode()).notifySubscribers("authorChanged");
+                    project.setChanged(true);
                 }
             }
         }

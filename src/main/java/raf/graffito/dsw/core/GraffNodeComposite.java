@@ -1,5 +1,6 @@
 package raf.graffito.dsw.core;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 
 import java.util.ArrayList;

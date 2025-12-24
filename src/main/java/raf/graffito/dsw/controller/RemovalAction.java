@@ -76,11 +76,18 @@ public class RemovalAction extends AbstractGraffAction {
         {
             Project project = (Project) selected.getGraffNode();
             project.notifySubscribers("projectRemoved");
+            project.setChanged(false);
         }
         if(selected.getGraffNode() instanceof Presentation)
         {
             Project project = (Project) selected.getGraffNode().getParent();
             project.notifySubscribers("presentationRemoved");
+            project.setChanged(true);
+        }
+        if(selected.getGraffNode() instanceof Slide)
+        {
+            Project project = (Project) selected.getGraffNode().getParent();
+            project.setChanged(true);
         }
         removeNodeRecursive(selected);
     }
