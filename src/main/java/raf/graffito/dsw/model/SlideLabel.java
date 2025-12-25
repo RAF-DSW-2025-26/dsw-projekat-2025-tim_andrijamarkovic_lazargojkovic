@@ -14,6 +14,10 @@ public class SlideLabel extends GraffSlideElement {
 
     private String text;
 
+    public SlideLabel(){
+        super();
+    }
+
     public SlideLabel(String name, GraffNode parent, int x, int y, int width, int height, double rotationAngle, String text) {
         super(name, parent, x, y, width, height, rotationAngle);
         this.text = text;

@@ -99,4 +99,15 @@ public class GraffTreeImplementation implements GraffTree
         }
         return (Project) node;
     }
+
+    public void addExistingNode(GraffNode node) {
+        GraffTreeItem root = (GraffTreeItem) treeModel.getRoot();
+        root.add(new GraffTreeItem(node));
+        SwingUtilities.updateComponentTreeUI(treeView);
+    }
+
+    @Override
+    public void refresh(){
+        ((DefaultTreeModel)getTreeModel()).reload();
+    }
 }

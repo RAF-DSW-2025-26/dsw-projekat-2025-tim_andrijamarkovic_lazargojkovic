@@ -19,7 +19,7 @@ public class Presentation extends GraffNodeComposite implements IPublisherView {
     private static int presentationNumber = 1; //Integer koji prati broj kreiranih prezentacija
 
     public Presentation(){
-        super(null,null);
+        super();
     }
 
     public Presentation(String name,GraffNode parent) {

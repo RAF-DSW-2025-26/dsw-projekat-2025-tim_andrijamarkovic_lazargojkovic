@@ -11,13 +11,24 @@ public abstract class GraffNodeComposite extends GraffNode{
 
     protected List<GraffNode> children = new ArrayList<>(); //Lista dece nasledjenog cvora
 
+    public GraffNodeComposite() {
+        super();
+    }
+
     public GraffNodeComposite(String name,GraffNode parent) {
         super(name,parent);
     }
 
+
+    public List<GraffNode> getChildren() {
+        return children;
+    }
+
     @Override
     public void dodaj(GraffNode node) {
-        super.dodaj(node);
+        if (node == null) return;
+        children.add(node);
+        node.setParent(this);
     }
 
     @Override

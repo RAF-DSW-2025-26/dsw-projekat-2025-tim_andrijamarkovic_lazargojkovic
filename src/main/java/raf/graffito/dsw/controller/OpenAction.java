@@ -62,8 +62,11 @@ public class OpenAction extends AbstractGraffAction {
             project.setChanged(false);
 
             Workspace workspace = ApplicationFramework.getInstance().getGraffRepository().getWorkspace();
+            project.setParent(workspace);
             workspace.dodaj(project);
 
+
+            MainFrame.getInstance().getGraffTree().refresh();
         } catch (IOException ex) {
             String message = ApplicationFramework.getInstance().getGenerator().createMessage("Greska pri otvaranju", Type.GRESKA, LocalDateTime.now());
             ApplicationFramework.getInstance().getGenerator().notifySubscribers(message);

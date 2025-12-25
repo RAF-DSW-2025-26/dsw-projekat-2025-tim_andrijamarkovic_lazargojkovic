@@ -13,4 +13,5 @@ public interface GraffTree
     void addChild(GraffTreeItem child,String childType);
     GraffTreeItem getSelectedNode();
     void removeNode(GraffTreeItem child);
+    void refresh();
 }

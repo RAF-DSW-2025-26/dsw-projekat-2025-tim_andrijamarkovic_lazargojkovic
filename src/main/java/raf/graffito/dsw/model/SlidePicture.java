@@ -14,6 +14,10 @@ public class SlidePicture extends GraffSlideElement {
 
     private Image image;
 
+    public SlidePicture() {
+        super();
+    }
+
     public SlidePicture(String name, GraffNode parent, int x, int y, int width, int height, double rotationAngle, Image image) {
         super(name, parent, x, y, width, height, rotationAngle);
         this.image = image;

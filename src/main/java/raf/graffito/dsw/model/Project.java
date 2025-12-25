@@ -34,7 +34,7 @@ public class Project extends GraffNodeComposite implements IPublisherView {
     private File filePath;
 
     public Project(){
-        super(null,null);
+        super();
     }
 
 

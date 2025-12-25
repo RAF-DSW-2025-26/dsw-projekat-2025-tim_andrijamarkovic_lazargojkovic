@@ -12,6 +12,10 @@ import java.awt.geom.AffineTransform;
 @Setter
 public class SlideLogo extends GraffSlideElement {
 
+    public SlideLogo() {
+        super();
+    }
+
     public SlideLogo(String name, GraffNode parent, int x, int y, int width, int height, double rotationAngle) {
         super(name, parent, x, y, width, height, rotationAngle);
     }

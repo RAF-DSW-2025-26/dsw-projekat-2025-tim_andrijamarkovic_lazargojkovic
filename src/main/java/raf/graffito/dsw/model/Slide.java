@@ -18,7 +18,7 @@ public class Slide extends GraffNodeComposite implements IPublisherView {
     private static int slideNumber = 1; //Integer koji prati broj kreiranih slajdova
 
     public Slide(){
-        super(null,null);
+        super();
     }
 
     public Slide(String name, GraffNode parent) {

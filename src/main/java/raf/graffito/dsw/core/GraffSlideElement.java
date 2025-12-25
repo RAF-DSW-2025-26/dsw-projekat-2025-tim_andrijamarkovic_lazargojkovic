@@ -16,7 +16,11 @@ public abstract class GraffSlideElement extends GraffLeaf implements GraffClone 
     private double rotationAngle;
     private final double rotateRatio = 90.0;
 
-    public GraffSlideElement(String name, GraffNode parent, int x,int y, int width, int height, double rotationAngle) {
+    public GraffSlideElement() {
+        super();
+    }
+
+    public GraffSlideElement(String name, GraffNode parent, int x, int y, int width, int height, double rotationAngle) {
         super(name, parent);
         this.x = x;
         this.y = y;
