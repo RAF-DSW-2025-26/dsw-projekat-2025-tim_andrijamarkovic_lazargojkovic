@@ -27,7 +27,7 @@ public class AddImageState implements State
         slide = (Slide) MainFrame.getInstance().getGraffTree().getSelectedNode().getGraffNode();
         slideView = MainFrame.getInstance().getTabbedPane().getSlideViews().get(slide);
         Point p = slideView.inverseTransform(e);
-        SlidePicture picture = new SlidePicture("Picture" + slide.getChildren().size(),slide,p.x,p.y,200,150,0, selectedImage.getImage());
+        SlidePicture picture = new SlidePicture("Picture" + slide.getChildren().size(),slide,p.x,p.y,200,150,0,selectedImage.getImage(),selectedImage.getPath());
         Command cmd = new AddElementCommand(slide,picture);
         MainFrame.getInstance().getCommandManager().executeCommand(cmd);
         slideView.repaint();

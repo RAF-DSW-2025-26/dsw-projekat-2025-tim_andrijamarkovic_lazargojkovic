@@ -54,6 +54,9 @@ public class ProjectView extends JPanel implements ISubscriberView
     @Override
     public void update(String message, Project project)
     {
+        if (MainFrame.getInstance().getTabbedPane().getTabCount() == 0) {
+            return;
+        }
         //Primanje specificnih poruka i azuriranje desnog panela na osnovu primljene poruke
         switch (message)
         {

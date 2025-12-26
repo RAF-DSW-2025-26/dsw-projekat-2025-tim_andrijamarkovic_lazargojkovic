@@ -6,6 +6,7 @@ import raf.graffito.dsw.core.ApplicationFramework;
 import raf.graffito.dsw.core.Logger;
 import raf.graffito.dsw.core.Type;
 import raf.graffito.dsw.gui.swing.MainFrame;
+import raf.graffito.dsw.gui.swing.tree.GraffTreeImplementation;
 import raf.graffito.dsw.gui.swing.tree.model.GraffTreeItem;
 import raf.graffito.dsw.model.Project;
 import raf.graffito.dsw.model.Workspace;
@@ -65,8 +66,9 @@ public class OpenAction extends AbstractGraffAction {
             project.setParent(workspace);
             workspace.dodaj(project);
 
-
-            MainFrame.getInstance().getGraffTree().refresh();
+            GraffTreeImplementation tree = (GraffTreeImplementation) MainFrame.getInstance().getGraffTree();
+            tree.addExistingNode(project);
+            tree.selectNode(project);
         } catch (IOException ex) {
             String message = ApplicationFramework.getInstance().getGenerator().createMessage("Greska pri otvaranju", Type.GRESKA, LocalDateTime.now());
             ApplicationFramework.getInstance().getGenerator().notifySubscribers(message);

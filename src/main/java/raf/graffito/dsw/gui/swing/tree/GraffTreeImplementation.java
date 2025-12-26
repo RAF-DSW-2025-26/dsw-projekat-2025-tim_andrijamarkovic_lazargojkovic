@@ -3,6 +3,8 @@ package raf.graffito.dsw.gui.swing.tree;
 import lombok.Getter;
 import raf.graffito.dsw.core.GraffNode;
 import raf.graffito.dsw.core.GraffNodeComposite;
+import raf.graffito.dsw.core.IPublisher;
+import raf.graffito.dsw.core.ISubscriber;
 import raf.graffito.dsw.gui.swing.MainFrame;
 import raf.graffito.dsw.gui.swing.tree.model.GraffTreeItem;
 import raf.graffito.dsw.gui.swing.tree.view.GraffTreeView;
@@ -14,6 +16,7 @@ import raf.graffito.dsw.repository.GraffRepositoryImpl;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 import java.util.ArrayList;
 import java.util.List;
 @Getter
@@ -102,12 +105,55 @@ public class GraffTreeImplementation implements GraffTree
 
     public void addExistingNode(GraffNode node) {
         GraffTreeItem root = (GraffTreeItem) treeModel.getRoot();
-        root.add(new GraffTreeItem(node));
+
+        GraffTreeItem item = createSubtree(node);
+        root.add(item);
+
+        TreePath path = new TreePath(item.getPath());
+        treeView.expandPath(path);
+        treeView.setSelectionPath(path);
+        treeView.scrollPathToVisible(path);
+
         SwingUtilities.updateComponentTreeUI(treeView);
+    }
+
+    public void selectNode(GraffNode node) {
+        GraffTreeItem root = (GraffTreeItem) treeModel.getRoot();
+
+        GraffTreeItem item = findNode(root, node);
+        if (item == null) return;
+
+        TreePath path = new TreePath(item.getPath());
+        treeView.expandPath(path);
+        treeView.setSelectionPath(path);
+        treeView.scrollPathToVisible(path);
+    }
+
+    private GraffTreeItem findNode(GraffTreeItem current, GraffNode node) {
+        if (current.getGraffNode() == node) return current;
+
+        for (int i = 0; i < current.getChildCount(); i++) {
+            GraffTreeItem found =
+                    findNode((GraffTreeItem) current.getChildAt(i), node);
+            if (found != null) return found;
+        }
+        return null;
+    }
+    private GraffTreeItem createSubtree(GraffNode node) {
+        GraffTreeItem item = new GraffTreeItem(node);
+
+        if (node instanceof GraffNodeComposite composite) {
+            for (GraffNode child : composite.getChildren()) {
+                item.add(createSubtree(child));
+            }
+        }
+
+        return item;
     }
 
     @Override
     public void refresh(){
         ((DefaultTreeModel)getTreeModel()).reload();
     }
+
 }

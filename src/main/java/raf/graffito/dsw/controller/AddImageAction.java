@@ -58,7 +58,7 @@ public class AddImageAction extends AbstractGraffAction
             try
             {
                 BufferedImage img = ImageIO.read(file);
-                ImageResource resource = new ImageResource(file.getName(), img);
+                ImageResource resource = new ImageResource(file.getName(), img, file.getPath());
                 MainFrame.getInstance().getImageRepository().addImage(resource);
             }
             catch (IOException ex)
