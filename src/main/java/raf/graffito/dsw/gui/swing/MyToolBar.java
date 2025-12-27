@@ -15,5 +15,7 @@ public class MyToolBar extends JToolBar {
        add(MainFrame.getInstance().getActionManager().getDeleteAction());
        add(MainFrame.getInstance().getActionManager().getRotateLeftAction());
        add(MainFrame.getInstance().getActionManager().getRotateRightAction());
+       add(MainFrame.getInstance().getActionManager().getSaveTemplateAction());
+       add(MainFrame.getInstance().getActionManager().getOpenTemplateAction());
     }
 }

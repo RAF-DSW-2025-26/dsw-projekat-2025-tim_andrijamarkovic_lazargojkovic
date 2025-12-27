@@ -21,4 +21,6 @@ public class ActionManager
     SaveAsAction saveAsAction = new SaveAsAction();
     SaveAction saveAction = new SaveAction();
     AddImageAction addImageAction = new AddImageAction();
+    OpenTemplateAction openTemplateAction = new OpenTemplateAction();
+    SaveTemplateAction saveTemplateAction = new SaveTemplateAction();
 }
