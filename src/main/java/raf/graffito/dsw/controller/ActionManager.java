@@ -1,10 +1,16 @@
 package raf.graffito.dsw.controller;
 
 import lombok.Getter;
+import raf.graffito.dsw.controller.window.AbstractWindowModeAction;
+import raf.graffito.dsw.controller.window.FullscreenModeAction;
+import raf.graffito.dsw.controller.window.NormalModeAction;
+import raf.graffito.dsw.controller.window.SmallModeAction;
+import raf.graffito.dsw.gui.swing.MainFrame;
 
 @Getter
 public class ActionManager
 {
+    WindowModeController windowController = MainFrame.getInstance().getWindowModeController();
     ExitAction exitAction = new ExitAction();
     AboutUs aboutUs = new AboutUs();
     NewNodeAction newNodeAction = new NewNodeAction();
@@ -23,4 +29,7 @@ public class ActionManager
     AddImageAction addImageAction = new AddImageAction();
     OpenTemplateAction openTemplateAction = new OpenTemplateAction();
     SaveTemplateAction saveTemplateAction = new SaveTemplateAction();
+    NormalModeAction normalModeAction = new NormalModeAction(windowController);
+    SmallModeAction smallModeAction = new SmallModeAction(windowController);
+    FullscreenModeAction fullscreenModeAction = new FullscreenModeAction(windowController);
 }

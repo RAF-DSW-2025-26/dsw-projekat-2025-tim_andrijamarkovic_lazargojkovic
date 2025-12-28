@@ -32,6 +32,8 @@ public class SlideView extends JPanel implements ISubscriberView, MouseListener,
     private Rectangle selectionRectangle;
     private double zoom = 1.0;
     private AffineTransform transform = new AffineTransform();
+    private double scaleFactor = 1.0;
+
 
     private static final int EDGE = 6;
     private final double MIN_ZOOM = 0.2;
@@ -262,4 +264,15 @@ public class SlideView extends JPanel implements ISubscriberView, MouseListener,
     public void mouseEntered(MouseEvent e) {}
     @Override
     public void mouseExited(MouseEvent e) {}
+
+    public void setScaleFactor(double scale) {
+        this.scaleFactor = scale;
+        repaint();
+    }
+
+    public double calculateScaleToFit(MainFrame frame) {
+        double scaleX = frame.getContentPane().getWidth() / (double) MainFrame.getInstance().getContentPane().getWidth();
+        double scaleY = frame.getContentPane().getHeight() / (double)MainFrame.getInstance().getContentPane().getHeight();
+        return Math.min(scaleX, scaleY);
+    }
 }

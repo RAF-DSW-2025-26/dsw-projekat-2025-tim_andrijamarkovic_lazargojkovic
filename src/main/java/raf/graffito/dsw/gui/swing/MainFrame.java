@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import raf.graffito.dsw.commands.CommandManager;
 import raf.graffito.dsw.controller.ActionManager;
+import raf.graffito.dsw.controller.WindowModeController;
 import raf.graffito.dsw.core.ApplicationFramework;
 import raf.graffito.dsw.core.ImageRepository;
 import raf.graffito.dsw.core.Logger;
@@ -25,6 +26,7 @@ public class MainFrame extends JFrame {
 
     // Buduća polja za sve komponente view-a na glavnom prozoru
     private ActionManager actionManager;
+    private WindowModeController windowModeController;
     private PresentationView tabbedPane;
     private JMenuBar menu;
     private JToolBar toolBar;
@@ -62,6 +64,8 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Zatvaranje aplikacije pri zatvaranju prozora
         setTitle("Graffito"); // Naslov prozora
 
+        windowModeController = new WindowModeController(this,getTabbedPane().getActiveSlideView());
+
         actionManager = new ActionManager();
         serializer = new Serializer();
 
@@ -87,13 +91,6 @@ public class MainFrame extends JFrame {
         split.setDividerLocation(200);
         split.setOneTouchExpandable(true);
 
-        imageRepository  = new ImageRepository();
-        projectView = new ProjectView();
-        tabbedPane = new PresentationView();
-        slideView = new SlideView();
-        stateManager = new StateManager();
-        commandManager = new CommandManager();
-
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,scroll,desktop);
         splitPane.setDividerLocation(500);
         splitPane.setOneTouchExpandable(true);
@@ -104,5 +101,7 @@ public class MainFrame extends JFrame {
 
         split.setLeftComponent(scroll);
         split.setRightComponent(splitPane);
+
+
     }
 }
