@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 public class ImageRepository implements IPublisher
 {
+    // sadrži listu trenutno učitanih slika
     private List<ISubscriber> subscribers = new ArrayList<>();
     private List<ImageResource> images = new ArrayList<>();
 

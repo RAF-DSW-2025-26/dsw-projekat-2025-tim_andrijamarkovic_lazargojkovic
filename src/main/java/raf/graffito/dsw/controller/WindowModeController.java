@@ -12,6 +12,7 @@ public class WindowModeController {
     }
 
 
+    // controller za setovanje moda veličine prozora
     public void setMode(WindowModeStrategy strategy) {
         strategy.apply();
         SlideView slideView = MainFrame.getInstance().getTabbedPane().getActiveSlideView();

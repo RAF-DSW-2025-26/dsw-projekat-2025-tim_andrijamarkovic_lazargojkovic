@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 @Setter
 public abstract class AbstractWindowModeAction extends AbstractAction {
 
+    // controller za upravljanje trenutno selektovanim modom pogleda
     protected final WindowModeController controller;
 
     protected AbstractWindowModeAction(String name, WindowModeController controller) {
