@@ -46,6 +46,7 @@ public class AddImageAction extends AbstractGraffAction
     @Override
     public void actionPerformed(ActionEvent e)
     {
+        // biranje fajla za učitavanje samo u dozvoljenim formatima
         JFileChooser chooser = new JFileChooser();
         chooser.setFileFilter(new FileNameExtensionFilter("Image Files", "jpg", "jpeg", "png"));
         Logger cLogger = ApplicationFramework.getInstance().getLoggerFactory().createLogger("console");

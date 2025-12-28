@@ -43,6 +43,7 @@ public class DeleteAction extends AbstractGraffAction
         Slide slide = (Slide) MainFrame.getInstance().getGraffTree().getSelectedNode().getGraffNode();
         SlideView slideView = MainFrame.getInstance().getTabbedPane().getSlideViews().get(slide);
         slideView.deleteSelectedElement();
+        // setovanje projekta nad kojim je slide kao promenjen zarad čuvanja
         if(slide.getParent() instanceof Project){
             Project p = (Project)slide.getParent();
             p.setChanged(true);

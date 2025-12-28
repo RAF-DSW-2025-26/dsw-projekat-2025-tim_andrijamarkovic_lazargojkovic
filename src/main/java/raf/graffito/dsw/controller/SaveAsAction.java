@@ -58,6 +58,7 @@ public class SaveAsAction extends AbstractGraffAction {
         return project;
     }
 
+    // čuvanje celokupnog projekta kao novi JSON fajl
     @Override
     public void actionPerformed(ActionEvent e) {
 

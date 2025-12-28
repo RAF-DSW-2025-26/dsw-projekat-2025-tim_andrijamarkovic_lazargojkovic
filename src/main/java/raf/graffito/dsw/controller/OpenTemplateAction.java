@@ -23,8 +23,8 @@ public class OpenTemplateAction extends AbstractGraffAction {
     public OpenTemplateAction() {
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_V,ActionEvent.CTRL_MASK | ActionEvent.SHIFT_MASK));
         putValue(SMALL_ICON, loadIcon("/images/blueprintopen.png"));
-        putValue(NAME, "Rename");
-        putValue(SHORT_DESCRIPTION, "Rename Node");
+        putValue(NAME, "Open Template");
+        putValue(SHORT_DESCRIPTION, "Load a template");
     }
 
     @Override
@@ -44,6 +44,7 @@ public class OpenTemplateAction extends AbstractGraffAction {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        // biranje fajla samo iz jednog templates direktorijuma
         File baseDir = new File(System.getProperty("user.dir"));
         File openDir = new File(baseDir, "/src/main/resources/templates");
 

@@ -63,6 +63,7 @@ public class SaveAction extends AbstractGraffAction{
         GraffNode node = MainFrame.getInstance().getGraffTree().getSelectedNode().getGraffNode();
         Project project = getProject(node);
 
+        // čuvanje promena u već sačuvanom projektu ukoliko su se one desile
         if(project == null){
             return;
         }
@@ -84,7 +85,7 @@ public class SaveAction extends AbstractGraffAction{
             }
 
             Serializer.saveProject(project, project.getFilePath());
-            project.setChanged(false);
+            project.setChanged(false); // projekat je sada neizmenjen
 
         } catch (IOException ex) {
             String message = ApplicationFramework.getInstance().getGenerator().createMessage("Greska pri cuvanju", Type.GRESKA, LocalDateTime.now());

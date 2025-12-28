@@ -24,8 +24,8 @@ public class SaveTemplateAction extends AbstractGraffAction {
     public SaveTemplateAction() {
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_B, ActionEvent.CTRL_MASK | ActionEvent.SHIFT_MASK));
         putValue(SMALL_ICON, loadIcon("/images/blueprintsave.png"));
-        putValue(NAME, "Rename");
-        putValue(SHORT_DESCRIPTION, "Rename Node");
+        putValue(NAME, "Save As Template");
+        putValue(SHORT_DESCRIPTION, "Save As Templatee");
     }
 
     @Override

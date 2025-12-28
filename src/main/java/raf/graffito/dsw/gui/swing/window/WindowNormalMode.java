@@ -6,6 +6,7 @@ import java.awt.*;
 
 public class WindowNormalMode implements WindowModeStrategy {
 
+    // setovanje na normalnu vrednost (pola visine i širine ekrana)
     @Override
     public void apply() {
         MainFrame.getInstance().setExtendedState(MainFrame.NORMAL);

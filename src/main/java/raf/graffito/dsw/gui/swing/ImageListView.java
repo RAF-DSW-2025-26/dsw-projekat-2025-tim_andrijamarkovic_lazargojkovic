@@ -12,6 +12,7 @@ public class ImageListView extends JPanel implements ISubscriber
 {
     private JPanel contentPane;
 
+    // pogled ka celoj listi učitanih slika koja sadrži vertikalni scroll kada god je potreban
     public ImageListView()
     {
         MainFrame.getInstance().getImageRepository().addSubscriber(this);
@@ -20,11 +21,12 @@ public class ImageListView extends JPanel implements ISubscriber
         contentPane = new JPanel();
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
         JScrollPane scrollPane = new JScrollPane(contentPane);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER); // isključuje horizontalni scroll
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED); // uključuje vertikalni scroll kada je on potreban
         add(scrollPane, BorderLayout.CENTER);
     }
 
+    // na svako dodavanje nove slike dodaje se novi thumbnail na panel
     @Override
     public void update(String message)
     {

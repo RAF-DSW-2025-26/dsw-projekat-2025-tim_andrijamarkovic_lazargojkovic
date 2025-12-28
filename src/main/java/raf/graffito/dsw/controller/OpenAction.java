@@ -47,6 +47,7 @@ public class OpenAction extends AbstractGraffAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        // biranje fajla za otvaranje
         JFileChooser chooser = new JFileChooser();
         if (chooser.showOpenDialog(null) != JFileChooser.APPROVE_OPTION)
             return;
@@ -58,14 +59,17 @@ public class OpenAction extends AbstractGraffAction {
         ApplicationFramework.getInstance().getGenerator().addSubscriber(fLogger);
 
         try {
+            // učitavanje projekta iz selektovanog fajla
             Project project = Serializer.loadProjectFromJson(chooser.getSelectedFile());
             project.setFilePath(chooser.getSelectedFile());
             project.setChanged(false);
 
+            // setovanje projekta na workspace
             Workspace workspace = ApplicationFramework.getInstance().getGraffRepository().getWorkspace();
             project.setParent(workspace);
             workspace.dodaj(project);
 
+            // dodavanje sve dece projekta na tree
             GraffTreeImplementation tree = (GraffTreeImplementation) MainFrame.getInstance().getGraffTree();
             tree.addExistingNode(project);
             tree.selectNode(project);

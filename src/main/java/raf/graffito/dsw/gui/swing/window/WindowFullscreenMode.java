@@ -6,6 +6,7 @@ import javax.swing.*;
 
 public class WindowFullscreenMode implements WindowModeStrategy{
 
+    // setovanje na maksimalnu veličinu ekrana
     @Override
     public void apply() {
         MainFrame.getInstance().setExtendedState(JFrame.MAXIMIZED_BOTH);

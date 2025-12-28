@@ -11,15 +11,13 @@ public class MyToolBar extends JToolBar {
        add(MainFrame.getInstance().getActionManager().getNewNodeAction());
        add(MainFrame.getInstance().getActionManager().getRemovalAction());
        add(MainFrame.getInstance().getActionManager().getRenameAction());
-       add(MainFrame.getInstance().getActionManager().getExitAction());
        add(MainFrame.getInstance().getActionManager().getDeleteAction());
        add(MainFrame.getInstance().getActionManager().getRotateLeftAction());
        add(MainFrame.getInstance().getActionManager().getRotateRightAction());
-       add(MainFrame.getInstance().getActionManager().getSaveTemplateAction());
-       add(MainFrame.getInstance().getActionManager().getOpenTemplateAction());
        JRadioButton normalRB = new JRadioButton(MainFrame.getInstance().getActionManager().getNormalModeAction());
        JRadioButton smallRB = new JRadioButton(MainFrame.getInstance().getActionManager().getSmallModeAction());
        JRadioButton fullscreenRB = new JRadioButton(MainFrame.getInstance().getActionManager().getFullscreenModeAction());
+       //ButtonGroup obezbeđuje da samo jedan RadioButoon može biti selektovan
        ButtonGroup group = new ButtonGroup();
        group.add(normalRB);
        group.add(smallRB);
@@ -28,5 +26,7 @@ public class MyToolBar extends JToolBar {
        add(normalRB);
        add(smallRB);
        add(fullscreenRB);
+       add(Box.createHorizontalGlue()); // ova linija koda pomera Exit Action na krajnji desni deo ekrana
+       add(MainFrame.getInstance().getActionManager().getExitAction());
     }
 }

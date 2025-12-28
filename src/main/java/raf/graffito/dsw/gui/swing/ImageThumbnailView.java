@@ -15,11 +15,12 @@ import java.awt.event.MouseEvent;
 public class ImageThumbnailView extends JPanel
 {
     private ImageResource resource;
-
+    // prikaz thumbnail-ova slika
     public ImageThumbnailView(ImageResource resource)
     {
         this.resource = resource;
         setPreferredSize(new Dimension(120,100));
+        // na kilk mišem na učitanu sliku prebacuje se u State za dodavanje slike
         addMouseListener(new MouseAdapter()
         {
             @Override
