@@ -109,6 +109,8 @@ public class GraffTreeCellEditor extends DefaultTreeCellEditor implements Action
         MainFrame.getInstance().getTabbedPane().showSlide(slide);
 
         MainFrame.getInstance().getTabbedPane().setSelectedIndex(tabIndex);
+
+        MainFrame.getInstance().getTabbedPane().setActiveSlideView(MainFrame.getInstance().getTabbedPane().getSlideViews().get(slide));
     }
     private int findPresentationTab(String string) {
         List<String> titles = new ArrayList<>();

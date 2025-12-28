@@ -6,10 +6,10 @@ import java.awt.*;
 
 public class WindowSmallMode implements WindowModeStrategy{
     @Override
-    public void apply(MainFrame frame) {
-        Dimension init = frame.getSize();
-        frame.setExtendedState(MainFrame.NORMAL);
-        frame.setSize(init.width / 2, init.height / 2);
-        frame.setLocationRelativeTo(null);
+    public void apply() {
+        MainFrame.getInstance().setExtendedState(MainFrame.NORMAL);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        MainFrame.getInstance().setSize(screenSize.width/4, screenSize.height/4);
+        MainFrame.getInstance().setLocationRelativeTo(null);
     }
 }

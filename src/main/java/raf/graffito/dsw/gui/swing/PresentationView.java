@@ -1,6 +1,7 @@
 package raf.graffito.dsw.gui.swing;
 
 import lombok.Getter;
+import lombok.Setter;
 import raf.graffito.dsw.core.*;
 import raf.graffito.dsw.decorator.ColorDecorator;
 import raf.graffito.dsw.gui.swing.tree.model.GraffTreeItem;
@@ -18,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @Getter
+@Setter
 //Pogled na individualne prezentacije unutar TabbedPane-a i azuriranje TabbedPane-a u skladu sa promenama nad prezentacijama
 public class PresentationView extends JTabbedPane implements ISubscriberView {
 

@@ -7,8 +7,8 @@ import javax.swing.*;
 public class WindowFullscreenMode implements WindowModeStrategy{
 
     @Override
-    public void apply(MainFrame frame) {
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+    public void apply() {
+        MainFrame.getInstance().setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
 }

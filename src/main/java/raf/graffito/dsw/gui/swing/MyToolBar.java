@@ -20,6 +20,11 @@ public class MyToolBar extends JToolBar {
        JRadioButton normalRB = new JRadioButton(MainFrame.getInstance().getActionManager().getNormalModeAction());
        JRadioButton smallRB = new JRadioButton(MainFrame.getInstance().getActionManager().getSmallModeAction());
        JRadioButton fullscreenRB = new JRadioButton(MainFrame.getInstance().getActionManager().getFullscreenModeAction());
+       ButtonGroup group = new ButtonGroup();
+       group.add(normalRB);
+       group.add(smallRB);
+       group.add(fullscreenRB);
+       normalRB.setSelected(true);
        add(normalRB);
        add(smallRB);
        add(fullscreenRB);

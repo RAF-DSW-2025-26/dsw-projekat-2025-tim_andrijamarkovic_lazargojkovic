@@ -64,8 +64,7 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Zatvaranje aplikacije pri zatvaranju prozora
         setTitle("Graffito"); // Naslov prozora
 
-        windowModeController = new WindowModeController(this,getTabbedPane().getActiveSlideView());
-
+        windowModeController = new WindowModeController();
         actionManager = new ActionManager();
         serializer = new Serializer();
 
@@ -90,6 +89,13 @@ public class MainFrame extends JFrame {
         getContentPane().add(split,BorderLayout.CENTER);
         split.setDividerLocation(200);
         split.setOneTouchExpandable(true);
+
+        imageRepository  = new ImageRepository();
+        projectView = new ProjectView();
+        tabbedPane = new PresentationView();
+        slideView = new SlideView();
+        stateManager = new StateManager();
+        commandManager = new CommandManager();
 
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,scroll,desktop);
         splitPane.setDividerLocation(500);
