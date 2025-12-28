@@ -33,6 +33,7 @@ public class SlideView extends JPanel implements ISubscriberView, MouseListener,
     private double zoom = 1.0;
     private AffineTransform transform = new AffineTransform();
     private double scaleFactor = 1.0;
+    private SpaceCheckStrategy spaceCheckStrategy = new SpaceChecker();
 
 
     private static final int EDGE = 6;
@@ -128,7 +129,7 @@ public class SlideView extends JPanel implements ISubscriberView, MouseListener,
         }
     }
 
-    private Slide getSlideForView(SlideView slideView)
+    public Slide getSlideForView(SlideView slideView)
     {
         for(Map.Entry<Slide,SlideView> entry : MainFrame.getInstance().getTabbedPane().getSlideViews().entrySet())
         {
@@ -228,6 +229,11 @@ public class SlideView extends JPanel implements ISubscriberView, MouseListener,
         getSlideForView(this).getChildren().add(newElement);
         selectedElement = null;
         repaint();
+    }
+
+    public boolean canAddElement()
+    {
+        return spaceCheckStrategy.hasEnoughSpace(this);
     }
 
     @Override

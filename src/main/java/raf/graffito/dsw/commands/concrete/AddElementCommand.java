@@ -21,12 +21,10 @@ public class AddElementCommand implements Command
     public void execute() {
 
         slide.getChildren().add(element);
-        MainFrame.getInstance().getGraffTree().refresh();
     }
 
     @Override
     public void undo() {
         slide.getChildren().remove(element);
-        MainFrame.getInstance().getGraffTree().refresh();
     }
 }

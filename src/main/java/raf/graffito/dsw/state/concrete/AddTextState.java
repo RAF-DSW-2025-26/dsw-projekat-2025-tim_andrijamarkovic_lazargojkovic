@@ -40,17 +40,27 @@ public class AddTextState implements State
         String text = JOptionPane.showInputDialog(slideView, "Unesite tekst:");
         if(text != null)
         {
-            SlideLabel label = new SlideLabel("Label" + slide.getChildren().size(), slide, p.x, p.y, 150, 40, 0, text);
-            Command cmd = new AddElementCommand(slide,label);
-            MainFrame.getInstance().getCommandManager().executeCommand(cmd);
-            slideView.repaint();
-            MainFrame.getInstance().getStateManager().setSelectState();
-            if(slide.getParent() instanceof Project){
-                Project project = (Project)slide.getParent();
-                project.setChanged(true);
-            }else if(slide.getParent() instanceof Presentation){
-                Project project  = (Project)slide.getParent().getParent();
-                project.setChanged(true);
+            if(slideView.canAddElement())
+            {
+                SlideLabel label = new SlideLabel("Label" + slide.getChildren().size(), slide, p.x, p.y, 150, 40, 0, text);
+                Command cmd = new AddElementCommand(slide, label);
+                MainFrame.getInstance().getCommandManager().executeCommand(cmd);
+                slideView.repaint();
+                MainFrame.getInstance().getStateManager().setSelectState();
+                if (slide.getParent() instanceof Project) {
+                    Project project = (Project) slide.getParent();
+                    project.setChanged(true);
+                } else if (slide.getParent() instanceof Presentation) {
+                    Project project = (Project) slide.getParent().getParent();
+                    project.setChanged(true);
+                }
+            }
+            else
+            {
+                String message = ApplicationFramework.getInstance().getGenerator().createMessage("Nema dovoljno mesta na slajdu za dodavanje novih elemenata!", Type.OBAVESTENJE, LocalDateTime.now());
+                ApplicationFramework.getInstance().getGenerator().notifySubscribers(message);
+                ApplicationFramework.getInstance().getGenerator().removeSubscriber(cLogger);
+                ApplicationFramework.getInstance().getGenerator().removeSubscriber(fLogger);
             }
         }
         else
